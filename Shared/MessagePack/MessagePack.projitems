@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>a20ed9b9-4564-44dc-9ed6-e76f3dc9a478</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MessagePack</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ConverterContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ArrayConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ArrayListConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BinaryConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ByteConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\CharConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\DateTimeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\DoubleConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\FloatConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\GuidConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\IConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\IntConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\LongConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\MapConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\NullConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\SbyteConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ShortConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\SimpleArrayConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\StringConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\TimeSpanConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\UintConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\UlongConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\UshortConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dto\ArraySegment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dto\MemberMapping.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ConverterNotFoundException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\SerializationException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataTypesExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MemberInfoExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\NumberConverterHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessagePackSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ObjectTokenHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Stream\BaseReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Stream\ByteArrayReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Stream\IMessagePackReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Stream\IMessagePackWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Stream\MemoryStreamReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Stream\MemoryStreamWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\ExceptionUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\FieldUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\PropertyUtility.cs" />
+  </ItemGroup>
+</Project>

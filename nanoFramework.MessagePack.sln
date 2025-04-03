@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "nanoFramework.MessagePack", "nanoFramework.MessagePack\nanoFramework.MessagePack.nfproj", "{E584A8CE-4BD2-4A31-A1BC-89560D67999E}"
+EndProject
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "NFUnitTest", "NFUnitTest\NFUnitTest.nfproj", "{A876DC46-943E-46AA-8F1E-C86E09889C96}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MessagePack", "Shared\MessagePack\MessagePack.shproj", "{A20ED9B9-4564-44DC-9ED6-E76F3DC9A478}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nanoFramework.MessagePack.Net", "nanoFramework.MessagePack.Net\nanoFramework.MessagePack.Net.csproj", "{13A06F83-85BE-4E1F-9F03-7767FE956898}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsgPack.Tests", "MsgPack.Tests\MsgPack.Tests.csproj", "{C14AC887-183A-421D-B047-AA3E1E6A066C}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UnitTestShared", "UnitTestShared\UnitTestShared.shproj", "{FDB6D2EC-623A-4A0B-B59C-931D5236BBC4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E584A8CE-4BD2-4A31-A1BC-89560D67999E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E584A8CE-4BD2-4A31-A1BC-89560D67999E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E584A8CE-4BD2-4A31-A1BC-89560D67999E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{E584A8CE-4BD2-4A31-A1BC-89560D67999E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E584A8CE-4BD2-4A31-A1BC-89560D67999E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E584A8CE-4BD2-4A31-A1BC-89560D67999E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A876DC46-943E-46AA-8F1E-C86E09889C96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A876DC46-943E-46AA-8F1E-C86E09889C96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A876DC46-943E-46AA-8F1E-C86E09889C96}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A876DC46-943E-46AA-8F1E-C86E09889C96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A876DC46-943E-46AA-8F1E-C86E09889C96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A876DC46-943E-46AA-8F1E-C86E09889C96}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{13A06F83-85BE-4E1F-9F03-7767FE956898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13A06F83-85BE-4E1F-9F03-7767FE956898}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13A06F83-85BE-4E1F-9F03-7767FE956898}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13A06F83-85BE-4E1F-9F03-7767FE956898}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C14AC887-183A-421D-B047-AA3E1E6A066C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C14AC887-183A-421D-B047-AA3E1E6A066C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C14AC887-183A-421D-B047-AA3E1E6A066C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C14AC887-183A-421D-B047-AA3E1E6A066C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8E4ADAAE-8B3D-4280-B4D1-363BBC807813}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Shared\MessagePack\MessagePack.projitems*{13a06f83-85be-4e1f-9f03-7767fe956898}*SharedItemsImports = 5
+		Shared\MessagePack\MessagePack.projitems*{a20ed9b9-4564-44dc-9ed6-e76f3dc9a478}*SharedItemsImports = 13
+		UnitTestShared\UnitTestShared.projitems*{c14ac887-183a-421d-b047-aa3e1e6a066c}*SharedItemsImports = 5
+		UnitTestShared\UnitTestShared.projitems*{fdb6d2ec-623a-4a0b-b59c-931d5236bbc4}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal

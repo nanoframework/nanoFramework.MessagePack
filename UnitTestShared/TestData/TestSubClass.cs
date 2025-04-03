@@ -1,0 +1,47 @@
+﻿using System;
+using System.Collections;
+using UnitTestShared.Helpers;
+
+namespace UnitTestShared.TestData
+{
+    public class TestSubClass : IEqualityComparer
+    {
+        public Hashtable TestHashtable { get; set; }
+
+        public byte[] Bytes { get; set; }
+
+        public int[] Ints { get; set; }
+
+        public double[] DoubleArray { get; set; }
+
+        public Guid[] GuidArray { get; set; }
+#nullable enable
+        public new bool Equals(object? x, object? y)
+        {
+            if (x == null && x == y)
+                return true;
+            return (x is TestSubClass x_) &&
+                (y is TestSubClass y_) &&
+                x_.Bytes.ArrayEqual(y_.Bytes) &&
+                x_.Ints.ArrayEqual(y_.Ints) &&
+                x_.DoubleArray.ArrayEqual(y_.DoubleArray) &&
+                x_.GuidArray.ArrayEqual(y_.GuidArray) &&
+                x_.TestHashtable.DictionaryEqual(y_.TestHashtable);
+        }
+
+        public int GetHashCode(object obj)
+        {
+            return 0;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return Equals(this, obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return GetHashCode(this);
+        }
+    }
+}
