@@ -10,11 +10,6 @@ using MessagePack.Dto;
 using nanoFramework.MessagePack.Extensions;
 using nanoFramework.MessagePack.Exceptions;
 using System.Diagnostics.CodeAnalysis;
-
-
-
-
-
 #if !NANOFRAMEWORK_1_0
 using System.Collections.Concurrent;
 #endif
@@ -112,6 +107,11 @@ namespace nanoFramework.MessagePack
             Add(type, converter);
         }
 
+        /// <summary>
+        /// Return converter by type
+        /// </summary>
+        /// <param name="type">Type from converter</param>
+        /// <returns>Converter interface <see cref="IConverter"/></returns>
         public static IConverter GetConverter(Type type)
         {
             if (type == typeof(object))

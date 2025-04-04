@@ -148,6 +148,14 @@ namespace nanoFramework.MessagePack.Stream
 
             throw new ArgumentOutOfRangeException();
         }
+#nullable enable
+        public ArraySegment? ReadToken()
+        {
+            StartTokenGathering();
+            SkipToken();
+            var gatheredBytes = StopTokenGathering();
+            return gatheredBytes;
+        }
 
         private void SkipMapItems(uint count)
         {
@@ -190,17 +198,9 @@ namespace nanoFramework.MessagePack.Stream
             length = type - DataTypes.FixMap;
             return type.GetHighBits(4) == DataTypes.FixMap.GetHighBits(4);
         }
-#nullable enable
+
         protected abstract ArraySegment? StopTokenGathering();
 
         protected abstract void StartTokenGathering();
-
-        public ArraySegment? ReadToken()
-        {
-            StartTokenGathering();
-            SkipToken();
-            var gatheredBytes = StopTokenGathering();
-            return gatheredBytes;
-        }
     }
 }

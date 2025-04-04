@@ -33,18 +33,6 @@ namespace nanoFramework.MessagePack
             Serialize(data, writer);
         }
 
-        private static void Serialize(object data, IMessagePackWriter writer)
-        {
-            var type = data.GetType();
-
-            var converter = ConverterContext.GetConverter(type);
-
-            if (converter != null)
-                converter.Write(data, writer);
-            else
-                ConverterContext.SerializeObject(type, data, writer);
-        }
-
         /// <summary>
         /// Deserialize MessagePack data in to object
         /// </summary>
@@ -79,6 +67,18 @@ namespace nanoFramework.MessagePack
             else
                 return ConverterContext.DeserializeObject(type, reader);
         }
-        
+
+        private static void Serialize(object data, IMessagePackWriter writer)
+        {
+            var type = data.GetType();
+
+            var converter = ConverterContext.GetConverter(type);
+
+            if (converter != null)
+                converter.Write(data, writer);
+            else
+                ConverterContext.SerializeObject(type, data, writer);
+        }
+
     }
 }

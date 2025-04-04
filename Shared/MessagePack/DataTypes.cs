@@ -1,5 +1,8 @@
 ﻿namespace nanoFramework.MessagePack
 {
+    /// <summary>
+    /// Supporting MessagePack types
+    /// </summary>
     public enum DataTypes : byte
     {
         Null = 0xc0,

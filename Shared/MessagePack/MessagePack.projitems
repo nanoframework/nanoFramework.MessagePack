@@ -39,7 +39,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ConverterNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\SerializationException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataTypesExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MemberInfoExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\NumberConverterHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessagePackSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ObjectTokenHelper.cs" />
