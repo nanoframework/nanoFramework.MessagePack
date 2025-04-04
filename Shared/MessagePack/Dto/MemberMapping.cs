@@ -53,7 +53,7 @@ namespace nanoFramework.MessagePack.Dto
         {
             if (Field != null)
             {
-                value = Field.GetValue(obj);
+                value = Field.GetValue(obj)!;
                 return true;
             }
 
@@ -66,7 +66,7 @@ namespace nanoFramework.MessagePack.Dto
                     return true;
                 }
 #else                
-                value = Property.GetValue(obj); 
+                value = Property.GetValue(obj)!; 
                 return true;
 #endif           
             }

@@ -15,6 +15,19 @@
     <RootNamespace>nanoFramework.MessagePack</RootNamespace>
     <AssemblyName>nanoFramework.MessagePack</AssemblyName>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>nf.MessagePack</PackageId>
+    <Title>nanoFramework.MessagePack</Title>
+    <Version>1.0.1</Version>
+    <Authors>Spirin Dmitriy</Authors>
+    <Description>nanoFramework MessagePack serealizer/deserializer library</Description>
+    <PackageProjectUrl>https://relaxspirit.github.io/nanoFramework.MessagePack/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/RelaxSpirit/nanoFramework.MessagePack</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>nanoFramework MessagePack</PackageTags>
+    <Copyright>Copyright (c) 2025</Copyright>
+    <PackageReleaseNotes>Main release.</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
