@@ -8,7 +8,7 @@ namespace nanoFramework.MessagePack.Converters
 {
     internal class DoubleConverter : IConverter
     {
-        public void Write(double value, IMessagePackWriter writer)
+        private static void Write(double value, IMessagePackWriter writer)
         {
             var binary = BitConverter.GetBytes(value);
             byte[] bytes;
@@ -46,7 +46,7 @@ namespace nanoFramework.MessagePack.Converters
             writer.Write(bytes);
         }
 
-        public double Read(IMessagePackReader reader)
+        private static double Read(IMessagePackReader reader)
         {
             var type = reader.ReadDataType();
 
@@ -68,12 +68,13 @@ namespace nanoFramework.MessagePack.Converters
             return NumberConverterHelper.ReadDouble(reader);
         }
 
-        public void Write(object value, [NotNull] IMessagePackWriter writer)
+#nullable enable
+        public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((double)value, writer);
+            Write((double)value!, writer);
         }
 
-        object IConverter.Read(IMessagePackReader reader)
+        object? IConverter.Read([NotNull] IMessagePackReader reader)
         {
             return Read(reader);
         }

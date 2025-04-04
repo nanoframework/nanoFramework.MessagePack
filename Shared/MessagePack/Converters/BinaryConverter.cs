@@ -14,7 +14,7 @@ namespace nanoFramework.MessagePack.Converters
             _compatibilityMode = compatibilityMode;
         }
 
-        public void Write(byte[] value, IMessagePackWriter writer)
+        private void Write(byte[] value, IMessagePackWriter writer)
         {
             if (value == null)
             {
@@ -35,7 +35,7 @@ namespace nanoFramework.MessagePack.Converters
             writer.Write(value);
         }
 
-        public byte[] Read(IMessagePackReader reader)
+        private byte[] Read(IMessagePackReader reader)
         {
             var type = reader.ReadDataType();
 
@@ -97,7 +97,7 @@ namespace nanoFramework.MessagePack.Converters
             return (byte[]) array;
         }
 
-        private void WriteBinaryHeaderAndLength(uint length, IMessagePackWriter writer)
+        private static void WriteBinaryHeaderAndLength(uint length, IMessagePackWriter writer)
         {
             if (length <= byte.MaxValue)
             {
@@ -116,7 +116,7 @@ namespace nanoFramework.MessagePack.Converters
             }
         }
 
-        private void WriteStringHeaderAndLength(uint length, IMessagePackWriter writer)
+        private static void WriteStringHeaderAndLength(uint length, IMessagePackWriter writer)
         {
             if (length <= 31)
             {
@@ -136,12 +136,13 @@ namespace nanoFramework.MessagePack.Converters
             }
         }
 
-        public void Write(object value, [NotNull] IMessagePackWriter writer)
+#nullable enable
+        public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((byte[])value, writer);
+            Write((byte[])value!, writer);
         }
 
-        object IConverter.Read(IMessagePackReader reader)
+        object? IConverter.Read([NotNull] IMessagePackReader reader)
         {
             return Read(reader);
         }

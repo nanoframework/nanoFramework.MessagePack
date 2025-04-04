@@ -8,7 +8,7 @@ namespace nanoFramework.MessagePack.Converters
     internal class ArrayListConverter : IConverter
     {
 #nullable enable
-        public void Write(ArrayList? value, IMessagePackWriter writer)
+        private static void Write(ArrayList? value, IMessagePackWriter writer)
         {
             if (value == null)
             {
@@ -29,7 +29,7 @@ namespace nanoFramework.MessagePack.Converters
             }
         }
 
-        public ArrayList? Read(IMessagePackReader reader)
+        private static ArrayList? Read(IMessagePackReader reader)
         {
             var length = reader.ReadArrayLength();
             return ((long)length) > -1 ? ReadArrayList(reader, length) : null;
@@ -47,12 +47,12 @@ namespace nanoFramework.MessagePack.Converters
             return array;
         }
 
-        public void Write(object value, [NotNull] IMessagePackWriter writer)
+        public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((ArrayList)value, writer);
+            Write((ArrayList)value!, writer);
         }
 
-        object IConverter.Read(IMessagePackReader reader)
+        object? IConverter.Read([NotNull] IMessagePackReader reader)
         {
             return Read(reader);
         }

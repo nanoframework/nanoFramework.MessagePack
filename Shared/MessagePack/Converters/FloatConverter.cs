@@ -8,7 +8,7 @@ namespace nanoFramework.MessagePack.Converters
 {
     internal class FloatConverter : IConverter
     {
-        public void Write(float value, IMessagePackWriter writer)
+        private static void Write(float value, IMessagePackWriter writer)
         {
             var binary = BitConverter.GetBytes(value);
             byte[] bytes;
@@ -38,7 +38,7 @@ namespace nanoFramework.MessagePack.Converters
             writer.Write(bytes);
         }
 
-        public float Read(IMessagePackReader reader)
+        private static float Read(IMessagePackReader reader)
         {
             var type = reader.ReadDataType();
 
@@ -53,12 +53,13 @@ namespace nanoFramework.MessagePack.Converters
                 throw ExceptionUtility.BadTypeException(type, DataTypes.Single);
         }
 
-        public void Write(object value, [NotNull] IMessagePackWriter writer)
+#nullable enable
+        public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((float)value, writer);
+            Write((float)value!, writer);
         }
 
-        object IConverter.Read(IMessagePackReader reader)
+        object? IConverter.Read([NotNull] IMessagePackReader reader)
         {
             return Read(reader);
         }

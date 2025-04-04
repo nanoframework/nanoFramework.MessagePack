@@ -6,11 +6,11 @@ using System.Text;
 
 namespace nanoFramework.MessagePack.Converters
 {
-    public class StringConverter : IConverter
+    internal class StringConverter : IConverter
     {
         private static readonly Encoding Utf8 = new UTF8Encoding();
 
-        public void Write(string value, IMessagePackWriter writer)
+        private static void Write(string value, IMessagePackWriter writer)
         {
             if (value == null)
             {
@@ -26,7 +26,7 @@ namespace nanoFramework.MessagePack.Converters
             }
         }
 
-        public string Read(IMessagePackReader reader)
+        private static string Read(IMessagePackReader reader)
         {
             var type = reader.ReadDataType();
 
@@ -60,13 +60,13 @@ namespace nanoFramework.MessagePack.Converters
             return Utf8.GetString(buffer, 0, buffer.Length);
         }
 
-        private bool TryGetFixStrLength(DataTypes type, out uint length)
+        private static bool TryGetFixStrLength(DataTypes type, out uint length)
         {
             length = type - DataTypes.FixStr;
             return type.GetHighBits(3) == DataTypes.FixStr.GetHighBits(3);
         }
 
-        private void WriteStringHeaderAndLength(IMessagePackWriter writer, int length)
+        private static void WriteStringHeaderAndLength(IMessagePackWriter writer, int length)
         {
             if (length <= 31)
             {
@@ -91,12 +91,13 @@ namespace nanoFramework.MessagePack.Converters
             }
         }
 
-        public void Write(object value, [NotNull] IMessagePackWriter writer)
+#nullable enable
+        public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((string)value, writer);
+            Write((string)value!, writer);
         }
 
-        object IConverter.Read(IMessagePackReader reader)
+        object? IConverter.Read([NotNull] IMessagePackReader reader)
         {
             return Read(reader);
         }

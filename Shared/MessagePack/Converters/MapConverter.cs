@@ -6,7 +6,7 @@ namespace nanoFramework.MessagePack.Converters
 {
     internal class MapConverter : IConverter
     {
-        public void Write(IDictionary value, IMessagePackWriter writer)
+        private static void Write(IDictionary value, IMessagePackWriter writer)
         {
             if (value == null)
             {
@@ -37,8 +37,9 @@ namespace nanoFramework.MessagePack.Converters
                 }
             }
         }
+
 #nullable enable
-        public IDictionary? Read(IMessagePackReader reader)
+        private static Hashtable? Read(IMessagePackReader reader)
         {
             var length = reader.ReadMapLength();
             return ((long)length) > -1 ? ReadMap(reader, length) : null;
@@ -59,12 +60,12 @@ namespace nanoFramework.MessagePack.Converters
             return map;
         }
 
-        public void Write(object value, [NotNull] IMessagePackWriter writer)
+        public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((IDictionary)value, writer);
+            Write((Hashtable)value!, writer);
         }
 
-        object IConverter.Read(IMessagePackReader reader)
+        object? IConverter.Read([NotNull] IMessagePackReader reader)
         {
             return Read(reader);
         }

@@ -82,12 +82,12 @@ namespace nanoFramework.MessagePack.Converters
            return (Array)result;
         }
 
-        void IConverter.Write(object value, [NotNull] IMessagePackWriter writer)
+        void IConverter.Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((Array)value, writer);
+            Write((Array)value!, writer);
         }
 
-        object IConverter.Read(IMessagePackReader reader)
+        object? IConverter.Read([NotNull] IMessagePackReader reader)
         {
             return Read(reader)!;
         }

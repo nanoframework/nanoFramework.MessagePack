@@ -6,12 +6,12 @@ namespace nanoFramework.MessagePack.Converters
 {
     internal class BoolConverter : IConverter
     {
-        public void Write(bool value, IMessagePackWriter writer)
+        private static void Write(bool value, IMessagePackWriter writer)
         {
             writer.Write(value ? DataTypes.True : DataTypes.False);
         }
 
-        public bool Read(IMessagePackReader reader)
+        private static bool Read(IMessagePackReader reader)
         {
             var type = reader.ReadDataType();
 
@@ -23,12 +23,13 @@ namespace nanoFramework.MessagePack.Converters
             };
         }
 
-        public void Write(object value, [NotNull] IMessagePackWriter writer)
+#nullable enable
+        public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((bool)value, writer);
+            Write((bool)value!, writer);
         }
 
-        object IConverter.Read(IMessagePackReader reader)
+        object? IConverter.Read([NotNull] IMessagePackReader reader)
         {
             return Read(reader);
         }

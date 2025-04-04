@@ -7,12 +7,12 @@ namespace nanoFramework.MessagePack.Converters
 {
     internal class ShortConverter : IConverter
     {
-        public void Write(short value, IMessagePackWriter writer)
+        private static void Write(short value, IMessagePackWriter writer)
         {
             NumberConverterHelper.WriteInteger(value, writer);
         }
 
-        public short Read(IMessagePackReader reader)
+        private static short Read(IMessagePackReader reader)
         {
             var type = reader.ReadDataType();
 
@@ -51,12 +51,13 @@ namespace nanoFramework.MessagePack.Converters
             }
         }
 
-        public void Write(object value, [NotNull] IMessagePackWriter writer)
+#nullable enable
+        public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((short)value, writer);
+            Write((short)value!, writer);
         }
 
-        object IConverter.Read(IMessagePackReader reader)
+        object IConverter.Read([NotNull] IMessagePackReader reader)
         {
             return Read(reader);
         }

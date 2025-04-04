@@ -7,12 +7,12 @@ namespace nanoFramework.MessagePack.Converters
 {
     internal class IntConverter : IConverter
     {
-        public void Write(int value, IMessagePackWriter writer)
+        private static void Write(int value, IMessagePackWriter writer)
         {
             NumberConverterHelper.WriteInteger(value, writer);
         }
 
-        public int Read(IMessagePackReader reader)
+        private static int Read(IMessagePackReader reader)
         {
             var type = reader.ReadDataType();
 
@@ -22,12 +22,13 @@ namespace nanoFramework.MessagePack.Converters
                 throw ExceptionUtility.IntDeserializationFailure(type);
         }
 
-        public void Write(object value, [NotNull] IMessagePackWriter writer)
+#nullable enable
+        public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((int)value, writer);
+            Write((int)value!, writer);
         }
 
-        object IConverter.Read(IMessagePackReader reader)
+        object? IConverter.Read([NotNull] IMessagePackReader reader)
         {
             return Read(reader);
         }

@@ -7,12 +7,12 @@ namespace nanoFramework.MessagePack.Converters
 {
     internal class SbyteConverter: IConverter
     {
-        public void Write(sbyte value, IMessagePackWriter writer)
+        private static void Write(sbyte value, IMessagePackWriter writer)
         {
             NumberConverterHelper.WriteInteger(value, writer);
         }
 
-        public sbyte Read(IMessagePackReader reader)
+        private static sbyte Read(IMessagePackReader reader)
         {
             var type = reader.ReadDataType();
 
@@ -34,12 +34,13 @@ namespace nanoFramework.MessagePack.Converters
             throw ExceptionUtility.IntDeserializationFailure(type);
         }
 
-        public void Write(object value, [NotNull] IMessagePackWriter writer)
+#nullable enable
+        public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((sbyte)value, writer);
+            Write((sbyte)value!, writer);
         }
 
-        object IConverter.Read(IMessagePackReader reader)
+        object IConverter.Read([NotNull] IMessagePackReader reader)
         {
             return Read(reader);
         }

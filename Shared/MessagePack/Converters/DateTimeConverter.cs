@@ -6,27 +6,29 @@ namespace nanoFramework.MessagePack.Converters
 {
     internal class DateTimeConverter : IConverter
     {
-        object IConverter.Read([NotNull] IMessagePackReader reader)
+        private static DateTime Read(IMessagePackReader reader)
         {
-            return Read(reader);
+            var longValue = (long)ConverterContext.GetConverter(typeof(long)).Read(reader)!;
+            return DateTime.UnixEpoch.AddTicks(longValue);
         }
+        
 
-        public void Write(DateTime value, IMessagePackWriter writer)
+        private static void Write(DateTime value, IMessagePackWriter writer)
         {
             var longValue = value.Subtract(DateTime.UnixEpoch).Ticks;
 
             ConverterContext.GetConverter(typeof(long)).Write(longValue, writer);
         }
 
-        public void Write(object value, [NotNull] IMessagePackWriter writer)
+#nullable enable
+        public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((DateTime)value, writer);
+            Write((DateTime)value!, writer);
         }
 
-        public DateTime Read(IMessagePackReader reader)
+        object? IConverter.Read([NotNull] IMessagePackReader reader)
         {
-            var longValue = (long)ConverterContext.GetConverter(typeof(long)).Read(reader)!;
-            return DateTime.UnixEpoch.AddTicks(longValue);
+            return Read(reader);
         }
     }
 }

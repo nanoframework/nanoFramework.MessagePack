@@ -7,7 +7,7 @@ namespace nanoFramework.MessagePack.Converters
 {
     internal class ByteConverter: IConverter
     {
-        public void Write(byte value, IMessagePackWriter writer)
+        private static void Write(byte value, IMessagePackWriter writer)
         {
             // positive fixnum
             if (value < 128L)
@@ -21,7 +21,7 @@ namespace nanoFramework.MessagePack.Converters
             }
         }
 
-        public byte Read(IMessagePackReader reader)
+        private static byte Read(IMessagePackReader reader)
         {
             var type = reader.ReadDataType();
 
@@ -43,12 +43,13 @@ namespace nanoFramework.MessagePack.Converters
             };
         }
 
-        public void Write(object value, [NotNull] IMessagePackWriter writer)
+#nullable enable
+        public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((byte)value, writer);
+            Write((byte)value!, writer);
         }
 
-        object IConverter.Read(IMessagePackReader reader)
+        object? IConverter.Read([NotNull] IMessagePackReader reader)
         {
             return Read(reader);
         }

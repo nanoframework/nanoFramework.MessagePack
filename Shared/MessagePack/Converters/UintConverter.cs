@@ -7,12 +7,12 @@ namespace nanoFramework.MessagePack.Converters
 {
     internal class UintConverter : IConverter
     {
-        public void Write(uint value, IMessagePackWriter writer)
+        private static void Write(uint value, IMessagePackWriter writer)
         {
             NumberConverterHelper.WriteNonNegativeInteger(value, writer);
         }
 
-        public uint Read(IMessagePackReader reader)
+        private static uint Read(IMessagePackReader reader)
         {
             var type = reader.ReadDataType();
 
@@ -38,12 +38,13 @@ namespace nanoFramework.MessagePack.Converters
             };
         }
 
-        public void Write(object value, [NotNull] IMessagePackWriter writer)
+#nullable enable
+        public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((uint)value, writer);
+            Write((uint)value!, writer);
         }
 
-        object IConverter.Read(IMessagePackReader reader)
+        object? IConverter.Read([NotNull] IMessagePackReader reader)
         {
             return Read(reader);
         }

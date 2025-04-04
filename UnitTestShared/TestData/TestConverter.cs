@@ -7,12 +7,13 @@ namespace UnitTestShared.TestData
 {
     internal class TestConverter : IConverter
     {
-        public object Read([NotNull] IMessagePackReader reader)
+#nullable enable
+        public object? Read([NotNull] IMessagePackReader reader)
         {
             throw new NotImplementedException();
         }
 
-        public void Write(object value, [NotNull] IMessagePackWriter writer)
+        public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
             throw new NotImplementedException();
         }
