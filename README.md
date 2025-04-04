@@ -1,6 +1,6 @@
 # nanoFramework.MessagePack
 
-nanoFramework.MessagePack is a simple, lightweight [MsgPack.Light](https://github.com/progaudi/MsgPack.Light) serialization library that can be used in nanoFramework solutions.
+nanoFramework.MessagePack is a simple, lightweight [MsgPack.Light](https://github.com/progaudi/MsgPack.Light) serialization library that can be used in [nanoFramework](https://github.com/nanoframework) solutions.
 
 [MessagePack](https://github.com/msgpack/msgpack) is an object serialization specification like JSON.
 
