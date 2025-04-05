@@ -11,7 +11,7 @@ var bytes = MessagePackSerializer.Serialize(value);
 ```
 ### Deserialization:
 ```C#
-var result = (TestClass)MessagePackSerializer.Deserialize(typeof(TestClass), result);
+var result = (TestClass)MessagePackSerializer.Deserialize(typeof(TestClass), bytes);
 ```
 ### Your type serialization/deserialization:
 If you want to work with your own types, first thing you need - type converter.
