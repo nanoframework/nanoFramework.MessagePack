@@ -7,6 +7,7 @@ nanoFramework.MessagePack is a simple, lightweight [MsgPack.Light](https://githu
 ## Usage
 ### Serialization to bytes array:
 ```C#
+var value = new TestClass();
 var bytes = MessagePackSerializer.Serialize(value);
 ```
 ### Deserialization:
