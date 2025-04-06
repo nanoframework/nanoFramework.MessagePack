@@ -1,4 +1,4 @@
-﻿using MessagePack.Dto;
+﻿using nanoFramework.MessagePack.Dto;
 using nanoFramework.MessagePack.Utility;
 using System;
 using System.Collections;

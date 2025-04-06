@@ -1,4 +1,4 @@
-﻿using MessagePack.Dto;
+﻿using nanoFramework.MessagePack.Dto;
 using System.IO;
 
 namespace nanoFramework.MessagePack.Stream

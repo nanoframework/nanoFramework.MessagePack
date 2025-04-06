@@ -1,8 +1,7 @@
-﻿using MessagePack.Dto;
+﻿using nanoFramework.MessagePack.Dto;
 using nanoFramework.MessagePack.Converters;
 using nanoFramework.MessagePack.Extensions;
 using nanoFramework.MessagePack.Utility;
-using System;
 using System.IO;
 
 namespace nanoFramework.MessagePack.Stream
@@ -146,7 +145,7 @@ namespace nanoFramework.MessagePack.Stream
                 return;
             }
 
-            throw new ArgumentOutOfRangeException();
+            throw new System.ArgumentOutOfRangeException();
         }
 #nullable enable
         public ArraySegment? ReadToken()

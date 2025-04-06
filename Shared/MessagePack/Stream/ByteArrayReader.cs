@@ -1,4 +1,4 @@
-﻿using MessagePack.Dto;
+﻿using nanoFramework.MessagePack.Dto;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;

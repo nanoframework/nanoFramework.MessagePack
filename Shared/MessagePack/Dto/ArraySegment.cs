@@ -3,7 +3,7 @@ using nanoFramework.MessagePack.Utility;
 using System.IO;
 using System.Collections;
 
-namespace MessagePack.Dto
+namespace nanoFramework.MessagePack.Dto
 {
     public class ArraySegment : IEnumerable, IEnumerator
     {

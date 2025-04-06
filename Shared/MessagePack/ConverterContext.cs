@@ -6,7 +6,6 @@ using nanoFramework.MessagePack.Utility;
 using nanoFramework.MessagePack.Dto;
 using System.Diagnostics;
 using nanoFramework.MessagePack.Stream;
-using MessagePack.Dto;
 using nanoFramework.MessagePack.Extensions;
 using nanoFramework.MessagePack.Exceptions;
 using System.Diagnostics.CodeAnalysis;
