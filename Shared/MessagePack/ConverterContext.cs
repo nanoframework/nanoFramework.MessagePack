@@ -15,6 +15,9 @@ using System.Collections.Concurrent;
 
 namespace nanoFramework.MessagePack
 {
+    /// <summary>
+    /// Context by serialization/deserialization
+    /// </summary>
     public static class ConverterContext
     {
         private static readonly Type[] _emptyTypes = new Type[0];

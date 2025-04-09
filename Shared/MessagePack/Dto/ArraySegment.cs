@@ -5,11 +5,21 @@ using System.Collections;
 
 namespace nanoFramework.MessagePack.Dto
 {
+    /// <summary>
+    /// Segment by bytes array
+    /// </summary>
     public class ArraySegment : IEnumerable, IEnumerator
     {
         private readonly byte[] _buffer;
         private readonly long _offset;
         private readonly long _length;
+
+        /// <summary>
+        /// Segment constructor
+        /// </summary>
+        /// <param name="buffer">Source byte array</param>
+        /// <param name="offset">Offset in source byte array</param>
+        /// <param name="length">Length segment</param>
         public ArraySegment(byte[] buffer,  long offset, long length)
         {
             _buffer = buffer;
@@ -17,6 +27,10 @@ namespace nanoFramework.MessagePack.Dto
             _length = length;
         }
 
+        /// <summary>
+        /// Rad one byte in segment
+        /// </summary>
+        /// <returns>Reading byte</returns>
         public byte ReadByte()
         {
             if (++Position >= _length)
@@ -26,11 +40,19 @@ namespace nanoFramework.MessagePack.Dto
             return _buffer[_offset + Position];
         }
 
+        /// <summary>
+        /// Get bytes enumerator
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator GetEnumerator()
         {
             return this;
         }
 
+        /// <summary>
+        /// Go to next byte in array
+        /// </summary>
+        /// <returns>True if the end of the segment is not reached otherwise false</returns>
         public bool MoveNext()
         {
             Position++;
@@ -38,13 +60,22 @@ namespace nanoFramework.MessagePack.Dto
             return Position < _length && Position + _offset < _buffer.Length;
         }
 
+        /// <summary>
+        /// Resets the current position to the beginning of the segment
+        /// </summary>
         public void Reset()
         {
             Position = -1;
         }
 
+        /// <summary>
+        /// Current position of the segment
+        /// </summary>
         public long Position { get; private set; } = -1;
 
+        /// <summary>
+        /// The element corresponding to the current position in the segment
+        /// </summary>
         public object Current
         {
             get
