@@ -12,24 +12,30 @@ This repository contains the MessagePack library for the .NET **nanoFramework**.
 
 | Component | Build Status | NuGet Package |
 |:-|---|---|
-| nanoFramework.MessagePack | [![Build Status](https://dev.azure.com/nanoframework/nanoFramework.MessagePack/_apis/build/status/nanoFramework.MessagePack?repoName=nanoframework%2FnanoFramework.MessagePack&branchName=main)](https://dev.azure.com/nanoframework/nanoFramework.MessagePack/_build/latest?definitionId=117&repoName=nanoframework%2FnanoFramework.MessagePack&branchName=main) | [![NuGet](https://img.shields.io/nuget/v/nanoFramework.MessagePack.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.MessagePack/) |
+| nanoFramework.MessagePack | [![Build Status](https://dev.azure.com/nanoframework/nanoFramework.MessagePack/_apis/build/status%2Fnanoframework.nanoFramework.MessagePack?branchName=main)](https://dev.azure.com/nanoframework/nanoFramework.MessagePack/_build/latest?definitionId=119&branchName=main) | [![NuGet](https://img.shields.io/nuget/v/nanoFramework.MessagePack.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.MessagePack/) |
 
 # nanoFramework.MessagePack
 
-nanoFramework.MessagePack is a simple, lightweight [MsgPack.Light](https://github.com/progaudi/MsgPack.Light) serialization library that can be used in [nanoFramework](https://github.com/nanoframework) solutions.
+MessagePack is a simple, lightweight serialization library, inspired by [MsgPack.Light](https://github.com/progaudi/MsgPack.Light), that can be used in .NET[nanoFramework](https://github.com/nanoframework) solutions.
 
 ## Usage
-### Serialization to bytes array:
-```C#
+
+### Serialization to byte array
+
+```csharp
 var value = new TestClass();
 var bytes = MessagePackSerializer.Serialize(value);
 ```
-### Deserialization:
-```C#
+
+### Deserialization
+
+```csharp
 var result = (TestClass)MessagePackSerializer.Deserialize(typeof(TestClass), bytes);
 ```
-### Your type serialization/deserialization:
-If you want to work with your own types, first thing you need - type converter.
+
+### Your type serialization/deserialization
+
+If you want to work with your own types, first thing you need: a type converter.
 <<TODO>>
 
 ## Acknowledgements
