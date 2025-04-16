@@ -1,7 +1,8 @@
-﻿using nanoFramework.MessagePack.Stream;
-using nanoFramework.MessagePack.Utility;
-using System.IO;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
 using System.Collections;
+using nanoFramework.MessagePack.Utility;
 
 namespace nanoFramework.MessagePack.Dto
 {
@@ -20,7 +21,7 @@ namespace nanoFramework.MessagePack.Dto
         /// <param name="buffer">Source byte array</param>
         /// <param name="offset">Offset in source byte array</param>
         /// <param name="length">Length segment</param>
-        public ArraySegment(byte[] buffer,  long offset, long length)
+        public ArraySegment(byte[] buffer, long offset, long length)
         {
             _buffer = buffer;
             _offset = offset;
@@ -34,9 +35,15 @@ namespace nanoFramework.MessagePack.Dto
         public byte ReadByte()
         {
             if (++Position >= _length)
+            {
                 throw ExceptionUtility.NotEnoughBytes(Position, _length);
+            }
+
             if (_offset + Position >= _buffer.Length)
+            {
                 throw ExceptionUtility.NotEnoughBytes(_offset + Position, _buffer.Length);
+            }
+
             return _buffer[_offset + Position];
         }
 
@@ -81,7 +88,10 @@ namespace nanoFramework.MessagePack.Dto
             get
             {
                 if (Position >= _length)
+                {
                     throw ExceptionUtility.NotEnoughBytes(Position, _length);
+                }
+
                 try
                 {
                     return _buffer[_offset + Position];
@@ -100,7 +110,7 @@ namespace nanoFramework.MessagePack.Dto
             //{
             //    data[i] = _buffer[_offset + i];
             //}
-            System.Array.Copy(_buffer, (int) _offset, data, 0, (int) _length);
+            System.Array.Copy(_buffer, (int)_offset, data, 0, (int)_length);
             return data;
         }
 

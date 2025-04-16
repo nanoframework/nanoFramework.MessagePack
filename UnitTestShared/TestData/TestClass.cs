@@ -31,7 +31,10 @@ namespace UnitTestShared.TestData
         public new bool Equals(object? x, object? y)
         {
             if (x == null && x == y)
+            {
                 return true;
+            }
+
             return (x is TestClass x_) &&
                 (y is TestClass y_) &&
                 x_.TestDateTimeNow == y_.TestDateTimeNow &&

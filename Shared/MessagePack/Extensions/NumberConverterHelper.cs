@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+using System;
 using nanoFramework.MessagePack.Stream;
 using nanoFramework.MessagePack.Utility;
 
@@ -35,7 +38,9 @@ namespace nanoFramework.MessagePack.Extensions
         {
             var temp = reader.ReadByte();
             if (temp <= sbyte.MaxValue)
+            {
                 return (sbyte)temp;
+            }
 
             return (sbyte)(temp - byte.MaxValue - 1);
         }
@@ -54,7 +59,9 @@ namespace nanoFramework.MessagePack.Extensions
         {
             var temp = ReadUInt16(reader);
             if (temp <= short.MaxValue)
+            {
                 return (short)temp;
+            }
 
             return (short)(temp - 1 - ushort.MaxValue);
         }
@@ -63,7 +70,9 @@ namespace nanoFramework.MessagePack.Extensions
         {
             var temp = ReadUInt32(reader);
             if (temp <= int.MaxValue)
+            {
                 return (int)temp;
+            }
 
             return (int)(temp - 1 - uint.MaxValue);
         }
@@ -96,7 +105,9 @@ namespace nanoFramework.MessagePack.Extensions
         {
             var temp = ReadUInt64(reader);
             if (temp <= long.MaxValue)
+            {
                 return (long)temp;
+            }
 
             return (long)(temp - 1 - ulong.MaxValue);
         }
@@ -528,7 +539,7 @@ namespace nanoFramework.MessagePack.Extensions
 
         private static byte[] ReadBytes(IMessagePackReader reader, uint length)
         {
-            return (byte[]) reader.ReadBytes(length);
+            return (byte[])reader.ReadBytes(length);
         }
     }
 }

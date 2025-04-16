@@ -19,7 +19,10 @@ namespace UnitTestShared.TestData
         public new bool Equals(object? x, object? y)
         {
             if (x == null && x == y)
+            {
                 return true;
+            }
+
             return (x is TestSubClass x_) &&
                 (y is TestSubClass y_) &&
                 x_.Bytes.ArrayEqual(y_.Bytes) &&

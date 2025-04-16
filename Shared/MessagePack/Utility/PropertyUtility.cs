@@ -1,7 +1,10 @@
-﻿using nanoFramework.MessagePack.Dto;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+using System;
 using System.Collections;
 using System.Reflection;
-using System;
+using nanoFramework.MessagePack.Dto;
 
 namespace nanoFramework.MessagePack.Utility
 {
@@ -12,9 +15,11 @@ namespace nanoFramework.MessagePack.Utility
             var properties = GetProperties(targetType);
 
             if (properties == null || properties.Length == 0)
+            {
                 return;
+            }
 
-            foreach(var property in properties)
+            foreach (var property in properties)
             {
                 mappings.Add(new MemberMapping(property));
             }
@@ -31,7 +36,10 @@ namespace nanoFramework.MessagePack.Utility
 
         private static void GetProperties(Type type, ArrayList list)
         {
-            if (type == null) return;
+            if (type == null)
+            {
+                return;
+            }
 
             MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -95,14 +103,19 @@ namespace nanoFramework.MessagePack.Utility
 
         private static void GetProperties(Type type, ArrayList list)
         {
-            if (type == null) return;
+            if (type == null)
+            {
+                return;
+            }
 
             PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
             foreach (PropertyInfo property in properties)
             {
                 if (property.DeclaringType == type) //skip fields not declared on type, we will find it in a later recursion
-                        list.Add(property);
+                {
+                    list.Add(property);
+                }
             }
 
             GetProperties(type.BaseType!, list);

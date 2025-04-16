@@ -16,7 +16,9 @@ namespace nanoFramework.MessagePack.Converters
         {
             var type = reader.ReadDataType();
             if (type == DataTypes.Null)
+            {
                 return null;
+            }
 
             throw ExceptionUtility.BadTypeException(type, DataTypes.Null);
         }

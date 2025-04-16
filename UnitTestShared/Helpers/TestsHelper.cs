@@ -64,8 +64,11 @@ namespace UnitTestShared.Helpers
         internal static bool ArrayEqual(this IList? array1, IList? array2)
         {
             if (array1 == null && array2 == array1)
+            {
                 return true;
-            if(array1!.Count == array2!.Count)
+            }
+
+            if (array1!.Count == array2!.Count)
             {
                 if (array1.Count > 0)
                 {
@@ -74,7 +77,9 @@ namespace UnitTestShared.Helpers
                         for (int i = 0; i < array1.Count; i++)
                         {
                             if (!((IDictionary)array1[i]!).DictionaryEqual((IDictionary)array2[i]!))
+                            {
                                 return false;
+                            }
                         }
                         
                     }
@@ -83,7 +88,9 @@ namespace UnitTestShared.Helpers
                         for (int i = 0; i < array1.Count; i++)
                         {
                             if (!array1[i]!.Equals(array2[i]))
+                            {
                                 return array1[i]!.ToString() == array2[i]!.ToString();
+                            }
                         }
                     }
                     else
@@ -91,7 +98,9 @@ namespace UnitTestShared.Helpers
                         for (int i = 0; i < array1.Count; i++)
                         {
                             if (!((IList)array1[i]!).ArrayEqual((IList)array2[i]!))
+                            {
                                 return false;
+                            }
                         }
                     }
                 }
@@ -105,7 +114,10 @@ namespace UnitTestShared.Helpers
         internal static bool DictionaryEqual(this IDictionary? array1, IDictionary? array2)
         {
             if (array1 == null && array2 == array1)
+            {
                 return true;
+            }
+
             if (array1!.Count == array2!.Count)
             {
                 if (array1.Count > 0)
@@ -117,18 +129,24 @@ namespace UnitTestShared.Helpers
                             if (array1[i] is IDictionary dictionary)
                             {
                                 if (!dictionary.DictionaryEqual((IDictionary)array2[i]!))
+                                {
                                     return false;
+                                }
                             }
                             else if (!array1[i]!.GetType().IsArray)
                             {
 
                                 if (!array1[i]!.Equals(array2[i]))
+                                {
                                     return false;
+                                }
                             }
                             else
                             {
                                 if (!((IList)array1[i]!).ArrayEqual((IList)array2[i]!))
+                                {
                                     return false;
+                                }
                             }
                         }
                     }

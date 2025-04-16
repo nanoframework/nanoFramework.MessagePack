@@ -1,7 +1,10 @@
-﻿using nanoFramework.MessagePack.Dto;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+using System;
 using System.Collections;
 using System.Reflection;
-using System;
+using nanoFramework.MessagePack.Dto;
 
 namespace nanoFramework.MessagePack.Utility
 {
@@ -13,7 +16,9 @@ namespace nanoFramework.MessagePack.Utility
             var fields = GetFields(targetType);
 
             if (fields == null || fields.Length == 0)
+            {
                 return;
+            }
 
             foreach (var field in fields)
             {
@@ -32,13 +37,20 @@ namespace nanoFramework.MessagePack.Utility
 
         private static void GetFields(Type? type, ArrayList list)
         {
-            if (type == null) return;
+            if (type == null)
+            {
+                return;
+            }
 
             var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
 
             foreach (var field in fields)
+            {
                 if (field.DeclaringType == type)
+                {
                     list.Add(field);
+                }
+            }
 
             GetFields(type.BaseType, list);
         }

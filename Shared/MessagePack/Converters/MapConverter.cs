@@ -21,19 +21,30 @@ namespace nanoFramework.MessagePack.Converters
                 var keyType = element.Key.GetType();
                 var keyConverter = ConverterContext.GetConverter(keyType);
                 if(keyConverter == null)
+                {
                     ConverterContext.SerializeObject(keyType, element.Key, writer);
+                }
                 else
+                {
                     keyConverter.Write(element.Key, writer);
+                }
+
                 if (element.Value == null)
+                {
                     ConverterContext.NullConverter.Write(element.Value, writer);
+                }
                 else
                 {
                     var valueType = element.Value.GetType();
                     var valueConverter = ConverterContext.GetConverter(valueType);
                     if (valueConverter == null)
+                    {
                         ConverterContext.SerializeObject(valueType, element.Value, writer);
+                    }
                     else
+                    {
                         valueConverter.Write(element.Value, writer);
+                    }
                 }
             }
         }

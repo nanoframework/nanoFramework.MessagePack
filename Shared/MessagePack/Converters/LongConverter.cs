@@ -1,7 +1,10 @@
-﻿using nanoFramework.MessagePack.Extensions;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+using System.Diagnostics.CodeAnalysis;
+using nanoFramework.MessagePack.Extensions;
 using nanoFramework.MessagePack.Stream;
 using nanoFramework.MessagePack.Utility;
-using System.Diagnostics.CodeAnalysis;
 
 namespace nanoFramework.MessagePack.Converters
 {
@@ -17,9 +20,13 @@ namespace nanoFramework.MessagePack.Converters
             var type = reader.ReadDataType();
 
             if (NumberConverterHelper.TryGetInt64(type, reader, out var result))
+            {
                 return result;
+            }
             else
+            {
                 throw ExceptionUtility.IntDeserializationFailure(type);
+            }
         }
 
 #nullable enable

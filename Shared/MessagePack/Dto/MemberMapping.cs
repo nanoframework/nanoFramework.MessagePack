@@ -1,5 +1,8 @@
-﻿using System.Reflection;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
 using System;
+using System.Reflection;
 
 namespace nanoFramework.MessagePack.Dto
 {
@@ -17,7 +20,7 @@ namespace nanoFramework.MessagePack.Dto
         private MethodInfo? Property { get; set; }
         public string? Name => Field?.Name ?? Property?.Name.Substring(4);
         public Type? DeclaringType => Field?.DeclaringType ?? Property?.DeclaringType;
-        
+
 #else
         public MemberMapping(PropertyInfo property) => Property = property;
         private PropertyInfo? Property { get; set; }
@@ -66,7 +69,7 @@ namespace nanoFramework.MessagePack.Dto
                     return true;
                 }
 #else                
-                value = Property.GetValue(obj)!; 
+                value = Property.GetValue(obj)!;
                 return true;
 #endif           
             }
@@ -81,7 +84,9 @@ namespace nanoFramework.MessagePack.Dto
         internal void SetValue(object current, object val)
         {
             if (Field != null)
+            {
                 Field.SetValue(current, val);
+            }
             else
 #if NANOFRAMEWORK_1_0
             if (Property != null && Property.Name.StartsWith(SET_))

@@ -1,11 +1,14 @@
-﻿using nanoFramework.MessagePack.Extensions;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+using System.Diagnostics.CodeAnalysis;
+using nanoFramework.MessagePack.Extensions;
 using nanoFramework.MessagePack.Stream;
 using nanoFramework.MessagePack.Utility;
-using System.Diagnostics.CodeAnalysis;
 
 namespace nanoFramework.MessagePack.Converters
 {
-    internal class ByteConverter: IConverter
+    internal class ByteConverter : IConverter
     {
         private static void Write(byte value, IMessagePackWriter writer)
         {

@@ -1,14 +1,16 @@
-﻿using System.Collections;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
 using System;
-using nanoFramework.MessagePack.Converters;
-using System.Runtime.CompilerServices;
-using nanoFramework.MessagePack.Utility;
-using nanoFramework.MessagePack.Dto;
+using System.Collections;
 using System.Diagnostics;
-using nanoFramework.MessagePack.Stream;
-using nanoFramework.MessagePack.Extensions;
+using System.Runtime.CompilerServices;
+using nanoFramework.MessagePack.Converters;
+using nanoFramework.MessagePack.Dto;
 using nanoFramework.MessagePack.Exceptions;
-using System.Diagnostics.CodeAnalysis;
+using nanoFramework.MessagePack.Extensions;
+using nanoFramework.MessagePack.Stream;
+using nanoFramework.MessagePack.Utility;
 #if !NANOFRAMEWORK_1_0
 using System.Collections.Concurrent;
 #endif
@@ -84,7 +86,10 @@ namespace nanoFramework.MessagePack
         public static void Add(Type type, IConverter converter)
         {
             if (type == typeof(object))
+            {
                 throw new NotSupportedException($"Converter by type {type.Name} not support in convertors table.");
+            }
+
             ConversionTable.Add(type.FullName!, converter);
         }
 
@@ -117,7 +122,9 @@ namespace nanoFramework.MessagePack
         public static IConverter GetConverter(Type type)
         {
             if (type == typeof(object))
+            {
                 throw ExceptionUtility.ConverterNotFound(type);
+            }
 
             if (ConversionTable.Contains(type.FullName!))
             {
@@ -133,11 +140,12 @@ namespace nanoFramework.MessagePack
 
             Hashtable result = new();
 
-            foreach(var memberMapping in memberMappings)
+            foreach (var memberMapping in memberMappings)
             {
                 if (memberMapping.TryGetValue(value, out var memberValue) && memberValue != null)
+                {
                     result.Add(memberMapping.Name!, memberValue);
-                
+                }
             }
             return result;
         }
@@ -148,19 +156,25 @@ namespace nanoFramework.MessagePack
 
             foreach (var memberMapping in memberMappings)
             {
-                if(objectValuesMap.Contains(memberMapping.Name!))
+                if (objectValuesMap.Contains(memberMapping.Name!))
                 {
                     var memberMpToken = (ArraySegment)objectValuesMap[memberMapping.Name!]!;
                     var memberValueMapType = memberMapping.GetMemberType();
                     var converter = GetConverter(memberValueMapType!);
                     if (converter != null)
+                    {
                         memberMapping.SetValue(targetObject, converter.Read(new ByteArrayReader((byte[])memberMpToken))!);
+                    }
                     else
                     {
                         if (memberValueMapType!.IsArray)
+                        {
                             memberMapping.SetValue(targetObject, ArrayConverter.Read(new ByteArrayReader((byte[])memberMpToken), memberValueMapType)!);
+                        }
                         else
+                        {
                             memberMapping.SetValue(targetObject, DeserializeObject(memberValueMapType!, new ByteArrayReader((byte[])memberMpToken))!);
+                        }
                     }
                 }
             }
@@ -228,8 +242,9 @@ namespace nanoFramework.MessagePack
                 return targetObject;
             }
             else
+            {
                 throw new SerializationException($"Type {type.Name} can not by deserialize.");
-
+            }
         }
 
         internal static object? GetObjectByDataType(IMessagePackReader reader)
@@ -288,15 +303,29 @@ namespace nanoFramework.MessagePack
         private static object ReadObject(DataTypes type, IMessagePackReader reader)
         {
             if (type.GetHighBits(3) == DataTypes.FixStr.GetHighBits(3))
+            {
                 return StringConverter.ReadString(reader, type - DataTypes.FixStr);
+            }
+
             if (NumberConverterHelper.TryGetFixPositiveNumber(type, out var positive))
+            {
                 return positive;
+            }
+
             if (NumberConverterHelper.TryGetNegativeNumber(type, out var negative))
+            {
                 return negative;
+            }
+
             if (type.GetHighBits(4) == DataTypes.FixArray.GetHighBits(4))
+            {
                 return ArrayListConverter.ReadArrayList(reader, type - DataTypes.FixArray);
+            }
+
             if (type.GetHighBits(4) == DataTypes.FixMap.GetHighBits(4))
+            {
                 return MapConverter.ReadMap(reader, type - DataTypes.FixMap);
+            }
 
             throw ExceptionUtility.BadTypeException(type);
         }
@@ -309,7 +338,9 @@ namespace nanoFramework.MessagePack
             if (extType == -1)
             {
                 if (type == DataTypes.Timestamp32)
+                {
                     seconds = NumberConverterHelper.ReadUInt32(reader);
+                }
                 else
                 {
                     nanoSeconds = NumberConverterHelper.ReadUInt32(reader);
@@ -325,10 +356,14 @@ namespace nanoFramework.MessagePack
                     seconds = NumberConverterHelper.ReadInt64(reader);
                 }
                 else
+                {
                     throw ExceptionUtility.BadTypeException(type, DataTypes.Timestamp32, DataTypes.Timestamp64, DataTypes.Timestamp96);
+                }
             }
             else
+            {
                 throw ExceptionUtility.BadTypeException(type, DataTypes.Timestamp32, DataTypes.Timestamp64, DataTypes.Timestamp96);
+            }
 
             return DateTime.UnixEpoch.AddSeconds(seconds).AddMilliseconds(nanoSeconds / 1000.0);
         }

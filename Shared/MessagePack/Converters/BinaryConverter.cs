@@ -1,7 +1,10 @@
-﻿using nanoFramework.MessagePack.Extensions;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+using System.Diagnostics.CodeAnalysis;
+using nanoFramework.MessagePack.Extensions;
 using nanoFramework.MessagePack.Stream;
 using nanoFramework.MessagePack.Utility;
-using System.Diagnostics.CodeAnalysis;
 
 namespace nanoFramework.MessagePack.Converters
 {
@@ -59,32 +62,51 @@ namespace nanoFramework.MessagePack.Converters
 
                 case DataTypes.Str8:
                     if (_compatibilityMode)
+                    {
                         length = NumberConverterHelper.ReadUInt8(reader);
+                    }
                     else
+                    {
                         throw ExceptionUtility.CantReadStringAsBinary();
+                    }
+
                     break;
 
                 case DataTypes.Str16:
                     if (_compatibilityMode)
+                    {
                         length = NumberConverterHelper.ReadUInt16(reader);
+                    }
                     else
+                    {
                         throw ExceptionUtility.CantReadStringAsBinary();
+                    }
+
                     break;
 
                 case DataTypes.Str32:
                     if (_compatibilityMode)
+                    {
                         length = NumberConverterHelper.ReadUInt32(reader);
+                    }
                     else
+                    {
                         throw ExceptionUtility.CantReadStringAsBinary();
+                    }
+
                     break;
 
                 default:
                     if ((type & DataTypes.FixStr) == DataTypes.FixStr)
                     {
                         if (_compatibilityMode)
+                        {
                             length = (uint)(type & ~DataTypes.FixStr);
+                        }
                         else
+                        {
                             throw ExceptionUtility.CantReadStringAsBinary();
+                        }
                     }
                     else
                     {
@@ -94,7 +116,7 @@ namespace nanoFramework.MessagePack.Converters
             }
 
             var array = reader.ReadBytes(length);
-            return (byte[]) array;
+            return (byte[])array;
         }
 
         private static void WriteBinaryHeaderAndLength(uint length, IMessagePackWriter writer)

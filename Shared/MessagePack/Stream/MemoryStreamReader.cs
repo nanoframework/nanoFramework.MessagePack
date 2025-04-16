@@ -77,7 +77,10 @@ namespace nanoFramework.MessagePack.Stream
             var buffer = new byte[length];
             var read = _stream.Read(buffer, 0, buffer.Length);
             if (read < buffer.Length)
+            {
                 throw ExceptionUtility.NotEnoughBytes(read, buffer.Length);
+            }
+
             return new(buffer, 0, buffer.Length);
         }
 #nullable enable
@@ -90,7 +93,9 @@ namespace nanoFramework.MessagePack.Stream
                 return new ArraySegment((byte[])result, 0, result.Length);
             }
             else
+            {
                 return null;
+            }
         }
 
         protected override void StartTokenGathering()

@@ -1,8 +1,11 @@
-﻿using nanoFramework.MessagePack.Extensions;
-using nanoFramework.MessagePack.Stream;
-using nanoFramework.MessagePack.Utility;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
 using System;
 using System.Diagnostics.CodeAnalysis;
+using nanoFramework.MessagePack.Extensions;
+using nanoFramework.MessagePack.Stream;
+using nanoFramework.MessagePack.Utility;
 
 namespace nanoFramework.MessagePack.Converters
 {
@@ -55,9 +58,13 @@ namespace nanoFramework.MessagePack.Converters
                 //throw ExceptionUtility.BadTypeException(type, DataTypes.Single, DataTypes.Double);
 
                 if (NumberConverterHelper.TryGetInt64(type, reader, out var result))
+                {
                     return result;
+                }
                 else
+                {
                     throw ExceptionUtility.BadTypeException(type, DataTypes.Single, DataTypes.Double);
+                }
             }
 
             if (type == DataTypes.Single)

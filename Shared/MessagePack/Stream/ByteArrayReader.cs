@@ -1,11 +1,13 @@
-﻿using nanoFramework.MessagePack.Dto;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
+using nanoFramework.MessagePack.Dto;
 
 namespace nanoFramework.MessagePack.Stream
 {
-    internal class ByteArrayReader :  BaseReader
+    internal class ByteArrayReader : BaseReader
     {
         private uint _firstGatheredByte;
         private readonly byte[] _data;
@@ -53,9 +55,13 @@ namespace nanoFramework.MessagePack.Stream
         protected override ArraySegment? StopTokenGathering()
         {
             if ((_firstGatheredByte + 1) <= _data.Length)
+            {
                 return new ArraySegment(_data, (int)_firstGatheredByte, (int)(_offset - _firstGatheredByte));
+            }
             else
+            {
                 return null;
+            }
         }
 
         protected override void StartTokenGathering()

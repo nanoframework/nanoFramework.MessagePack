@@ -1,7 +1,10 @@
-﻿using nanoFramework.MessagePack.Stream;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
 using System;
 using System.Collections;
 using System.IO;
+using nanoFramework.MessagePack.Stream;
 
 namespace nanoFramework.MessagePack
 {
@@ -63,9 +66,13 @@ namespace nanoFramework.MessagePack
         {
             var converter = ConverterContext.GetConverter(type);
             if (converter != null)
+            {
                 return converter.Read(reader);
+            }
             else
+            {
                 return ConverterContext.DeserializeObject(type, reader);
+            }
         }
 
         private static void Serialize(object data, IMessagePackWriter writer)
@@ -75,9 +82,13 @@ namespace nanoFramework.MessagePack
             var converter = ConverterContext.GetConverter(type);
 
             if (converter != null)
+            {
                 converter.Write(data, writer);
+            }
             else
+            {
                 ConverterContext.SerializeObject(type, data, writer);
+            }
         }
 
     }
