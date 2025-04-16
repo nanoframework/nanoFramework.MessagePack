@@ -35,8 +35,7 @@ var result = (TestClass)MessagePackSerializer.Deserialize(typeof(TestClass), byt
 
 ### Your type serialization/deserialization
 
-If you want to work with your own types, first thing you need: a type converter.
-<<TODO>>
+If you want to work with your own types, first thing you need to add is a type converter.
 
 ## Acknowledgements
 
