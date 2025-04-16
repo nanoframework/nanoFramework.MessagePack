@@ -114,11 +114,19 @@ namespace nanoFramework.MessagePack.Dto
             return data;
         }
 
+        /// <summary>
+        /// Implicit conversion from byte array to <see cref="ArraySegment"/>.
+        /// </summary>
+        /// <param name="bytes"></param>
         public static implicit operator ArraySegment(byte[] bytes)
         {
             return new ArraySegment(bytes, 0, bytes.Length);
         }
 
+        /// <summary>
+        /// Implicit conversion from <see cref="ArraySegment"/> to byte array.
+        /// </summary>
+        /// <param name="segment"></param>
         public static explicit operator byte[](ArraySegment segment)
         {
             return segment.ToArray();

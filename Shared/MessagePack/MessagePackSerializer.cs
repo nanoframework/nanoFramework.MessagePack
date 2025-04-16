@@ -7,6 +7,9 @@ using nanoFramework.MessagePack.Stream;
 
 namespace nanoFramework.MessagePack
 {
+    /// <summary>
+    /// Class for <see cref="MessagePack"/> serialization and deserialization.
+    /// </summary>
     public static class MessagePackSerializer
     {
         /// <summary>
