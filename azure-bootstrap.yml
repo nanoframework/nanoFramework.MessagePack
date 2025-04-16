@@ -39,4 +39,4 @@ jobs:
   - template: azure-pipelines-templates/device-bootstrap.yml@templates
     parameters:
       AZURE_DEVOPS_PROJECT: nanoFramework.MessagePack
-      AZURE_DEVOPS_PIPELINE_ID: 117
+      AZURE_DEVOPS_PIPELINE_ID: 119
