@@ -1,8 +1,11 @@
-﻿using nanoFramework.MessagePack.Extensions;
-using nanoFramework.MessagePack.Stream;
-using nanoFramework.MessagePack.Utility;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using nanoFramework.MessagePack.Extensions;
+using nanoFramework.MessagePack.Stream;
+using nanoFramework.MessagePack.Utility;
 
 namespace nanoFramework.MessagePack.Converters
 {
@@ -55,7 +58,7 @@ namespace nanoFramework.MessagePack.Converters
 
         internal static string ReadString(IMessagePackReader reader, uint length)
         {
-            var buffer = (byte[]) reader.ReadBytes(length);
+            var buffer = (byte[])reader.ReadBytes(length);
 
             return Utf8.GetString(buffer, 0, buffer.Length);
         }

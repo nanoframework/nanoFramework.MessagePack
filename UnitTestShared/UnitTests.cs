@@ -1,8 +1,11 @@
-﻿using nanoFramework.MessagePack;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+
 using System;
 using System.Collections;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using nanoFramework.MessagePack;
 using UnitTestShared.Helpers;
 using UnitTestShared.TestData;
 #if NANOFRAMEWORK_1_0
@@ -116,5 +119,5 @@ namespace NFUnitTest
         }
     }
 
-    
+
 }
