@@ -1,4 +1,4 @@
-# Copyright (c) .NET Foundation and Contributors
+﻿# Copyright (c) .NET Foundation and Contributors
 # See LICENSE file in the project root for full license information.
 
 # The Pipeline is going to be called by the GitHub action.
@@ -48,20 +48,11 @@ stages:
 
       # step from template @ nf-tools repo
       # all build, update and publish steps
-      - template: azure-pipelines-templates/class-lib-build-only.yml@templates
+      - template: azure-pipelines-templates/class-lib-build.yml@templates
         parameters:
           sonarCloudProject: 'nanoframework_nanoFramework.MessagePack'
-      
-      # build the 2 libs step
-      - template: azure-pipelines-templates/class-lib-package.yml@templates  
-        parameters:
-          nugetPackageName: 'nanoFramework.MessagePack'
-
-      # publish the 2 libs
-      - template: azure-pipelines-templates/class-lib-publish.yml@templates
-
-      # create GitHub release build from main branch
-      - template: azure-pipelines-templates/create-github-release.yml@templates
+          runUnitTests: true
+          unitTestRunsettings: '$(System.DefaultWorkingDirectory)\NFUnitTest\nano.runsettings'
 
       # step from template @ nf-tools repo
       # report error
