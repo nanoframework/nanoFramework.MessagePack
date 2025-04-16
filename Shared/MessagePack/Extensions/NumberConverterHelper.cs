@@ -195,11 +195,13 @@ namespace nanoFramework.MessagePack.Extensions
 
                 case DataTypes.UInt32:
                     var uintValue = ReadUInt32(reader);
+
                     if (uintValue <= int.MaxValue)
                     {
                         result = (int)uintValue;
                         return true;
                     }
+
                     return false;
 
                 case DataTypes.Int8:
@@ -250,11 +252,13 @@ namespace nanoFramework.MessagePack.Extensions
 
                 case DataTypes.UInt64:
                     var ulongValue = ReadUInt64(reader);
+
                     if (ulongValue <= long.MaxValue)
                     {
                         result = (long)ulongValue;
                         return true;
                     }
+
                     return false;
 
                 case DataTypes.Int8:

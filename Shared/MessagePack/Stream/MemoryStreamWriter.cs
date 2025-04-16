@@ -54,7 +54,6 @@ namespace nanoFramework.MessagePack.Stream
                 Write(DataTypes.Array32);
                 NumberConverterHelper.WriteUIntValue(length, this);
             }
-
         }
 
         public void WriteMapHeader(uint length)

@@ -143,6 +143,7 @@ namespace nanoFramework.MessagePack.Stream
                 SkipMapItems(mapLength);
                 return;
             }
+
             if (TryGetLengthFromFixStr(dataType, out var stringLength))
             {
                 SkipBytes(stringLength);
@@ -158,6 +159,23 @@ namespace nanoFramework.MessagePack.Stream
             SkipToken();
             var gatheredBytes = StopTokenGathering();
             return gatheredBytes;
+        }
+        private static bool TryGetLengthFromFixStr(DataTypes type, out uint length)
+        {
+            length = type - DataTypes.FixStr;
+            return type.GetHighBits(3) == DataTypes.FixStr.GetHighBits(3);
+        }
+
+        protected static bool TryGetLengthFromFixArray(DataTypes type, out uint length)
+        {
+            length = type - DataTypes.FixArray;
+            return type.GetHighBits(4) == DataTypes.FixArray.GetHighBits(4);
+        }
+
+        protected static bool TryGetLengthFromFixMap(DataTypes type, out uint length)
+        {
+            length = type - DataTypes.FixMap;
+            return type.GetHighBits(4) == DataTypes.FixMap.GetHighBits(4);
         }
 
         private void SkipMapItems(uint count)
@@ -183,25 +201,7 @@ namespace nanoFramework.MessagePack.Stream
         {
             Seek(bytesCount, SeekOrigin.Current);
         }
-
-        private static bool TryGetLengthFromFixStr(DataTypes type, out uint length)
-        {
-            length = type - DataTypes.FixStr;
-            return type.GetHighBits(3) == DataTypes.FixStr.GetHighBits(3);
-        }
-
-        protected static bool TryGetLengthFromFixArray(DataTypes type, out uint length)
-        {
-            length = type - DataTypes.FixArray;
-            return type.GetHighBits(4) == DataTypes.FixArray.GetHighBits(4);
-        }
-
-        protected static bool TryGetLengthFromFixMap(DataTypes type, out uint length)
-        {
-            length = type - DataTypes.FixMap;
-            return type.GetHighBits(4) == DataTypes.FixMap.GetHighBits(4);
-        }
-
+        
         protected abstract ArraySegment? StopTokenGathering();
 
         protected abstract void StartTokenGathering();

@@ -11,12 +11,11 @@ namespace nanoFramework.MessagePack.Exceptions
     public class SerializationException : Exception
     {
         /// <summary>
-        /// Serialization exception.
+        /// Initializes a new instance of the <see cref="SerializationException" /> class.
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">Error message.</param>
         public SerializationException(string message) : base(message)
         {
-
         }
     }
 }

@@ -7,57 +7,57 @@ using nanoFramework.MessagePack.Dto;
 namespace nanoFramework.MessagePack.Stream
 {
     /// <summary>
-    /// Read MessagePack interface
+    /// Read <see cref="MessagePack"/> interface.
     /// </summary>
     public interface IMessagePackReader
     {
         /// <summary>
-        /// Read MessagePack data type
+        /// Read MessagePack data type.
         /// </summary>
-        /// <returns>MessagePack item type <see cref="DataTypes"/></returns>
+        /// <returns>The data type read.</returns>
         DataTypes ReadDataType();
 
         /// <summary>
-        /// Read one byte in MessagePack stream
+        /// Read one byte in <see cref="MessagePack"/> stream.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The byte read.</returns>
         byte ReadByte();
 
         /// <summary>
-        /// Read bytes in MessagePack stream
+        /// Read bytes in <see cref="MessagePack"/> stream.
         /// </summary>
-        /// <param name="length">Length bytes for reading</param>
-        /// <returns>Array reading <see cref="ArraySegment"/></returns>
+        /// <param name="length">Length of bytes to read.</param>
+        /// <returns>The read bytes as <see cref="ArraySegment"/>.</returns>
         ArraySegment ReadBytes(uint length);
 
         /// <summary>
-        /// Seek bytes in MessagePack stream
+        /// Seek bytes in MessagePack stream.
         /// </summary>
-        /// <param name="offset">Offset from stream</param>
-        /// <param name="origin">The position in the flow to offset</param>
+        /// <param name="offset">Offset from stream.</param>
+        /// <param name="origin">The position in the flow to offset.</param>
         void Seek(long offset, SeekOrigin origin);
 
         /// <summary>
-        /// Read MessagePack array length
+        /// Read MessagePack array length.
         /// </summary>
-        /// <returns>Array length</returns>
+        /// <returns>The length of the array.</returns>
         uint ReadArrayLength();
 
         /// <summary>
-        /// Read MessagePack map length
+        /// Read <see cref="MessagePack"/> map length.
         /// </summary>
-        /// <returns>Map items length</returns>
+        /// <returns>The length of the map.</returns>
         uint ReadMapLength();
 
-        /// <summary>
-        /// Skip MessagePack item
+        /// <summary>.
+        /// Skip <see cref="MessagePack"/> item.
         /// </summary>
         void SkipToken();
 
         /// <summary>
-        /// Read MessagePack item
+        /// Read <see cref="MessagePack"/> item.
         /// </summary>
-        /// <returns>Bytes MessagePack item <see cref="ArraySegment"/></returns>
+        /// <returns> The read <see cref="MessagePack"/> item as <see cref="ArraySegment"/> or <see langword="null"/> if the end of the stream is reached.</returns>
 #nullable enable
         ArraySegment? ReadToken();
     }

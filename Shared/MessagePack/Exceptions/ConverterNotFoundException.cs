@@ -10,14 +10,13 @@ namespace nanoFramework.MessagePack.Exceptions
     /// </summary>
     public class ConverterNotFoundException : Exception
     {
-
         /// <summary>
         /// Gets the type of object which converter was not found.
         /// </summary>
         public Type ObjectType { get; }
 
         /// <summary>
-        /// Converter not found exception.
+        /// Initializes a new instance of the <see cref="ConverterNotFoundException" /> class.
         /// </summary>
         /// <param name="type">Type of object.</param>
         public ConverterNotFoundException(Type type)

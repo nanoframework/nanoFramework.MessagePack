@@ -4,38 +4,38 @@
 namespace nanoFramework.MessagePack.Stream
 {
     /// <summary>
-    /// MessagePack writer interface
+    /// <see cref="MessagePack"/> writer interface.
     /// </summary>
     public interface IMessagePackWriter
     {
         /// <summary>
-        /// Write MessagePack data type
+        /// Write MessagePack data type.
         /// </summary>
-        /// <param name="dataType"></param>
+        /// <param name="dataType">The data type to write.</param>
         void Write(DataTypes dataType);
 
         /// <summary>
-        /// Write byte value
+        /// Write byte value.
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">The byte value to write.</param>
         void Write(byte value);
 
         /// <summary>
-        /// Write byte array
+        /// Write byte array.
         /// </summary>
-        /// <param name="array">Writhed bytes</param>
+        /// <param name="array">The byte array to write.</param>
         void Write(byte[] array);
 
         /// <summary>
-        /// Write array MessagePack header
+        /// Write array MessagePack header.
         /// </summary>
-        /// <param name="length">Array length</param>
+        /// <param name="length">Array items length.</param>
         void WriteArrayHeader(uint length);
 
         /// <summary>
-        /// Write MessagePack map header
+        /// Write MessagePack map header.
         /// </summary>
-        /// <param name="length">Map items length</param>
+        /// <param name="length">Map items length.</param>
         void WriteMapHeader(uint length);
     }
 }
