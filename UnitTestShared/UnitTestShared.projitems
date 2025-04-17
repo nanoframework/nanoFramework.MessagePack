@@ -9,6 +9,9 @@
     <Import_RootNamespace>UnitTestShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)TestData\SecureMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestData\SecureMessageConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestData\SharedWordDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestData\TestConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestData\TestClass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\TestsHelper.cs" />

@@ -35,7 +35,215 @@ var result = (TestClass)MessagePackSerializer.Deserialize(typeof(TestClass), byt
 
 ### Your type serialization/deserialization
 
-If you want to work with your own types, first thing you need to add is a type converter.
+If you want to work with your own types, first thing you need to add is a type converter. Although the library provides almost complete coverage of the serialization/deserialization of any objects, there are certain cases where it is difficult to do without a custom converter.
+
+#### The general principle of implementing a custom converter
+
+1) In the code of your project, you need to create a converter class that inherits the IConverter interface and implement the Read and Write interface methods:
+
+   ```csharp
+        public class SimpleCustomConverter : IConverter
+        {
+            #nullable enable
+            public void Write(object? value, [NotNull] IMessagePackWriter writer)
+            {
+                //TODO Your code is here
+            }
+    
+            public object? Read([NotNull] IMessagePackReader reader)
+            {
+               var yourObject = new YourObject();
+               //TODO Your code is here
+               return yourObject;
+            }
+        }
+   ```
+   
+2) Register your custom converter in the context of serialization:
+
+   ```csharp
+         public class Program
+         {
+             public static void Main()
+             {
+                   var simpleCustomConverter = new SimpleCustomConverter();
+                   ConverterContext.Add(typeof(YourObject), simpleCustomConverter);
+             }
+         }
+   ```
+   
+After completing these steps, the serialization/deserialization of the object for which your converter is added will occur in the methods of the custom converter.
+
+##### A few examples of the implementation of custom converters
+
+1. Case with enumeration elements as strings:
+   
+    ```csharp
+        namespace samples
+        {
+            public enum FieldType
+            {
+                _ = -1,
+                Str,
+                Num,
+                Any
+            }
+    
+            public class FieldTypeConverter : IConverter
+            {
+                internal FieldType Read(IMessagePackReader reader)
+                {
+                    var stringConverter = ConverterContext.GetConverter(typeof(string));
+        
+                    var enumString = (string)stringConverter.Read(reader);
+        
+                    return enumString switch
+                    {
+                        "Str" => FieldType.Str,
+                        "Num" => FieldType.Num,
+                        "*" => FieldType.Any,
+                        _ => throw new Exception($"Unexpected enum {typeof(FieldType)} underlying type: {enumString}"),
+                    };
+                }
+        
+                internal void Write(FieldType value, [NotNull] IMessagePackWriter writer)
+                {
+                    var stringConverter = ConverterContext.GetConverter(typeof(string));
+        
+                    switch (value)
+                    {
+                        case FieldType.Str:
+                            stringConverter.Write("Str", writer);
+                            break;
+                        case FieldType.Num:
+                            stringConverter.Write("Num", writer);
+                            break;
+                        case FieldType.Any:
+                            stringConverter.Write("*", writer);
+                            break;
+                        default:
+                            throw new Exception($"Enum {value.GetType()} value: {value} expected");
+                    }
+                }
+        
+        #nullable enable
+                object? IConverter.Read([NotNull] IMessagePackReader reader)
+                {
+                    return Read(reader);
+                }
+        
+                public void Write(object? value, [NotNull] IMessagePackWriter writer)
+                {
+                    Write((FieldType)value!, writer);
+                }
+            }
+        }
+   ```
+
+2. Case compression or concealment of transmitted strings between sender and recipient if sender and recipient share the same vocabulary of words:
+
+    ```csharp
+        namespace samples
+        {
+            public static class SharedWordDictionary
+            {
+                static SharedWordDictionary()
+                {
+                    WordDictionary = new ArrayList
+                    {
+                        "MessagePak",
+                        "Hello",
+                        "at",
+                        "nanoFramework!",
+                        " "
+                    };
+                }
+        
+                public static ArrayList WordDictionary { get; }
+            }
+        
+            public class SecureMessage
+            {
+                public SecureMessage(string message)
+                {
+                    Message = message;
+                }
+        
+                public string Message { get; private set; }
+            }
+        
+            public class SecureMessageConverter : IConverter
+            {
+                public SecureMessage Read([NotNull] IMessagePackReader reader)
+                {
+                    StringBuilder sb = new();
+                    var length = reader.ReadArrayLength();
+        
+                    for(int i = 0; i < length; i++)
+                    {
+                        sb.Append(SharedWordDictionary.WordDictionary[i]);
+                        sb.Append(' ');
+                    }
+                    if (sb.Length > 0)
+                        sb.Remove(sb.Length - 1, 1);
+        
+                    return new SecureMessage(sb.ToString());
+                }
+        
+                public void Write(SecureMessage value, [NotNull] IMessagePackWriter writer)
+                {
+                    var messageWords = value.Message.Split(' ');
+        
+                    uint length = BitConverter.ToUInt32(BitConverter.GetBytes(messageWords.Length), 0);
+                    writer.WriteArrayHeader(length);
+        
+                    var intConverter = ConverterContext.GetConverter(typeof(int));
+        
+                    foreach (var word in messageWords)
+                    {
+                        intConverter.Write(SharedWordDictionary.WordDictionary.IndexOf(word), writer);
+                    }
+                }
+        
+        #nullable enable
+                object? IConverter.Read([NotNull] IMessagePackReader reader)
+                {
+                    return Read(reader);
+                }
+        
+                public void Write(object? value, [NotNull] IMessagePackWriter writer)
+                {
+                    Write((SecureMessage)value!, writer);
+                }
+            }
+        
+            public class Program
+            {
+                public static void Main()
+                {
+                    var secureMessageConverter = new SecureMessageConverter();
+                    ConverterContext.Add(typeof(SecureMessage), secureMessageConverter);
+        
+                    var secureMessage = new SecureMessage("Hello MessagePack at nanoFramework!");
+        
+                    //At sender
+                    var buffer = MessagePackSerializer.Serialize(secureMessage);
+                    Debug.WriteLine($"The message:\n{secureMessage.Message}\nbeing sent has been serialized into {buffer.Length} bytes.");
+                    //and sent to recipient
+                    //
+                    //..........................
+                    Debug.WriteLine("=============================================");
+        
+                    //At recipient, after receiving the byte array
+                    Debug.WriteLine($"Received {buffer.Length} bytes");
+        
+                    var recipientSecureMessage = (SecureMessage)MessagePackSerializer.Deserialize(typeof(SecureMessage), buffer)!;
+        
+                    Debug.WriteLine($"Message received:\n{recipientSecureMessage.Message}");
+                }
+            }
+        }
+   ```
 
 ## Acknowledgements
 

@@ -117,6 +117,30 @@ namespace NFUnitTest
 
             Assert.AreEqual(test, testResult);
         }
+
+        [TestMethod]
+        public void CustomConverterTest()
+        {
+            var secureMessageConverter = new SecureMessageConverter();
+            ConverterContext.Add(typeof(SecureMessage), secureMessageConverter);
+
+            var secureMessage = new SecureMessage("Hello MessagePack at nanoFramework!");
+
+            //At sender
+            var buffer = MessagePackSerializer.Serialize(secureMessage);
+            Debug.WriteLine($"The message:\n{secureMessage.Message}\nbeing sent has been serialized into {buffer.Length} bytes.");
+            //and sent to recipient
+            //
+            //..........................
+            Debug.WriteLine("=============================================");
+
+            //At recipient, after receiving the byte array
+            Debug.WriteLine($"Received {buffer.Length} bytes");
+
+            var recipientSecureMessage = (SecureMessage)MessagePackSerializer.Deserialize(typeof(SecureMessage), buffer)!;
+
+            Debug.WriteLine($"Message received:\n{recipientSecureMessage.Message}");
+        }
     }
 
 
