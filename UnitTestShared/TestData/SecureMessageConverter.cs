@@ -16,10 +16,12 @@ namespace UnitTestShared.TestData
         {
             StringBuilder sb = new();
             var length = reader.ReadArrayLength();
+            var intConverter = ConverterContext.GetConverter(typeof(int));
 
             for (int i = 0; i < length; i++)
             {
-                sb.Append(SharedWordDictionary.WordDictionary[i]);
+                int wordIndex = (int)intConverter.Read(reader)!;
+                sb.Append(SharedWordDictionary.WordDictionary[wordIndex]);
                 sb.Append(' ');
             }
             if (sb.Length > 0)
@@ -32,14 +34,15 @@ namespace UnitTestShared.TestData
         {
             var messageWords = value.Message.Split(' ');
 
-            uint length = BitConverter.ToUInt32(BitConverter.GetBytes(messageWords.Length), 0);
+            uint length = (uint)messageWords.Length;
             writer.WriteArrayHeader(length);
 
             var intConverter = ConverterContext.GetConverter(typeof(int));
 
             foreach (var word in messageWords)
             {
-                intConverter.Write(SharedWordDictionary.WordDictionary.IndexOf(word), writer);
+                int wordIndex = SharedWordDictionary.WordDictionary.IndexOf(word);
+                intConverter.Write(wordIndex, writer);
             }
         }
 

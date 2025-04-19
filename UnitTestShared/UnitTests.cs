@@ -8,8 +8,10 @@ using System.Diagnostics;
 using nanoFramework.MessagePack;
 using UnitTestShared.Helpers;
 using UnitTestShared.TestData;
+using System.IO;
 #if NANOFRAMEWORK_1_0
 using nanoFramework.TestFramework;
+using nanoFramework.Json;
 #endif
 
 namespace NFUnitTest
@@ -110,12 +112,27 @@ namespace NFUnitTest
         public void ProcessCustomObjectTest()
         {
             var test = TestsHelper.GetTestClassObject();
-            var result = MessagePackSerializer.Serialize(test);
-            Debug.WriteLine($"Serialize byte size: {result.Length}");
-            var testResult = (TestClass)MessagePackSerializer.Deserialize(typeof(TestClass), result)!;
+            var resultBytes = MessagePackSerializer.Serialize(test);
+            Debug.WriteLine($"Serialize byte size: {resultBytes.Length}");
+            var testResult = (TestClass)MessagePackSerializer.Deserialize(typeof(TestClass), resultBytes)!;
             Assert.IsNotNull(testResult);
-
+#if NANOFRAMEWORK_1_0
+            var expected = JsonConvert.SerializeObject(test);
+            var actual = JsonConvert.SerializeObject(testResult);
+            Assert.AreEqual(expected, actual);        
+#endif
             Assert.AreEqual(test, testResult);
+
+            using MemoryStream ms = new(resultBytes);
+
+            var msTestResult = (TestClass)MessagePackSerializer.Deserialize(typeof(TestClass), ms)!;
+
+#if NANOFRAMEWORK_1_0
+            expected = JsonConvert.SerializeObject(testResult);
+            actual = JsonConvert.SerializeObject(msTestResult);
+            Assert.AreEqual(expected, actual);        
+#endif
+            Assert.AreEqual(testResult, msTestResult);
         }
 
         [TestMethod]
@@ -140,6 +157,10 @@ namespace NFUnitTest
             var recipientSecureMessage = (SecureMessage)MessagePackSerializer.Deserialize(typeof(SecureMessage), buffer)!;
 
             Debug.WriteLine($"Message received:\n{recipientSecureMessage.Message}");
+
+            Assert.AreNotEqual(secureMessage, recipientSecureMessage);
+
+            Assert.AreEqual(secureMessage.Message, recipientSecureMessage.Message);
         }
     }
 
