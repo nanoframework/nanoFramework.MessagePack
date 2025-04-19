@@ -106,7 +106,7 @@ namespace nanoFramework.MessagePack.Dto
         /// <summary>
         /// Implicit conversion from byte array to <see cref="ArraySegment"/>.
         /// </summary>
-        /// <param name="bytes" Source byte array.</param>
+        /// <param name="bytes"> Source byte array.</param>
         public static implicit operator ArraySegment(byte[] bytes)
         {
             return new ArraySegment(bytes, 0, bytes.Length);
@@ -138,6 +138,10 @@ namespace nanoFramework.MessagePack.Dto
             return data;
         }
 
+        /// <summary>
+        /// Stopping the collection of MessagePack token in <see cref="ArraySegment"/>
+        /// </summary>
+        /// <returns>Array segment bytes <see cref="ArraySegment"/></returns>
 #nullable enable
         protected override ArraySegment? StopTokenGathering()
         {
@@ -153,6 +157,10 @@ namespace nanoFramework.MessagePack.Dto
                 return null;
             }
         }
+
+        /// <summary>
+        /// Start the collection of MessagePack token in <see cref="ArraySegment"/>
+        /// </summary>
         protected override void StartTokenGathering()
         {
             _firstGatheredByte = Position;
