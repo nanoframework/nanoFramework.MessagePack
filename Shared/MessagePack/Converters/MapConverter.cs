@@ -53,7 +53,7 @@ namespace nanoFramework.MessagePack.Converters
         }
 
 #nullable enable
-        private static Hashtable? Read(IMessagePackReader reader)
+        internal static Hashtable? Read(IMessagePackReader reader)
         {
             var length = reader.ReadMapLength();
             return ((long)length) > -1 ? ReadMap(reader, length) : null;

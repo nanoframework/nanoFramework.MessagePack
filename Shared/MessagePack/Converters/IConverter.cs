@@ -7,7 +7,7 @@ using nanoFramework.MessagePack.Stream;
 namespace nanoFramework.MessagePack.Converters
 {
     /// <summary>
-    /// <see cref="Converter"/> interface.
+    /// <see cref="IConverter"/> interface.
     /// </summary>
     public interface IConverter
     {

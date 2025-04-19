@@ -11,7 +11,7 @@ namespace UnitTestShared.TestData
         {
             WordDictionary = new()
             {
-                "MessagePak",
+                "MessagePack",
                 "Hello",
                 "at",
                 "nanoFramework!",

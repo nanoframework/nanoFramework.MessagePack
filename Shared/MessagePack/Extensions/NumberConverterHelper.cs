@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using nanoFramework.MessagePack.Dto;
 using nanoFramework.MessagePack.Stream;
 using nanoFramework.MessagePack.Utility;
 
@@ -541,9 +542,9 @@ namespace nanoFramework.MessagePack.Extensions
             return BitConverter.ToDouble(bytes, 0);
         }
 
-        private static byte[] ReadBytes(IMessagePackReader reader, uint length)
+        private static ArraySegment ReadBytes(IMessagePackReader reader, uint length)
         {
-            return (byte[])reader.ReadBytes(length);
+            return reader.ReadBytes(length);
         }
     }
 }

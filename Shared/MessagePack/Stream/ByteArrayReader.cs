@@ -54,7 +54,7 @@ namespace nanoFramework.MessagePack.Stream
 #nullable enable
         protected override ArraySegment? StopTokenGathering()
         {
-            if ((_firstGatheredByte + 1) <= _data.Length)
+            if (_firstGatheredByte <= _data.Length)
             {
                 return new ArraySegment(_data, (int)_firstGatheredByte, (int)(_offset - _firstGatheredByte));
             }
