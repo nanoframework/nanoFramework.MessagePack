@@ -3,6 +3,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using nanoFramework.MessagePack.Dto;
 using nanoFramework.MessagePack.Extensions;
 using nanoFramework.MessagePack.Stream;
 using nanoFramework.MessagePack.Utility;
@@ -58,9 +59,10 @@ namespace nanoFramework.MessagePack.Converters
 
         internal static string ReadString(IMessagePackReader reader, uint length)
         {
-            var buffer = (byte[])reader.ReadBytes(length);
+            ArraySegment arraySegment = reader.ReadBytes(length);
 
-            return Utf8.GetString(buffer, 0, buffer.Length);
+            return Utf8.GetString(arraySegment.SourceBuffer, (int)arraySegment.SourceOffset + arraySegment.Position, (int)arraySegment.Length);
+
         }
 
         private static bool TryGetFixStrLength(DataTypes type, out uint length)

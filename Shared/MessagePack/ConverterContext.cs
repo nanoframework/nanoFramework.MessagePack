@@ -142,10 +142,17 @@ namespace nanoFramework.MessagePack
 
             foreach (var memberMapping in memberMappings)
             {
+#if NANOFRAMEWORK_1_0
+                if(!memberMapping.OriginalName!.StartsWith(MemberMapping.SET_))
+                {
+#endif
                 if (memberMapping.TryGetValue(value, out var memberValue) && memberValue != null)
                 {
                     result.Add(memberMapping.Name!, memberValue);
                 }
+#if NANOFRAMEWORK_1_0
+                }
+#endif
             }
             return result;
         }
@@ -156,27 +163,38 @@ namespace nanoFramework.MessagePack
 
             foreach (var memberMapping in memberMappings)
             {
+#if NANOFRAMEWORK_1_0
+                if(!memberMapping.OriginalName!.StartsWith(MemberMapping.GET_))
+                {
+#endif
                 if (objectValuesMap.Contains(memberMapping.Name!))
                 {
                     var memberMpToken = (ArraySegment)objectValuesMap[memberMapping.Name!]!;
-                    var memberValueMapType = memberMapping.GetMemberType();
-                    var converter = GetConverter(memberValueMapType!);
-                    if (converter != null)
+                    if (memberMpToken != null)
                     {
-                        memberMapping.SetValue(targetObject, converter.Read(new ByteArrayReader((byte[])memberMpToken))!);
-                    }
-                    else
-                    {
-                        if (memberValueMapType!.IsArray)
+                        var memberValueMapType = memberMapping.GetMemberType();
+                        var converter = GetConverter(memberValueMapType!);
+                        if (converter != null)
                         {
-                            memberMapping.SetValue(targetObject, ArrayConverter.Read(new ByteArrayReader((byte[])memberMpToken), memberValueMapType)!);
+                            memberMapping.SetValue(targetObject, converter.Read(memberMpToken)!);
                         }
                         else
                         {
-                            memberMapping.SetValue(targetObject, DeserializeObject(memberValueMapType!, new ByteArrayReader((byte[])memberMpToken))!);
+                            if (memberValueMapType!.IsArray)
+                            {
+                                memberMapping.SetValue(targetObject, ArrayConverter.Read(memberMpToken, memberValueMapType)!);
+                            }
+                            else
+                            {
+
+                                memberMapping.SetValue(targetObject, DeserializeObject(memberValueMapType!, memberMpToken)!);
+                            }
                         }
                     }
                 }
+#if NANOFRAMEWORK_1_0
+                }
+#endif
             }
         }
 
@@ -234,6 +252,16 @@ namespace nanoFramework.MessagePack
 #nullable enable
         internal static object? DeserializeObject(Type type, IMessagePackReader reader)
         {
+            if (type.Name == typeof(IDictionary).Name || type.Name == typeof(Hashtable).Name)
+            {
+                return MapConverter.Read(reader);
+            }
+
+            if (type.IsArray)
+            {
+                return ArrayConverter.Read(reader, type);
+            }
+
             var objectMap = reader.GetMassagePackObjectTokens();
             if (objectMap != null && objectMap is Hashtable targetObjectMap)
             {
@@ -284,18 +312,23 @@ namespace nanoFramework.MessagePack
         }
 
 #if NANOFRAMEWORK_1_0
-        [MethodImpl(MethodImplOptions.Synchronized)]
         private static void ThreadSafeAddItemCache(Hashtable hashtable, object key, object value)
         {
             if (!hashtable.Contains(key))
             {
-                try
+                lock(_mappingDictionary)
                 {
-                    hashtable.Add(key, value);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"Error added key: '{key}', value: '{value}'\r\n{ex}");
+                    try
+                    {
+                         if (!hashtable.Contains(key))
+                         {
+                            hashtable.Add(key, value);
+                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error added key: '{key}', value: '{value}'\r\n{ex}");
+                    }
                 }
             }
         }
