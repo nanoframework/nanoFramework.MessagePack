@@ -1,4 +1,4 @@
-﻿[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_nanoFramework.MessagePack&metric=alert_status)](https://sonarcloud.io/dashboard?id=nanoframework_nanoFramework.MessagePack) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_nanoFramework.MessagePack&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=nanoframework_nanoFramework.MessagePack) [![NuGet](https://img.shields.io/nuget/dt/nanoFramework.MessagePack.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.MessagePack/) [![#yourfirstpr](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](https://github.com/nanoframework/Home/blob/main/CONTRIBUTING.md) [![Discord](https://img.shields.io/discord/478725473862549535.svg?logo=discord&logoColor=white&label=Discord&color=7289DA)](https://discord.gg/gCyBu8T)
+﻿﻿[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_nanoFramework.MessagePack&metric=alert_status)](https://sonarcloud.io/dashboard?id=nanoframework_nanoFramework.MessagePack) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_nanoFramework.MessagePack&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=nanoframework_nanoFramework.MessagePack) [![NuGet](https://img.shields.io/nuget/dt/nanoFramework.MessagePack.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.MessagePack/) [![#yourfirstpr](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](https://github.com/nanoframework/Home/blob/main/CONTRIBUTING.md) [![Discord](https://img.shields.io/discord/478725473862549535.svg?logo=discord&logoColor=white&label=Discord&color=7289DA)](https://discord.gg/gCyBu8T)
 
 ![nanoFramework logo](https://raw.githubusercontent.com/nanoframework/Home/main/resources/logo/nanoFramework-repo-logo.png)
 
@@ -17,6 +17,42 @@ This repository contains the MessagePack library for the .NET **nanoFramework**.
 # nanoFramework.MessagePack
 
 MessagePack is a simple, lightweight serialization library, inspired by [MsgPack.Light](https://github.com/progaudi/MsgPack.Light), that can be used in .NET[nanoFramework](https://github.com/nanoframework) solutions.
+
+# Approximate measurement results for different serializers
+
+The measurements were carried out on the developer's local computer in a virtual nanoDevice:
+
+ ```text
+===============================================================
+==========         Comparative benchmarks data       ==========
+==========                                           ==========
+========== Json string size:           5485 bytes    ==========
+========== BinaryFormatter array size: 1406 bytes    ==========
+========== MessagePack array size:     3174 bytes    ==========
+==========                                           ==========
+===============================================================
+
+Console export: ComparativeDeserializationBenchmark benchmark class.
+
+| ------------------------------------------------------------------------------ |
+| MethodName                          | IterationCount | Mean    | Min   | Max   |
+| ------------------------------------------------------------------------------ |
+| JsonDeserializationBenchmark        | 10             | 36.2 ms | 24 ms | 57 ms |
+| BinaryDeserializationBenchmark      | 10             | 0.2 ms  | 0 ms  | 1 ms  |
+| MessagePackDeserializationBenchmark | 10             | 27.7 ms | 24 ms | 44 ms |
+| ------------------------------------------------------------------------------ |
+
+Console export: ComparativeSerializationBenchmark benchmark class.
+
+| ---------------------------------------------------------------------------- |
+| MethodName                        | IterationCount | Mean    | Min   | Max   |
+| ---------------------------------------------------------------------------- |
+| JsonSerializationBenchmark        | 10             | 30.8 ms | 22 ms | 51 ms |
+| BinarySerializationBenchmark      | 10             | 0.2 ms  | 0 ms  | 1 ms  |
+| MessagePackSerializationBenchmark | 10             | 13.8 ms | 12 ms | 18 ms |
+| ---------------------------------------------------------------------------- |
+```
+In terms of speed, MessagePack is no worse than a Json serializer, and slightly wins in terms of the size of the serialized data
 
 ## Usage
 
@@ -151,7 +187,7 @@ After completing these steps, the serialization/deserialization of the object fo
                 {
                     WordDictionary = new ArrayList
                     {
-                        "MessagePak",
+                        "MessagePack",
                         "Hello",
                         "at",
                         "nanoFramework!",
@@ -178,30 +214,33 @@ After completing these steps, the serialization/deserialization of the object fo
                 {
                     StringBuilder sb = new();
                     var length = reader.ReadArrayLength();
-        
-                    for(int i = 0; i < length; i++)
+                    var intConverter = ConverterContext.GetConverter(typeof(int));
+
+                    for (int i = 0; i < length; i++)
                     {
-                        sb.Append(SharedWordDictionary.WordDictionary[i]);
+                        int wordIndex = (int)intConverter.Read(reader)!;
+                        sb.Append(SharedWordDictionary.WordDictionary[wordIndex]);
                         sb.Append(' ');
                     }
                     if (sb.Length > 0)
                         sb.Remove(sb.Length - 1, 1);
-        
+
                     return new SecureMessage(sb.ToString());
                 }
-        
+
                 public void Write(SecureMessage value, [NotNull] IMessagePackWriter writer)
                 {
                     var messageWords = value.Message.Split(' ');
-        
-                    uint length = BitConverter.ToUInt32(BitConverter.GetBytes(messageWords.Length), 0);
+
+                    uint length = (uint)messageWords.Length;
                     writer.WriteArrayHeader(length);
-        
+
                     var intConverter = ConverterContext.GetConverter(typeof(int));
-        
+
                     foreach (var word in messageWords)
                     {
-                        intConverter.Write(SharedWordDictionary.WordDictionary.IndexOf(word), writer);
+                        int wordIndex = SharedWordDictionary.WordDictionary.IndexOf(word);
+                        intConverter.Write(wordIndex, writer);
                     }
                 }
         
