@@ -21,6 +21,7 @@
     <IsTestProject>true</IsTestProject>
     <TestProjectType>UnitTest</TestProjectType>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <PropertyGroup>
@@ -32,6 +33,7 @@
   <ItemGroup>
     <None Include="nano.runsettings" />
     <None Include="packages.config" />
+    <None Include="packages.lock.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\nanoFramework.MessagePack\nanoFramework.MessagePack.nfproj" />
