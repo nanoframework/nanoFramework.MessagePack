@@ -11,16 +11,16 @@ namespace nanoFramework.MessagePack.Stream
 {
     internal sealed class MemoryStreamReader : BaseReader, IDisposable
     {
-        private readonly ArrayList _bytesGatheringBuffer = new();
-        private long _bytesGatheringBufferLength = 0;
-
-        private bool _bytesGatheringInProgress;
-
         private readonly MemoryStream _stream;
+        private readonly ArrayList _bytesGatheringBuffer;
+
+        private long _bytesGatheringBufferLength = 0;
+        private bool _bytesGatheringInProgress;
 
         public MemoryStreamReader(MemoryStream stream)
         {
             _stream = stream;
+            _bytesGatheringBuffer = new ArrayList();
         }
 
         public override byte ReadByte()

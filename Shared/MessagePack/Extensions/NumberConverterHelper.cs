@@ -43,7 +43,7 @@ namespace nanoFramework.MessagePack.Extensions
                 return (sbyte)temp;
             }
 
-            return (sbyte)(temp - byte.MaxValue - 1);
+            return (sbyte)((int)temp - byte.MaxValue - 1);
         }
 
         internal static byte ReadUInt8(IMessagePackReader reader)
@@ -64,7 +64,7 @@ namespace nanoFramework.MessagePack.Extensions
                 return (short)temp;
             }
 
-            return (short)(temp - 1 - ushort.MaxValue);
+            return (short)((int)temp - 1 - ushort.MaxValue);
         }
 
         internal static int ReadInt32(IMessagePackReader reader)
@@ -75,7 +75,7 @@ namespace nanoFramework.MessagePack.Extensions
                 return (int)temp;
             }
 
-            return (int)(temp - 1 - uint.MaxValue);
+            return (int)((long)temp - 1 - uint.MaxValue);
         }
 
         internal static uint ReadUInt32(IMessagePackReader reader)
@@ -189,11 +189,9 @@ namespace nanoFramework.MessagePack.Extensions
                 case DataTypes.UInt8:
                     result = ReadUInt8(reader);
                     return true;
-
                 case DataTypes.UInt16:
                     result = ReadUInt16(reader);
                     return true;
-
                 case DataTypes.UInt32:
                     var uintValue = ReadUInt32(reader);
 
@@ -204,19 +202,15 @@ namespace nanoFramework.MessagePack.Extensions
                     }
 
                     return false;
-
                 case DataTypes.Int8:
                     result = ReadInt8(reader);
                     return true;
-
                 case DataTypes.Int16:
                     result = ReadInt16(reader);
                     return true;
-
                 case DataTypes.Int32:
                     result = ReadInt32(reader);
                     return true;
-
                 default:
                     return false;
             }
@@ -242,42 +236,36 @@ namespace nanoFramework.MessagePack.Extensions
                 case DataTypes.UInt8:
                     result = ReadUInt8(reader);
                     return true;
-
                 case DataTypes.UInt16:
                     result = ReadUInt16(reader);
                     return true;
-
                 case DataTypes.UInt32:
                     result = ReadUInt32(reader);
                     return true;
-
                 case DataTypes.UInt64:
                     var ulongValue = ReadUInt64(reader);
-
                     if (ulongValue <= long.MaxValue)
                     {
                         result = (long)ulongValue;
                         return true;
                     }
-
-                    return false;
+                    else
+                    {
+                        return false;
+                    }
 
                 case DataTypes.Int8:
                     result = ReadInt8(reader);
                     return true;
-
                 case DataTypes.Int16:
                     result = ReadInt16(reader);
                     return true;
-
                 case DataTypes.Int32:
                     result = ReadInt32(reader);
                     return true;
-
                 case DataTypes.Int64:
                     result = reader.ReadInt64();
                     return true;
-
                 default:
                     return false;
             }
