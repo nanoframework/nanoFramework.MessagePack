@@ -9,9 +9,9 @@ namespace nanoFramework.MessagePack.Stream
 {
     internal class ByteArrayReader : BaseReader
     {
-        private uint _firstGatheredByte;
         private readonly byte[] _data;
 
+        private uint _firstGatheredByte;
         private uint _offset;
 
         public ByteArrayReader(byte[] data)
@@ -27,15 +27,6 @@ namespace nanoFramework.MessagePack.Stream
 
         public override ArraySegment ReadBytes(uint length)
         {
-            //uint i = 0;
-            //byte[] arraySegment = new byte[length];
-            //while(i < length)
-            //{
-            //    arraySegment[i] = _data[_offset++];
-            //    i++;
-            //}
-            //return arraySegment;
-
             var segment = new ArraySegment(_data, _offset, length);
             _offset += length;
             return segment;
@@ -43,13 +34,20 @@ namespace nanoFramework.MessagePack.Stream
 
         public override void Seek(long offset, SeekOrigin origin)
         {
-            _offset = origin switch
+            switch (origin)
             {
-                SeekOrigin.Begin => (uint)offset,
-                SeekOrigin.Current => (uint)(_offset + offset),
-                SeekOrigin.End => (uint)(_data.Length + offset),
-                _ => throw new ArgumentOutOfRangeException(nameof(origin), origin.ToString()),
-            };
+                case SeekOrigin.Begin:
+                    _offset = (uint)offset;
+                    break;
+                case SeekOrigin.Current:
+                    _offset = (uint)(_offset + offset);
+                    break;
+                case SeekOrigin.End:
+                    _offset = (uint)(_data.Length + offset);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 #nullable enable
         protected override ArraySegment? StopTokenGathering()

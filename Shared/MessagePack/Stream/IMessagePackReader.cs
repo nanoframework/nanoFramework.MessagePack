@@ -49,7 +49,7 @@ namespace nanoFramework.MessagePack.Stream
         /// <returns>The length of the map.</returns>
         uint ReadMapLength();
 
-        /// <summary>.
+        /// <summary>
         /// Skip <see cref="MessagePack"/> item.
         /// </summary>
         void SkipToken();
