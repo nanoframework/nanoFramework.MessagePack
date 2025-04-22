@@ -8,14 +8,36 @@ using nanoFramework.MessagePack.Utility;
 
 namespace nanoFramework.MessagePack.Stream
 {
-    internal abstract class BaseReader : IMessagePackReader
+    /// <summary>
+    /// Base class for MessagePack reader.
+    /// </summary>
+    public abstract class BaseReader : IMessagePackReader
     {
+        /// <summary>
+        /// Read byte from MessagePack.
+        /// </summary>
+        /// <returns>Read a byte.</returns>
         public abstract byte ReadByte();
 
+        /// <summary>
+        /// Read bytes from MessagePack.
+        /// </summary>
+        /// <param name="length">Length to read.</param>
+        /// <returns><see cref="ArraySegment"/> with the bytes read.</returns>
         public abstract ArraySegment ReadBytes(uint length);
 
+        /// <summary>
+        /// Moving the current read position in the array.
+        /// </summary>
+        /// <param name="offset">Offset in bytes.</param>
+        /// <param name="origin">Offset reference point.</param>
         public abstract void Seek(long offset, SeekOrigin origin);
 
+        /// <summary>
+        /// Read length MessagePack array.
+        /// The MessagePacket array type can be <see cref="DataTypes.Array16"/> or <see cref="DataTypes.Array32"/> or <see cref="DataTypes.FixArray"/>.
+        /// </summary>
+        /// <returns>Length MessagePack array by read for type array <see cref="DataTypes"/>.</returns>
         public uint ReadArrayLength()
         {
             var type = ReadDataType();
@@ -38,6 +60,11 @@ namespace nanoFramework.MessagePack.Stream
             throw ExceptionUtility.BadTypeException(type, DataTypes.Array16, DataTypes.Array32, DataTypes.FixArray, DataTypes.Null);
         }
 
+        /// <summary>
+        /// Read length MessagePack map.
+        /// The MessagePacket map type can be <see cref="DataTypes.Map16"/> or <see cref="DataTypes.Map32"/> or <see cref="DataTypes.FixMap"/>.
+        /// </summary>
+        /// <returns>Count elements in map by read for type map <see cref="DataTypes"/>.</returns>
         public uint ReadMapLength()
         {
             var type = ReadDataType();
@@ -61,11 +88,19 @@ namespace nanoFramework.MessagePack.Stream
             throw ExceptionUtility.BadTypeException(type, DataTypes.Map16, DataTypes.Map32, DataTypes.FixMap, DataTypes.Null);
         }
 
+        /// <summary>
+        /// Read MessagePack data type <see cref="DataTypes"/>.
+        /// </summary>
+        /// <returns>MessagePack data type <see cref="DataTypes"/>.</returns>
         public virtual DataTypes ReadDataType()
         {
             return (DataTypes)ReadByte();
         }
 
+        /// <summary>
+        /// Skip MessagePack item in byte array.
+        /// </summary>
+        /// <exception cref="System.ArgumentOutOfRangeException">Unknown <see cref="DataTypes"/> value.</exception>
         public void SkipToken()
         {
             var dataType = ReadDataType();
@@ -152,7 +187,12 @@ namespace nanoFramework.MessagePack.Stream
 
             throw new System.ArgumentOutOfRangeException();
         }
+
 #nullable enable
+        /// <summary>
+        /// Read MessagePack item in byte array.
+        /// </summary>
+        /// <returns><see cref="ArraySegment"/> contained MessagePack item bytes.</returns>
         public ArraySegment? ReadToken()
         {
             StartTokenGathering();
@@ -160,22 +200,11 @@ namespace nanoFramework.MessagePack.Stream
             var gatheredBytes = StopTokenGathering();
             return gatheredBytes;
         }
+
         private static bool TryGetLengthFromFixStr(DataTypes type, out uint length)
         {
             length = type - DataTypes.FixStr;
             return type.GetHighBits(3) == DataTypes.FixStr.GetHighBits(3);
-        }
-
-        protected static bool TryGetLengthFromFixArray(DataTypes type, out uint length)
-        {
-            length = type - DataTypes.FixArray;
-            return type.GetHighBits(4) == DataTypes.FixArray.GetHighBits(4);
-        }
-
-        protected static bool TryGetLengthFromFixMap(DataTypes type, out uint length)
-        {
-            length = type - DataTypes.FixMap;
-            return type.GetHighBits(4) == DataTypes.FixMap.GetHighBits(4);
         }
 
         private void SkipMapItems(uint count)
@@ -201,9 +230,40 @@ namespace nanoFramework.MessagePack.Stream
         {
             Seek(bytesCount, SeekOrigin.Current);
         }
-        
+
+        /// <summary>
+        /// Try getting length fixed MessagePack array.
+        /// </summary>
+        /// <param name="type">MessagePack array type <see cref="DataTypes.FixArray"/>.</param>
+        /// <param name="length">Out length MessagePack array.</param>
+        /// <returns><see langword="true"/> if luck otherwise <see langword="false"/>.</returns>
+        protected static bool TryGetLengthFromFixArray(DataTypes type, out uint length)
+        {
+            length = type - DataTypes.FixArray;
+            return type.GetHighBits(4) == DataTypes.FixArray.GetHighBits(4);
+        }
+
+        /// <summary>
+        /// Try getting length fixed MessagePack map.
+        /// </summary>
+        /// <param name="type">MessagePack map type <see cref="DataTypes.FixMap"/>.</param>
+        /// <param name="length">Out length MessagePack map.</param>
+        /// <returns><see langword="true"/> if luck otherwise <see langword="false"/>.</returns>
+        protected static bool TryGetLengthFromFixMap(DataTypes type, out uint length)
+        {
+            length = type - DataTypes.FixMap;
+            return type.GetHighBits(4) == DataTypes.FixMap.GetHighBits(4);
+        }
+
+        /// <summary>
+        /// Stopping the collection of MessagePack token.
+        /// </summary>
+        /// <returns><see cref="ArraySegment"/> bytes.</returns>
         protected abstract ArraySegment? StopTokenGathering();
 
+        /// <summary>
+        /// Start the collection of MessagePack token.
+        /// </summary>
         protected abstract void StartTokenGathering();
     }
 }

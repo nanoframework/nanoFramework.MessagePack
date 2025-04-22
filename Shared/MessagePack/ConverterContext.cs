@@ -22,22 +22,22 @@ namespace nanoFramework.MessagePack
     /// </summary>
     public static class ConverterContext
     {
-        private static readonly Type[] _emptyTypes = new Type[0];
+        private static readonly Type[] s_emptyTypes = new Type[0];
         private static readonly NullConverter s_nullConverter = new();
         private static readonly MapConverter s_mapConverter = new();
         private static readonly ArrayConverter s_arrayConverter = new();
 
 #if NANOFRAMEWORK_1_0
-        private static readonly Hashtable _mappingDictionary = new();
+        private static readonly Hashtable s_mappingDictionary = new();
 #else
-        private static readonly ConcurrentDictionary<Type, MemberMapping[]> _mappingDictionary = new();
+        private static readonly ConcurrentDictionary<Type, MemberMapping[]> s_mappingDictionary = new();
 #endif
 
-        private static readonly Hashtable ConversionTable = new()
+        private static readonly Hashtable s_conversionTable = new()
         {
             { typeof(IDictionary).FullName!, s_mapConverter },
             { typeof(Hashtable).FullName!, s_mapConverter },
-            { typeof(ArrayList).FullName!,  new ArrayListConverter()},
+            { typeof(ArrayList).FullName!, new ArrayListConverter() },
             { typeof(short).FullName!, new ShortConverter() },
             { typeof(ushort).FullName!, new UshortConverter() },
             { typeof(int).FullName!, new IntConverter() },
@@ -46,7 +46,7 @@ namespace nanoFramework.MessagePack
             { typeof(ulong).FullName!, new UlongConverter() },
             { typeof(byte).FullName!, new ByteConverter() },
             { typeof(sbyte).FullName!, new SbyteConverter() },
-            { typeof(float).FullName!, new FloatConverter()},
+            { typeof(float).FullName!, new FloatConverter() },
             { typeof(double).FullName!, new DoubleConverter() },
             { typeof(bool).FullName!, new BoolConverter() },
             { typeof(string).FullName!, new StringConverter() },
@@ -55,10 +55,10 @@ namespace nanoFramework.MessagePack
             { typeof(char).FullName!, new CharConverter() },
             { typeof(Guid).FullName!, new GuidConverter() },
             { typeof(byte[]).FullName!, new BinaryConverter() },
-            { typeof(int[]).FullName!, new SimpleArrayConverter(typeof(int))},
-            { typeof(uint[]).FullName!, new SimpleArrayConverter(typeof(uint))},
-            { typeof(long[]).FullName!, new SimpleArrayConverter(typeof(long))},
-            { typeof(ulong[]).FullName!, new SimpleArrayConverter(typeof(ulong))},
+            { typeof(int[]).FullName!, new SimpleArrayConverter(typeof(int)) },
+            { typeof(uint[]).FullName!, new SimpleArrayConverter(typeof(uint)) },
+            { typeof(long[]).FullName!, new SimpleArrayConverter(typeof(long)) },
+            { typeof(ulong[]).FullName!, new SimpleArrayConverter(typeof(ulong)) },
             { typeof(float[]).FullName!, new SimpleArrayConverter(typeof(float)) },
             { typeof(double[]).FullName!, new SimpleArrayConverter(typeof(double)) },
             { typeof(char[]).FullName!, new SimpleArrayConverter(typeof(char)) },
@@ -73,7 +73,7 @@ namespace nanoFramework.MessagePack
         };
 
         /// <summary>
-        /// Null value converter
+        /// Null value converter.
         /// </summary>
         public static IConverter NullConverter => s_nullConverter;
 
@@ -81,16 +81,17 @@ namespace nanoFramework.MessagePack
         /// Adds new converter to collection to support more types.
         /// </summary>
         /// <param name="type">Type of object.</param>
-        /// <param name="converter">Converter instance which will be used to convert <paramref name="type"/></param>
+        /// <param name="converter">Converter instance which will be used to convert <paramref name="type"/>.</param>
+        /// <exception cref="NotSupportedException">Converter by type <see cref="object"/> not support in convertors table.</exception>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static void Add(Type type, IConverter converter)
         {
             if (type == typeof(object))
             {
-                throw new NotSupportedException($"Converter by type {type.Name} not support in convertors table.");
+                throw new NotSupportedException();
             }
 
-            ConversionTable.Add(type.FullName!, converter);
+            s_conversionTable.Add(type.FullName!, converter);
         }
 
         /// <summary>
@@ -99,14 +100,14 @@ namespace nanoFramework.MessagePack
         /// <param name="type">Type of object.</param>
         public static void Remove(Type type)
         {
-            ConversionTable.Remove(type.FullName!);
+            s_conversionTable.Remove(type.FullName!);
         }
 
         /// <summary>
         /// Remove and then adds converter for given type.
         /// </summary>
         /// <param name="type">Type of object.</param>
-        /// <param name="converter">Converter instance which will be used to convert <paramref name="type"/></param>
+        /// <param name="converter">Converter instance which will be used to convert <paramref name="type"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static void Replace(Type type, IConverter converter)
         {
@@ -115,10 +116,11 @@ namespace nanoFramework.MessagePack
         }
 
         /// <summary>
-        /// Return converter by type
+        /// Return converter by type.
         /// </summary>
-        /// <param name="type">Type from converter</param>
-        /// <returns>Converter interface <see cref="IConverter"/></returns>
+        /// <param name="type">Type object from converter.</param>
+        /// <returns>Converter interface <see cref="IConverter"/> or null.</returns>
+        /// <exception cref="ConverterNotFoundException">If object type is <see cref="object"/>.</exception>
         public static IConverter GetConverter(Type type)
         {
             if (type == typeof(object))
@@ -126,9 +128,9 @@ namespace nanoFramework.MessagePack
                 throw ExceptionUtility.ConverterNotFound(type);
             }
 
-            if (ConversionTable.Contains(type.FullName!))
+            if (s_conversionTable.Contains(type.FullName!))
             {
-                return (IConverter)ConversionTable[type.FullName!]!;
+                return (IConverter)s_conversionTable[type.FullName!]!;
             }
 
             return null!;
@@ -142,10 +144,17 @@ namespace nanoFramework.MessagePack
 
             foreach (var memberMapping in memberMappings)
             {
+#if NANOFRAMEWORK_1_0
+                if(!memberMapping.OriginalName!.StartsWith(MemberMapping.SET_))
+                {
+#endif
                 if (memberMapping.TryGetValue(value, out var memberValue) && memberValue != null)
                 {
                     result.Add(memberMapping.Name!, memberValue);
                 }
+#if NANOFRAMEWORK_1_0
+                }
+#endif
             }
             return result;
         }
@@ -156,44 +165,55 @@ namespace nanoFramework.MessagePack
 
             foreach (var memberMapping in memberMappings)
             {
+#if NANOFRAMEWORK_1_0
+                if(!memberMapping.OriginalName!.StartsWith(MemberMapping.GET_))
+                {
+#endif
                 if (objectValuesMap.Contains(memberMapping.Name!))
                 {
                     var memberMpToken = (ArraySegment)objectValuesMap[memberMapping.Name!]!;
-                    var memberValueMapType = memberMapping.GetMemberType();
-                    var converter = GetConverter(memberValueMapType!);
-                    if (converter != null)
+                    if (memberMpToken != null)
                     {
-                        memberMapping.SetValue(targetObject, converter.Read(new ByteArrayReader((byte[])memberMpToken))!);
-                    }
-                    else
-                    {
-                        if (memberValueMapType!.IsArray)
+                        var memberValueMapType = memberMapping.GetMemberType();
+                        var converter = GetConverter(memberValueMapType!);
+                        if (converter != null)
                         {
-                            memberMapping.SetValue(targetObject, ArrayConverter.Read(new ByteArrayReader((byte[])memberMpToken), memberValueMapType)!);
+                            memberMapping.SetValue(targetObject, converter.Read(memberMpToken)!);
                         }
                         else
                         {
-                            memberMapping.SetValue(targetObject, DeserializeObject(memberValueMapType!, new ByteArrayReader((byte[])memberMpToken))!);
+                            if (memberValueMapType!.IsArray)
+                            {
+                                memberMapping.SetValue(targetObject, ArrayConverter.Read(memberMpToken, memberValueMapType)!);
+                            }
+                            else
+                            {
+
+                                memberMapping.SetValue(targetObject, DeserializeObject(memberValueMapType!, memberMpToken)!);
+                            }
                         }
                     }
                 }
+#if NANOFRAMEWORK_1_0
+                }
+#endif
             }
         }
 
         internal static object CreateInstance(Type targetType)
         {
-            var constructor = targetType.GetConstructor(_emptyTypes) ?? throw new Exception($"Target type {targetType?.FullName} does not have a parameterless constructor");
+            var constructor = targetType.GetConstructor(s_emptyTypes) ?? throw new Exception($"Target type {targetType?.FullName} does not have a parameterless constructor");
             return constructor.Invoke(null);
         }
 
         internal static MemberMapping[] GetMemberMapping(Type targetType)
         {
 #if NANOFRAMEWORK_1_0
-            var cached = _mappingDictionary[targetType];
+            var cached = s_mappingDictionary[targetType];
             if (cached is not MemberMapping[] memberMappings)
             {
 #else
-            if (!_mappingDictionary.TryGetValue(targetType, out var memberMappings))
+            if (!s_mappingDictionary.TryGetValue(targetType, out var memberMappings))
             {
 #endif
                 var mappings = new ArrayList();
@@ -204,9 +224,9 @@ namespace nanoFramework.MessagePack
                 memberMappings = (MemberMapping[])mappings.ToArray(typeof(MemberMapping));
 
 #if NANOFRAMEWORK_1_0
-                ThreadSafeAddItemCache(_mappingDictionary, targetType, memberMappings);
+                ThreadSafeAddItemCache(s_mappingDictionary, targetType, memberMappings);
 #else
-                _mappingDictionary.TryAdd(targetType, memberMappings);
+                s_mappingDictionary.TryAdd(targetType, memberMappings);
 #endif
             }
 
@@ -234,6 +254,16 @@ namespace nanoFramework.MessagePack
 #nullable enable
         internal static object? DeserializeObject(Type type, IMessagePackReader reader)
         {
+            if (type.Name == typeof(IDictionary).Name || type.Name == typeof(Hashtable).Name)
+            {
+                return MapConverter.Read(reader);
+            }
+
+            if (type.IsArray)
+            {
+                return ArrayConverter.Read(reader, type);
+            }
+
             var objectMap = reader.GetMassagePackObjectTokens();
             if (objectMap != null && objectMap is Hashtable targetObjectMap)
             {
@@ -284,18 +314,23 @@ namespace nanoFramework.MessagePack
         }
 
 #if NANOFRAMEWORK_1_0
-        [MethodImpl(MethodImplOptions.Synchronized)]
         private static void ThreadSafeAddItemCache(Hashtable hashtable, object key, object value)
         {
             if (!hashtable.Contains(key))
             {
-                try
+                lock(s_mappingDictionary)
                 {
-                    hashtable.Add(key, value);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"Error added key: '{key}', value: '{value}'\r\n{ex}");
+                    try
+                    {
+                         if (!hashtable.Contains(key))
+                         {
+                            hashtable.Add(key, value);
+                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error added key: '{key}', value: '{value}'\r\n{ex}");
+                    }
                 }
             }
         }

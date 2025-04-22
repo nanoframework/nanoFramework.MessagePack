@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections;
+using System.Text;
 using UnitTestShared.TestData;
 
 namespace UnitTestShared.Helpers
@@ -158,6 +159,50 @@ namespace UnitTestShared.Helpers
             }
 
             return false;
+        }
+
+        internal static bool CheckTwoDimensionalLongArray(this long[][] source, long[][] destination, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+
+            if (source.Length != destination.Length)
+            {
+                errorMessage = $"Source array length {source.Length} not equal destination array length {destination.Length}";
+                return false;
+            }
+            for(int y = 0; y < source.Length; y++)
+            {
+                if (source[y].Length != destination[y].Length)
+                {
+                    errorMessage = $"Source array item index {y} length {source.Length} not equal destination array item index {y} length {destination.Length}";
+                    return false;
+                }
+                else
+                {
+                    if(!source[y].ArrayEqual(destination[y]))
+                    {
+                        errorMessage = $"Source array item index {y} not equal destination array item index {y}\nSource array items:\n{source[y].JoinToString(", ")}\nDestination array items:\n{destination[y].JoinToString(", ")}";
+                        return false;
+                    }
+
+                }
+            }
+
+            return true;
+        }
+
+        internal static string JoinToString(this long[] objects, string joinString)
+        {
+            StringBuilder sb = new();
+            foreach (long b in objects)
+            {
+                sb.Append(b.ToString());
+                sb.Append(joinString);
+            }
+            if (sb.Length > 0)
+                sb.Remove(sb.Length - joinString.Length, joinString.Length);
+
+            return sb.ToString();
         }
     }
 }

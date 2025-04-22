@@ -13,25 +13,28 @@ namespace nanoFramework.MessagePack
     public static class MessagePackSerializer
     {
         /// <summary>
-        /// Serialize object in to MessagePack byte array
+        /// Serialize object in to MessagePack byte array.
         /// </summary>
-        /// <param name="data">Source object</param>
-        /// <returns>MessagePack byte array</returns>
+        /// <param name="data">Source object.</param>
+        /// <returns>MessagePack byte array.</returns>
         public static byte[] Serialize(object data)
         {
-            var memoryStream = new MemoryStream();
-            using var writer = new MemoryStreamWriter(memoryStream);
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var writer = new MemoryStreamWriter(memoryStream))
+                {
+                    Serialize(data, writer);
 
-            Serialize(data, writer);
-
-            return memoryStream.ToArray();
+                    return memoryStream.ToArray();
+                }
+            }
         }
 
         /// <summary>
-        /// Serialize object in to MessagePack stream
+        /// Serialize object in to MessagePack stream.
         /// </summary>
-        /// <param name="data">Source object</param>
-        /// <param name="stream">Target MessagePack stream</param>
+        /// <param name="data">Source object.</param>
+        /// <param name="stream">Target MessagePack stream.</param>
         public static void Serialize(object data, MemoryStream stream)
         {
             var writer = new MemoryStreamWriter(stream);
@@ -39,11 +42,11 @@ namespace nanoFramework.MessagePack
         }
 
         /// <summary>
-        /// Deserialize MessagePack data in to object
+        /// Deserialize MessagePack data in to object.
         /// </summary>
-        /// <param name="type">Target object type</param>
-        /// <param name="data">MessagePack byte array data</param>
-        /// <returns>Target object</returns>
+        /// <param name="type">Target object type.</param>
+        /// <param name="data">MessagePack byte array data.</param>
+        /// <returns>An instance of an target object after deserialization or <see langword="null"/>.</returns>
 #nullable enable
         public static object? Deserialize(Type type, byte[] data)
         {
@@ -52,16 +55,17 @@ namespace nanoFramework.MessagePack
         }
 
         /// <summary>
-        /// Deserialize MessagePack data from stream in to object
+        /// Deserialize MessagePack data from stream in to object.
         /// </summary>
-        /// <param name="type">Target object type</param>
-        /// <param name="stream">MessagePack data stream</param>
-        /// <returns></returns>
+        /// <param name="type">Target object type.</param>
+        /// <param name="stream">MessagePack data stream.</param>
+        /// <returns>An instance of an target object after deserialization or <see langword="null"/>.</returns>
         public static object? Deserialize(Type type, MemoryStream stream)
         {
-            using var reader = new MemoryStreamReader(stream);
-            return Deserialize(type, reader);
-
+            using (var reader = new MemoryStreamReader(stream))
+            {
+                return Deserialize(type, reader);
+            }
         }
 
         private static object? Deserialize(Type type, IMessagePackReader reader)
@@ -92,6 +96,5 @@ namespace nanoFramework.MessagePack
                 ConverterContext.SerializeObject(type, data, writer);
             }
         }
-
     }
 }

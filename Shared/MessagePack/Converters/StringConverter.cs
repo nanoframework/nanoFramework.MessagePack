@@ -3,6 +3,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using nanoFramework.MessagePack.Dto;
 using nanoFramework.MessagePack.Extensions;
 using nanoFramework.MessagePack.Stream;
 using nanoFramework.MessagePack.Utility;
@@ -28,27 +29,24 @@ namespace nanoFramework.MessagePack.Converters
                 writer.Write(data);
             }
         }
-
-        private static string Read(IMessagePackReader reader)
+#nullable enable
+        private static string? Read(IMessagePackReader reader)
         {
-            var type = reader.ReadDataType();
+            DataTypes type = reader.ReadDataType();
 
             switch (type)
             {
                 case DataTypes.Null:
-                    return null!;
-
+                    return null;
                 case DataTypes.Str8:
                     return ReadString(reader, NumberConverterHelper.ReadUInt8(reader));
-
                 case DataTypes.Str16:
                     return ReadString(reader, NumberConverterHelper.ReadUInt16(reader));
-
                 case DataTypes.Str32:
                     return ReadString(reader, NumberConverterHelper.ReadUInt32(reader));
             }
 
-            if (TryGetFixStrLength(type, out var length))
+            if (TryGetFixStrLength(type, out uint length))
             {
                 return ReadString(reader, length);
             }
@@ -58,9 +56,9 @@ namespace nanoFramework.MessagePack.Converters
 
         internal static string ReadString(IMessagePackReader reader, uint length)
         {
-            var buffer = (byte[])reader.ReadBytes(length);
+            ArraySegment arraySegment = reader.ReadBytes(length);
 
-            return Utf8.GetString(buffer, 0, buffer.Length);
+            return Utf8.GetString(arraySegment.SourceBuffer, (int)arraySegment.SourceOffset + arraySegment.Position, (int)arraySegment.Length);
         }
 
         private static bool TryGetFixStrLength(DataTypes type, out uint length)
