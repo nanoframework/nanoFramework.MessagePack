@@ -285,7 +285,7 @@ namespace NFUnitTest
             };
             arrayBytes = MessagePackSerializer.Serialize(twoDimensionalArray);
             var twoDimensionalArrayValue = (long[][])MessagePackSerializer.Deserialize(typeof(long[][]), arrayBytes)!;
-            Assert.IsTrue(twoDimensionalArray.ArrayEqual(twoDimensionalArrayValue));
+            Assert.IsTrue(twoDimensionalArray.CheckTwoDimensionalLongArray(twoDimensionalArrayValue, out string errorMessage), errorMessage);
 
             Hashtable testHashtable = new()
             {

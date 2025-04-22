@@ -402,3 +402,4 @@ namespace nanoFramework.MessagePack
         }
     }
 }
+
