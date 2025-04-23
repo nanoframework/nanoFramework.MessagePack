@@ -16,9 +16,9 @@
       },
       "nanoFramework.Json": {
         "type": "Direct",
-        "requested": "[2.2.195, 2.2.195]",
-        "resolved": "2.2.195",
-        "contentHash": "Tqb1aIuJMoVJuWZ5Y9ArLK74m3N/XFIjl8LQ8dtQVQ7MYdrXxOKBO8fFwiH/HDCBWle31oJLe6a3GSeBJUkL/A=="
+        "requested": "[2.2.199, 2.2.199]",
+        "resolved": "2.2.199",
+        "contentHash": "XBNKcI5hiUpn19NxhSYM4cxH0FXeefrohGD4tFrTlwhZw3hL1ie5UQJ0dPsaUBb/YkypkJZzQoxEvnwOj8DI5w=="
       },
       "nanoFramework.Logging": {
         "type": "Direct",

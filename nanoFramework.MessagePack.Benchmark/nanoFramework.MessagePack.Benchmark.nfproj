@@ -39,6 +39,9 @@
     <Reference Include="nanoFramework.Benchmark, Version=1.0.108.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.Benchmark.1.0.108\lib\nanoFramework.Benchmark.dll</HintPath>
     </Reference>
+    <Reference Include="nanoFramework.Json">
+      <HintPath>..\packages\nanoFramework.Json.2.2.199\lib\nanoFramework.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nanoFramework.Logging, Version=1.1.156.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.Logging.1.1.156\lib\nanoFramework.Logging.dll</HintPath>
     </Reference>
@@ -53,9 +56,6 @@
     </Reference>
     <Reference Include="System.Diagnostics.Stopwatch, Version=1.2.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.System.Diagnostics.Stopwatch.1.2.862\lib\System.Diagnostics.Stopwatch.dll</HintPath>
-    </Reference>
-    <Reference Include="nanoFramework.Json, Version=2.2.195.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.Json.2.2.195\lib\nanoFramework.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.Streams">
       <HintPath>..\packages\nanoFramework.System.IO.Streams.1.1.96\lib\System.IO.Streams.dll</HintPath>
