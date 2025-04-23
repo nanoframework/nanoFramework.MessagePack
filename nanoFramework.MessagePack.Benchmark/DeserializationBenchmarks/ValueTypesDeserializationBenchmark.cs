@@ -105,7 +105,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void GuidBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(Guid), guidBytes);
             });
@@ -117,7 +117,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void ShortBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(short), shortBytes);
             });
@@ -129,7 +129,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void UshortBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(ushort), ushortBytes);
             });
@@ -141,7 +141,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void IntBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(int), intBytes);
             });
@@ -153,7 +153,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void UintBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(uint), uintBytes);
             });
@@ -165,7 +165,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void SbyteBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(sbyte), sbyteBytes);
             });
@@ -177,7 +177,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void ByteBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(byte), byteBytes);
             });
@@ -189,7 +189,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void BoolBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(bool), boolBytes);
             });
@@ -201,7 +201,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void CharBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(char), charBytes);
             });
@@ -213,7 +213,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void StringBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(string), stringBytes);
             });
@@ -225,7 +225,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void TimeSpanBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(TimeSpan), timeSpanBytes);
             });
@@ -237,7 +237,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void FloatBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(float), floatBytes);
             });
@@ -249,7 +249,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void DoubleBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(double), doubleBytes);
             });
@@ -261,7 +261,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void DateTimeBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(DateTime), dateTimeBytes);
             });
@@ -273,7 +273,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void LongBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(long), longBytes);
             });
@@ -285,7 +285,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void UlongBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(ulong), ulongBytes);
             });

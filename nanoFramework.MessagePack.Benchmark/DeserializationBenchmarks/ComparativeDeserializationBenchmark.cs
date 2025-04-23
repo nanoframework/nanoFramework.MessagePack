@@ -28,7 +28,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void JsonDeserializationBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 JsonConvert.DeserializeObject(TestJson, typeof(TestObjectClass), ComparativeTestObjects.JsonSerializerOptions);
             });
@@ -40,7 +40,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void BinaryDeserializationBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 BinaryFormatter.Deserialize(TestObjectBinaryBytes);
             });
@@ -52,7 +52,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void MessagePackDeserializationBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(TestObjectClass), TestObjectMsgPackBytes);
             });

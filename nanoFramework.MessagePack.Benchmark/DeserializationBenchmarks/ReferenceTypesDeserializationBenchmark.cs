@@ -46,10 +46,10 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Setup]
         public void Setup()
         {
-            this.intArrayBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.IntArray);
-            this.byteArrayBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.ByteArray);
-            this.twoDimensionalArrayBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.TwoDimensionalArray);
-            this.testHashtableBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.TestHashtable);
+            intArrayBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.IntArray);
+            byteArrayBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.ByteArray);
+            twoDimensionalArrayBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.TwoDimensionalArray);
+            testHashtableBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.TestHashtable);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void IntArrayBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(int[]), intArrayBytes);
             });
@@ -70,7 +70,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void ByteArrayBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(byte[]), byteArrayBytes);
             });
@@ -82,7 +82,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void TwoDimensionalArrayBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(long[][]), twoDimensionalArrayBytes);
             });
@@ -96,7 +96,7 @@ namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
         [Benchmark]
         public void TestHashtableBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Deserialize(typeof(Hashtable), testHashtableBytes);
             });

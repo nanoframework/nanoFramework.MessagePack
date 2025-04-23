@@ -17,17 +17,17 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         /// <summary>
         /// Test <see cref="Guid"/>
         /// </summary>
-        private readonly Guid testGuid = Guid.NewGuid();
+        private readonly Guid _testGuid = Guid.NewGuid();
 
         /// <summary>
         /// Test <see cref="DateTime"/>
         /// </summary>
-        private readonly DateTime testDateTime = DateTime.UtcNow;
+        private readonly DateTime _testDateTime = DateTime.UtcNow;
 
         /// <summary>
         /// Test <see cref="string"/>
         /// </summary>
-        private readonly string testString = "Benchmark test";
+        private readonly string _testString = "Benchmark test";
 
         /// <summary>
         /// public iteration count.
@@ -40,9 +40,9 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void GuidBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
-                MessagePackSerializer.Serialize(testGuid);
+                MessagePackSerializer.Serialize(_testGuid);
             });
         }
 
@@ -52,7 +52,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void ShortBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(short.MaxValue);
             });
@@ -64,7 +64,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void UshortBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(ushort.MaxValue);
             });
@@ -76,7 +76,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void IntBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(int.MaxValue);
             });
@@ -88,7 +88,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void UintBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(uint.MaxValue);
             });
@@ -100,7 +100,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void SbyteBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(sbyte.MaxValue);
             });
@@ -112,7 +112,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void ByteBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(byte.MaxValue);
             });
@@ -124,7 +124,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void BoolBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(true);
             });
@@ -136,7 +136,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void CharBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(char.MaxValue);
             });
@@ -148,9 +148,9 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void StringBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
-                MessagePackSerializer.Serialize(testString);
+                MessagePackSerializer.Serialize(_testString);
             });
         }
 
@@ -160,7 +160,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void TimeSpanBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(TimeSpan.MaxValue);
             });
@@ -172,7 +172,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void FloatBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(float.MaxValue);
             });
@@ -184,7 +184,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void DoubleBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(double.MaxValue);
             });
@@ -196,9 +196,9 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void DateTimeBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
-                MessagePackSerializer.Serialize(testDateTime);
+                MessagePackSerializer.Serialize(_testDateTime);
             });
         }
 
@@ -208,7 +208,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void LongBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(long.MaxValue);
             });
@@ -220,7 +220,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void UlongBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(ulong.MaxValue);
             });

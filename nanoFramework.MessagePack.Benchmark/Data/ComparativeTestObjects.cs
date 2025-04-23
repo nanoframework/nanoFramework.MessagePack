@@ -6,7 +6,7 @@ namespace nanoFramework.MessagePack.Benchmark.Data
     using System;
     using System.Runtime.Serialization.Formatters.Binary;
     using nanoFramework.Json;
-    
+
     /// <summary>
     /// Test data.
     /// </summary>
@@ -327,7 +327,7 @@ namespace nanoFramework.MessagePack.Benchmark.Data
             /// Gets or sets test property. Not used.
             /// </summary>
             public string DataStoreLogFile { get; set; }
-            
+
             /// <summary>
             /// Gets or sets test property. Not used.
             /// </summary>

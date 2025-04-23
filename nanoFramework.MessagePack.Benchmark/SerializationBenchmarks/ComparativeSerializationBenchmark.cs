@@ -27,7 +27,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void JsonSerializationBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 JsonConvert.SerializeObject(ComparativeTestObjects.TestObject);
             });
@@ -39,7 +39,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void BinarySerializationBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 BinaryFormatter.Serialize(ComparativeTestObjects.TestObject);
             });
@@ -51,7 +51,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void MessagePackSerializationBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(ComparativeTestObjects.TestObject);
             });

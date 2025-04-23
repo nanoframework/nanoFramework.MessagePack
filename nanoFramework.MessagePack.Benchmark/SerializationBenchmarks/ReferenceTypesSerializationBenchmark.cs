@@ -25,7 +25,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void IntArrayBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(ReferenceTestObjects.IntArray);
             });
@@ -37,7 +37,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void ByteArrayBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(ReferenceTestObjects.ByteArray);
             });
@@ -49,7 +49,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void TwoDimensionalArrayBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(ReferenceTestObjects.TwoDimensionalArray);
             });
@@ -61,7 +61,7 @@ namespace nanoFramework.MessagePack.Benchmark.SerializationBenchmarks
         [Benchmark]
         public void TestHashtableBenchmark()
         {
-            this.RunInIteration(() =>
+            RunInIteration(() =>
             {
                 MessagePackSerializer.Serialize(ReferenceTestObjects.TestHashtable);
             });

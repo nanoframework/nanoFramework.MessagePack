@@ -29,7 +29,7 @@ namespace nanoFramework.MessagePack.Benchmark.Base
             else
             {
                 int step = 0;
-                while (step++ < this._iterationCount)
+                while (step++ < _iterationCount)
                 {
                     methodToRun();
                 }
