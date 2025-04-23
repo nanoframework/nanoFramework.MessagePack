@@ -18,42 +18,6 @@ This repository contains the MessagePack library for the .NET **nanoFramework**.
 
 MessagePack is a simple, lightweight serialization library, inspired by [MsgPack.Light](https://github.com/progaudi/MsgPack.Light), that can be used in .NET[nanoFramework](https://github.com/nanoframework) solutions.
 
-# Approximate measurement results for different serializers
-
-The measurements were carried out on the developer's local computer in a virtual nanoDevice:
-
- ```text
-===============================================================
-==========         Comparative benchmarks data       ==========
-==========                                           ==========
-========== Json string size:           5485 bytes    ==========
-========== BinaryFormatter array size: 1406 bytes    ==========
-========== MessagePack array size:     3174 bytes    ==========
-==========                                           ==========
-===============================================================
-
-Console export: ComparativeDeserializationBenchmark benchmark class.
-
-| ------------------------------------------------------------------------------ |
-| MethodName                          | IterationCount | Mean    | Min   | Max   |
-| ------------------------------------------------------------------------------ |
-| JsonDeserializationBenchmark        | 10             | 36.2 ms | 24 ms | 57 ms |
-| BinaryDeserializationBenchmark      | 10             | 0.2 ms  | 0 ms  | 1 ms  |
-| MessagePackDeserializationBenchmark | 10             | 27.7 ms | 24 ms | 44 ms |
-| ------------------------------------------------------------------------------ |
-
-Console export: ComparativeSerializationBenchmark benchmark class.
-
-| ---------------------------------------------------------------------------- |
-| MethodName                        | IterationCount | Mean    | Min   | Max   |
-| ---------------------------------------------------------------------------- |
-| JsonSerializationBenchmark        | 10             | 30.8 ms | 22 ms | 51 ms |
-| BinarySerializationBenchmark      | 10             | 0.2 ms  | 0 ms  | 1 ms  |
-| MessagePackSerializationBenchmark | 10             | 13.8 ms | 12 ms | 18 ms |
-| ---------------------------------------------------------------------------- |
-```
-In terms of speed, MessagePack is no worse than a Json serializer, and slightly wins in terms of the size of the serialized data
-
 ## Usage
 
 ### Serialization to byte array
@@ -283,6 +247,43 @@ After completing these steps, the serialization/deserialization of the object fo
             }
         }
    ```
+
+## Benchmarks
+
+The measurements were carried out on the developer's local computer in a virtual nanoDevice:
+
+ ```text
+===============================================================
+==========         Comparative benchmarks data       ==========
+==========                                           ==========
+========== Json string size:           3957 bytes    ==========
+========== BinaryFormatter array size: 1079 bytes    ==========
+========== MessagePack array size:     2444 bytes    ==========
+==========                                           ==========
+===============================================================
+
+Console export: ComparativeDeserializationBenchmark benchmark class.
+
+| ------------------------------------------------------------------------------ |
+| MethodName                          | IterationCount | Mean    | Min   | Max   |
+| ------------------------------------------------------------------------------ |
+| JsonDeserializationBenchmark        | 10             | 27.5 ms | 22 ms | 37 ms |
+| BinaryDeserializationBenchmark      | 10             | 0.1 ms  | 0 ms  | 1 ms  |
+| MessagePackDeserializationBenchmark | 10             | 23.7 ms | 19 ms | 34 ms |
+| ------------------------------------------------------------------------------ |
+
+Console export: ComparativeSerializationBenchmark benchmark class.
+
+
+| ---------------------------------------------------------------------------- |
+| MethodName                        | IterationCount | Mean    | Min   | Max   |
+| ---------------------------------------------------------------------------- |
+| JsonSerializationBenchmark        | 10             | 18.9 ms | 16 ms | 25 ms |
+| BinarySerializationBenchmark      | 10             | 0.1 ms  | 0 ms  | 1 ms  |
+| MessagePackSerializationBenchmark | 10             | 9.8 ms  | 9 ms  | 14 ms |
+| ---------------------------------------------------------------------------- |
+```
+As it can be seen from the benchmark results above, in what concerns speed and compaction, `MessagePack` performs better than the Json serializer. Comming at no surprise, Binary serialization is the most performant one.
 
 ## Acknowledgements
 

@@ -1,20 +1,25 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System;
-using System.Diagnostics;
-using System.Threading;
-using nanoFramework.Benchmark;
-using nanoFramework.Json;
-using nanoFramework.MessagePack.Benchmark.Data;
-using nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks;
-using nanoFramework.MessagePack.Benchmark.SerializationBenchmarks;
-
 namespace nanoFramework.MessagePack.Benchmark
 {
-    public class Program
+    using System;
+    using System.Threading;
+    using nanoFramework.Benchmark;
+    using nanoFramework.Json;
+    using nanoFramework.MessagePack.Benchmark.Data;
+    using nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks;
+    using nanoFramework.MessagePack.Benchmark.SerializationBenchmarks;
+
+    /// <summary>
+    /// Main program
+    /// </summary>
+    internal class Program
     {
-        public static void Main()
+        /// <summary>
+        /// Enter point for run all benchmarks
+        /// </summary>
+        internal static void Main()
         {
             Console.WriteLine("********** Starting benchmarks **********");
             BenchmarkRunner.RunClass(typeof(ReferenceTypesDeserializationBenchmark));
@@ -22,7 +27,6 @@ namespace nanoFramework.MessagePack.Benchmark
             BenchmarkRunner.RunClass(typeof(ReferenceTypesSerializationBenchmark));
             BenchmarkRunner.RunClass(typeof(ValueTypesSerializationBenchmark));
 
-            //Init test objects
             var testData = new ComparativeTestObjects();
             Console.WriteLine();
             Console.WriteLine();

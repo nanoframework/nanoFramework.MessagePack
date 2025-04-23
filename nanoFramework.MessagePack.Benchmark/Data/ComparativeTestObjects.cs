@@ -1,222 +1,542 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-
-
-using System.Collections;
-using System;
-using nanoFramework.Json;
-using System.Runtime.Serialization.Formatters.Binary;
-
 namespace nanoFramework.MessagePack.Benchmark.Data
 {
+    using System;
+    using System.Runtime.Serialization.Formatters.Binary;
+    using nanoFramework.Json;
+    
+    /// <summary>
+    /// Test data.
+    /// </summary>
     internal class ComparativeTestObjects
     {
+        /// <summary>
+        /// Test json text.
+        /// </summary>
+        internal const string TestJson = @"{
+	""StatusUpdateTime"": ""0001-01-01T00:00:00Z"",
+""LastActivityTime"": ""2021-06-03T05:52:41.4683112Z"",
+""Web_app"": {
+  ""Servlet"": [   
+    {
+      ""Servlet_name"": ""cofaxCDS"",
+      ""Servlet_class"": ""org.cofax.cds.CDSServlet"",
+      ""Init_param"": {
+        ""ConfigGlossaryInstallationAt"": ""Philadelphia, PA"",
+        ""ConfigGlossaryAdminEmail"": ""ksm@pobox.com"",
+        ""ConfigGlossaryPoweredBy"": ""Cofax"",
+        ""ConfigGlossaryPoweredByIcon"": ""/images/cofax.gif"",
+        ""ConfigGlossaryPtaticPath"": ""/content/static"",
+        ""TemplateProcessorClass"": ""org.cofax.WysiwygTemplate"",
+        ""TemplateLoaderClass"": ""org.cofax.FilesTemplateLoader"",
+        ""TemplatePath"": ""templates"",
+        ""TemplateOverridePath"": """",
+        ""DefaultListTemplate"": ""listTemplate.htm"",
+        ""DefaultFileTemplate"": ""articleTemplate.htm"",
+        ""UseJSP"": false,
+        ""JspListTemplate"": ""listTemplate.jsp"",
+        ""JspFileTemplate"": ""articleTemplate.jsp"",
+        ""CachePackageTagsTrack"": 200,
+        ""CachePackageTagsStore"": 200,
+        ""CachePackageTagsRefresh"": 60,
+        ""CacheTemplatesTrack"": 100,
+        ""CacheTemplatesStore"": 50,
+        ""CacheTemplatesRefresh"": 15,
+        ""CachePagesTrack"": 200,
+        ""CachePagesStore"": 100,
+        ""CachePagesRefresh"": 10,
+        ""CachePagesDirtyRead"": 10,
+        ""SearchEngineListTemplate"": ""forSearchEnginesList.htm"",
+        ""SearchEngineFileTemplate"": ""forSearchEngines.htm"",
+        ""SearchEngineRobotsDb"": ""WEB_INF/robots.db"",
+        ""UseDataStore"": true,
+        ""DataStoreClass"": ""org.cofax.SqlDataStore"",
+        ""RedirectionClass"": ""org.cofax.SqlRedirection"",
+        ""DataStoreName"": ""cofax"",
+        ""DataStoreDriver"": ""com.microsoft.jdbc.sqlserver.SQLServerDriver"",
+        ""DataStoreUrl"": ""jdbc:microsoft:sqlserver://LOCALHOST:1433;DatabaseName=goon"",
+        ""DataStoreUser"": ""sa"",
+        ""DataStorePassword"": ""dataStoreTestQuery"",
+        ""DataStoreTestQuery"": ""SET NOCOUNT ON;select test='test';"",
+        ""DataStoreLogFile"": ""/usr/local/tomcat/logs/datastore.log"",
+        ""DataStoreInitConns"": 10,
+        ""DataStoreMaxConns"": 100,
+        ""DataStoreConnUsageLimit"": 100,
+        ""DataStoreLogLevel"": ""debug"",
+        ""MaxUrlLength"": 500}},
+    {
+      ""Servlet_name"": ""cofaxEmail"",
+      ""Servlet_class"": ""org.cofax.cds.EmailServlet"",
+      ""Init_param"": {
+      ""MailHost"": ""mail1"",
+      ""MailHostOverride"": ""mail2""}},
+    {
+      ""Servlet_name"": ""cofaxAdmin"",
+      ""Servlet_class"": ""org.cofax.cds.AdminServlet""},
+ 
+    {
+      ""Servlet_name"": ""fileServlet"",
+      ""Servlet_class"": ""org.cofax.cds.FileServlet""},
+    {
+      ""Servlet_name"": ""cofaxTools"",
+      ""Servlet_class"": ""org.cofax.cms.CofaxToolsServlet"",
+      ""Snit_param"": {
+        ""TemplatePath"": ""toolstemplates/"",
+        ""Log"": 1,
+        ""LogLocation"": ""/usr/local/tomcat/logs/CofaxTools.log"",
+        ""LogMaxSize"": """",
+        ""DataLog"": 1,
+        ""DataLogLocation"": ""/usr/local/tomcat/logs/dataLog.log"",
+        ""DataLogMaxSize"": """",
+        ""RemovePageCache"": ""/content/admin/remove?cache=pages&id="",
+        ""RemoveTemplateCache"": ""/content/admin/remove?cache=templates&id="",
+        ""FileTransferFolder"": ""/usr/local/tomcat/webapps/content/fileTransferFolder"",
+        ""LookInContext"": 1,
+        ""AdminGroupID"": 4,
+        ""BetaServer"": true}}],
+  ""Servlet_mapping"": {
+    ""CofaxCDS"": ""/"",
+    ""CofaxEmail"": ""/cofaxutil/aemail/*"",
+    ""CofaxAdmin"": ""/admin/*"",
+    ""FileServlet"": ""/static/*"",
+    ""CofaxTools"": ""/tools/*""},
+ 
+  ""Taglib"": {
+    ""Taglib_uri"": ""cofax.tld"",
+    ""Taglib_location"": ""/WEB_INF/tlds/cofax.tld""}}}";
+
+        /// <summary>
+        /// Gets json deserialize option.
+        /// </summary>
+        internal static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ComparativeTestObjects"/> class.
+        /// </summary>
         internal ComparativeTestObjects()
         {
-            TestObject = (TestObjectClass)JsonConvert.DeserializeObject(TestJson, typeof(TestObjectClass));
+            TestObject = (TestObjectClass)JsonConvert.DeserializeObject(TestJson, typeof(TestObjectClass), JsonSerializerOptions);
             TestObjectMsgPackBytes = MessagePackSerializer.Serialize(TestObject);
             TestObjectBinaryBytes = BinaryFormatter.Serialize(TestObject);
         }
-        internal const string TestJson = @"{
-	""statusUpdateTime"": ""0001-01-01T00:00:00Z"",
-""lastActivityTime"": ""2021-06-03T05:52:41.4683112Z"",
-""web_app"": {
-  ""servlet"": [   
-    {
-      ""servlet_name"": ""cofaxCDS"",
-      ""servlet_class"": ""org.cofax.cds.CDSServlet"",
-      ""init_param"": {
-        ""configGlossaryInstallationAt"": ""Philadelphia, PA"",
-        ""configGlossaryAdminEmail"": ""ksm@pobox.com"",
-        ""configGlossaryPoweredBy"": ""Cofax"",
-        ""configGlossaryPoweredByIcon"": ""/images/cofax.gif"",
-        ""configGlossaryPtaticPath"": ""/content/static"",
-        ""templateProcessorClass"": ""org.cofax.WysiwygTemplate"",
-        ""templateLoaderClass"": ""org.cofax.FilesTemplateLoader"",
-        ""templatePath"": ""templates"",
-        ""templateOverridePath"": """",
-        ""defaultListTemplate"": ""listTemplate.htm"",
-        ""defaultFileTemplate"": ""articleTemplate.htm"",
-        ""useJSP"": false,
-        ""jspListTemplate"": ""listTemplate.jsp"",
-        ""jspFileTemplate"": ""articleTemplate.jsp"",
-        ""cachePackageTagsTrack"": 200,
-        ""cachePackageTagsStore"": 200,
-        ""cachePackageTagsRefresh"": 60,
-        ""cacheTemplatesTrack"": 100,
-        ""cacheTemplatesStore"": 50,
-        ""cacheTemplatesRefresh"": 15,
-        ""cachePagesTrack"": 200,
-        ""cachePagesStore"": 100,
-        ""cachePagesRefresh"": 10,
-        ""cachePagesDirtyRead"": 10,
-        ""searchEngineListTemplate"": ""forSearchEnginesList.htm"",
-        ""searchEngineFileTemplate"": ""forSearchEngines.htm"",
-        ""searchEngineRobotsDb"": ""WEB_INF/robots.db"",
-        ""useDataStore"": true,
-        ""dataStoreClass"": ""org.cofax.SqlDataStore"",
-        ""redirectionClass"": ""org.cofax.SqlRedirection"",
-        ""dataStoreName"": ""cofax"",
-        ""dataStoreDriver"": ""com.microsoft.jdbc.sqlserver.SQLServerDriver"",
-        ""dataStoreUrl"": ""jdbc:microsoft:sqlserver://LOCALHOST:1433;DatabaseName=goon"",
-        ""dataStoreUser"": ""sa"",
-        ""dataStorePassword"": ""dataStoreTestQuery"",
-        ""dataStoreTestQuery"": ""SET NOCOUNT ON;select test='test';"",
-        ""dataStoreLogFile"": ""/usr/local/tomcat/logs/datastore.log"",
-        ""dataStoreInitConns"": 10,
-        ""dataStoreMaxConns"": 100,
-        ""dataStoreConnUsageLimit"": 100,
-        ""dataStoreLogLevel"": ""debug"",
-        ""maxUrlLength"": 500}},
-    {
-      ""servlet_name"": ""cofaxEmail"",
-      ""servlet_class"": ""org.cofax.cds.EmailServlet"",
-      ""init_param"": {
-      ""mailHost"": ""mail1"",
-      ""mailHostOverride"": ""mail2""}},
-    {
-      ""servlet_name"": ""cofaxAdmin"",
-      ""servlet_class"": ""org.cofax.cds.AdminServlet""},
- 
-    {
-      ""servlet_name"": ""fileServlet"",
-      ""servlet_class"": ""org.cofax.cds.FileServlet""},
-    {
-      ""servlet_name"": ""cofaxTools"",
-      ""servlet_class"": ""org.cofax.cms.CofaxToolsServlet"",
-      ""init_param"": {
-        ""templatePath"": ""toolstemplates/"",
-        ""log"": 1,
-        ""logLocation"": ""/usr/local/tomcat/logs/CofaxTools.log"",
-        ""logMaxSize"": """",
-        ""dataLog"": 1,
-        ""dataLogLocation"": ""/usr/local/tomcat/logs/dataLog.log"",
-        ""dataLogMaxSize"": """",
-        ""removePageCache"": ""/content/admin/remove?cache=pages&id="",
-        ""removeTemplateCache"": ""/content/admin/remove?cache=templates&id="",
-        ""fileTransferFolder"": ""/usr/local/tomcat/webapps/content/fileTransferFolder"",
-        ""lookInContext"": 1,
-        ""adminGroupID"": 4,
-        ""betaServer"": true}}],
-  ""servlet_mapping"": {
-    ""cofaxCDS"": ""/"",
-    ""cofaxEmail"": ""/cofaxutil/aemail/*"",
-    ""cofaxAdmin"": ""/admin/*"",
-    ""fileServlet"": ""/static/*"",
-    ""cofaxTools"": ""/tools/*""},
- 
-  ""taglib"": {
-    ""taglib_uri"": ""cofax.tld"",
-    ""taglib_location"": ""/WEB_INF/tlds/cofax.tld""}}}";
 
-        //Init and test MsgPack serialize
-        internal static TestObjectClass TestObject { get; set; }
+        /// <summary>
+        /// Gets test object for deserialize <see cref="TestJson"/>.
+        /// </summary>
+        internal static TestObjectClass TestObject { get; private set; }
 
-        internal static byte[] TestObjectMsgPackBytes { get; set; }
+        /// <summary>
+        /// Gets byte array for test object used by <see cref="MessagePack"/>.
+        /// </summary>
+        internal static byte[] TestObjectMsgPackBytes { get; private set; }
 
-        internal static byte[] TestObjectBinaryBytes { get; set; }
-    }
+        /// <summary>
+        /// Gets byte array for test object used by <see cref="BinaryFormatter"/>.
+        /// </summary>
+        internal static byte[] TestObjectBinaryBytes { get; private set; }
 
-    [Serializable]
-    public class InitParam
-    {
-        public string configGlossaryInstallationAt { get; set; }
-        public string configGlossaryAdminEmail { get; set; }
-        public string configGlossaryPoweredBy { get; set; }
-        public string configGlossaryPoweredByIcon { get; set; }
-        public string configGlossaryPtaticPath { get; set; }
-        public string templateProcessorClass { get; set; }
-        public string templateLoaderClass { get; set; }
-        public string templatePath { get; set; }
-        public string templateOverridePath { get; set; }
-        public string defaultListTemplate { get; set; }
-        public string defaultFileTemplate { get; set; }
-        public bool useJSP { get; set; }
-        public string jspListTemplate { get; set; }
-        public string jspFileTemplate { get; set; }
-        public int cachePackageTagsTrack { get; set; }
-        public int cachePackageTagsStore { get; set; }
-        public int cachePackageTagsRefresh { get; set; }
-        public int cacheTemplatesTrack { get; set; }
-        public int cacheTemplatesStore { get; set; }
-        public int cacheTemplatesRefresh { get; set; }
-        public int cachePagesTrack { get; set; }
-        public int cachePagesStore { get; set; }
-        public int cachePagesRefresh { get; set; }
-        public int cachePagesDirtyRead { get; set; }
-        public string searchEngineListTemplate { get; set; }
-        public string searchEngineFileTemplate { get; set; }
-        public string searchEngineRobotsDb { get; set; }
-        public bool useDataStore { get; set; }
-        public string dataStoreClass { get; set; }
-        public string redirectionClass { get; set; }
-        public string dataStoreName { get; set; }
-        public string dataStoreDriver { get; set; }
-        public string dataStoreUrl { get; set; }
-        public string dataStoreUser { get; set; }
-        public string dataStorePassword { get; set; }
-        public string dataStoreTestQuery { get; set; }
-        public string dataStoreLogFile { get; set; }
-        public int dataStoreInitConns { get; set; }
-        public int dataStoreMaxConns { get; set; }
-        public int dataStoreConnUsageLimit { get; set; }
-        public string dataStoreLogLevel { get; set; }
-        public int maxUrlLength { get; set; }
-        public string mailHost { get; set; }
-        public string mailHostOverride { get; set; }
-        public int log { get; set; }
-        public string logLocation { get; set; }
-        public string logMaxSize { get; set; }
-        public int dataLog { get; set; }
-        public string dataLogLocation { get; set; }
-        public string dataLogMaxSize { get; set; }
-        public string removePageCache { get; set; }
-        public string removeTemplateCache { get; set; }
-        public string fileTransferFolder { get; set; }
-        public int lookInContext { get; set; }
-        public int adminGroupID { get; set; }
-        public bool betaServer { get; set; }
-    }
+        /// <summary>
+        /// Dummy test serialization object sub class.
+        /// </summary>
+        [Serializable]
+        public class InitParam
+        {
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string ConfigGlossaryInstallationAt { get; set; }
 
-    [Serializable]
-    public class TestObjectClass
-    {
-        public DateTime statusUpdateTime { get; set; }
-        public DateTime lastActivityTime { get; set; }
-        public WebApp web_app { get; set; }
-    }
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string ConfigGlossaryAdminEmail { get; set; }
 
-    [Serializable]
-    public class Servlet
-    {
-        public string servlet_name { get; set; }
-        public string servlet_class { get; set; }
-        public InitParam init_param { get; set; }
-    }
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string ConfigGlossaryPoweredBy { get; set; }
 
-    [Serializable]
-    public class ServletMapping
-    {
-        public string cofaxCDS { get; set; }
-        public string cofaxEmail { get; set; }
-        public string cofaxAdmin { get; set; }
-        public string fileServlet { get; set; }
-        public string cofaxTools { get; set; }
-    }
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string ConfigGlossaryPoweredByIcon { get; set; }
 
-    [Serializable]
-    public class Taglib
-    {
-        public string taglib_uri { get; set; }
-        public string taglib_location { get; set; }
-    }
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string ConfigGlossaryPtaticPath { get; set; }
 
-    [Serializable]
-    public class WebApp
-    {
-        public Servlet[] servlet { get; set; }
-        public ServletMapping servlet_mapping { get; set; }
-        public Taglib taglib { get; set; }
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string TemplateProcessorClass { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string TemplateLoaderClass { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string TemplatePath { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string TemplateOverridePath { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string DefaultListTemplate { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string DefaultFileTemplate { get; set; }
+
+            /// <summary>
+            /// Gets or sets a value indicating whether <see langword="true"/>. Not used.
+            /// </summary>
+            public bool UseJSP { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string JspListTemplate { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string JspFileTemplate { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int CachePackageTagsTrack { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int CachePackageTagsStore { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int CachePackageTagsRefresh { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int CacheTemplatesTrack { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int CacheTemplatesStore { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int CacheTemplatesRefresh { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int CachePagesTrack { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int CachePagesStore { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int CachePagesRefresh { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int CachePagesDirtyRead { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string SearchEngineListTemplate { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string SearchEngineFileTemplate { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string SearchEngineRobotsDb { get; set; }
+
+            /// <summary>
+            /// Gets or sets a value indicating whether <see langword="true"/>. Not used.
+            /// </summary>
+            public bool UseDataStore { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string DataStoreClass { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string RedirectionClass { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string DataStoreName { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string DataStoreDriver { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string DataStoreUrl { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string DataStoreUser { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string DataStorePassword { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string DataStoreTestQuery { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string DataStoreLogFile { get; set; }
+            
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int DataStoreInitConns { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int DataStoreMaxConns { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int DataStoreConnUsageLimit { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string DataStoreLogLevel { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int MaxUrlLength { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string MailHost { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string MailHostOverride { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int Log { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string LogLocation { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string LogMaxSize { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int DataLog { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string DataLogLocation { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string DataLogMaxSize { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string RemovePageCache { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string RemoveTemplateCache { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string FileTransferFolder { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int LookInContext { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public int AdminGroupID { get; set; }
+
+            /// <summary>
+            /// Gets or sets a value indicating whether <see langword="true"/>. Not used.
+            /// </summary>
+            public bool BetaServer { get; set; }
+        }
+
+        /// <summary>
+        /// Dummy main test serialization object class.
+        /// </summary>
+        [Serializable]
+        public class TestObjectClass
+        {
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public DateTime StatusUpdateTime { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public DateTime LastActivityTime { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public WebApp Web_app { get; set; }
+        }
+
+        /// <summary>
+        /// Test serialization object sub class.
+        /// </summary>
+        [Serializable]
+        public class Servlet
+        {
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string Servlet_name { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string Servlet_class { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public InitParam Init_param { get; set; }
+        }
+
+        /// <summary>
+        /// Dummy test serialization object sub class.
+        /// </summary>
+        [Serializable]
+        public class ServletMapping
+        {
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string CofaxCDS { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string CofaxEmail { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string CofaxAdmin { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string FileServlet { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string CofaxTools { get; set; }
+        }
+
+        /// <summary>
+        /// Dummy test serialization object sub class.
+        /// </summary>
+        [Serializable]
+        public class Taglib
+        {
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string Taglib_uri { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public string Taglib_location { get; set; }
+        }
+
+        /// <summary>
+        /// Dummy test serialization object sub class.
+        /// </summary>
+        [Serializable]
+        public class WebApp
+        {
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public Servlet[] Servlet { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public ServletMapping Servlet_mapping { get; set; }
+
+            /// <summary>
+            /// Gets or sets test property. Not used.
+            /// </summary>
+            public Taglib Taglib { get; set; }
+        }
     }
 }

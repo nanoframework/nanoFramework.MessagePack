@@ -1,65 +1,104 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using nanoFramework.Benchmark;
-using System.Collections;
-using nanoFramework.Benchmark.Attributes;
-using nanoFramework.MessagePack.Benchmark.Base;
-using nanoFramework.MessagePack.Benchmark.Data;
-
 namespace nanoFramework.MessagePack.Benchmark.DeserializationBenchmarks
 {
-    [IterationCount(5)]
-    internal class ReferenceTypesDeserializationBenchmark : BaseIterationBenchmark
-    {
-        protected override int IterationCount => 20;
-        private byte[] IntArrayBytes;
-        private byte[] ByteArrayBytes;
-        private byte[] TwoDimensionalArrayBytes;
-        private byte[] TestHashtableBytes;
+    using System.Collections;
+    using nanoFramework.Benchmark;
+    using nanoFramework.Benchmark.Attributes;
+    using nanoFramework.MessagePack.Benchmark.Base;
+    using nanoFramework.MessagePack.Benchmark.Data;
 
+    /// <summary>
+    /// Reference types deserialization benchmark.
+    /// </summary>
+    [IterationCount(5)]
+    public class ReferenceTypesDeserializationBenchmark : BaseIterationBenchmark
+    {
+        /// <summary>
+        /// Bates int array for test.
+        /// </summary>
+        private byte[] intArrayBytes;
+
+        /// <summary>
+        /// Byte array for test.
+        /// </summary>
+        private byte[] byteArrayBytes;
+
+        /// <summary>
+        /// Bytes two-dimensional array for test.
+        /// </summary>
+        private byte[] twoDimensionalArrayBytes;
+
+        /// <summary>
+        /// Bytes hashtable array for test.
+        /// </summary>
+        private byte[] testHashtableBytes;
+
+        /// <summary>
+        /// public iteration count.
+        /// </summary>
+        protected override int _iterationCount => 20;
+
+        /// <summary>
+        /// Initialize all test data objects.
+        /// </summary>
         [Setup]
         public void Setup()
         {
-            IntArrayBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.IntArray);
-            ByteArrayBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.ByteArray);
-            TwoDimensionalArrayBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.TwoDimensionalArray);
-            TestHashtableBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.TestHashtable);
+            this.intArrayBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.IntArray);
+            this.byteArrayBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.ByteArray);
+            this.twoDimensionalArrayBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.TwoDimensionalArray);
+            this.testHashtableBytes = MessagePackSerializer.Serialize(ReferenceTestObjects.TestHashtable);
         }
 
+        /// <summary>
+        /// Deserialize int array benchmark
+        /// </summary>
         [Benchmark]
         public void IntArrayBenchmark()
         {
-            RunInIteration(() =>
+            this.RunInIteration(() =>
             {
-                MessagePackSerializer.Deserialize(typeof(int[]), IntArrayBytes);
+                MessagePackSerializer.Deserialize(typeof(int[]), intArrayBytes);
             });
         }
 
+        /// <summary>
+        /// Deserialize byte array benchmark
+        /// </summary>
         [Benchmark]
         public void ByteArrayBenchmark()
         {
-            RunInIteration(() =>
+            this.RunInIteration(() =>
             {
-                MessagePackSerializer.Deserialize(typeof(byte[]), ByteArrayBytes);
+                MessagePackSerializer.Deserialize(typeof(byte[]), byteArrayBytes);
             });
         }
 
+        /// <summary>
+        /// Deserialize two-dimensional array benchmark.
+        /// </summary>
         [Benchmark]
         public void TwoDimensionalArrayBenchmark()
         {
-            RunInIteration(() =>
+            this.RunInIteration(() =>
             {
-                MessagePackSerializer.Deserialize(typeof(long[][]), TwoDimensionalArrayBytes);
+                MessagePackSerializer.Deserialize(typeof(long[][]), twoDimensionalArrayBytes);
             });
         }
 
+        /// <summary>
+        /// /// <summary>
+        /// Deserialize hashtable benchmark.
+        /// </summary>
+        /// </summary>
         [Benchmark]
         public void TestHashtableBenchmark()
         {
-            RunInIteration(() =>
+            this.RunInIteration(() =>
             {
-                MessagePackSerializer.Deserialize(typeof(Hashtable), TestHashtableBytes);
+                MessagePackSerializer.Deserialize(typeof(Hashtable), testHashtableBytes);
             });
         }
     }
