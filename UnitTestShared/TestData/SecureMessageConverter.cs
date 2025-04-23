@@ -6,7 +6,6 @@ using System.Text;
 using nanoFramework.MessagePack;
 using nanoFramework.MessagePack.Converters;
 using nanoFramework.MessagePack.Stream;
-using System;
 
 namespace UnitTestShared.TestData
 {

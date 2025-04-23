@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections;
-using System.IO;
 using nanoFramework.MessagePack.Dto;
 using nanoFramework.MessagePack.Utility;
 
