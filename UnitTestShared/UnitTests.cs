@@ -2,14 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 
+#if NANOFRAMEWORK_1_0
+using System;
+using System.IO;
+using nanoFramework.TestFramework;
+#endif
 using System.Collections;
 using System.Diagnostics;
 using nanoFramework.MessagePack;
 using UnitTestShared.Helpers;
 using UnitTestShared.TestData;
-#if NANOFRAMEWORK_1_0
-using nanoFramework.TestFramework;
-#endif
 
 namespace NFUnitTest
 {
