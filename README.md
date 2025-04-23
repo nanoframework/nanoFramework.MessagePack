@@ -1,4 +1,4 @@
-﻿[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_nanoFramework.MessagePack&metric=alert_status)](https://sonarcloud.io/dashboard?id=nanoframework_nanoFramework.MessagePack) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_nanoFramework.MessagePack&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=nanoframework_nanoFramework.MessagePack) [![NuGet](https://img.shields.io/nuget/dt/nanoFramework.MessagePack.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.MessagePack/) [![#yourfirstpr](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](https://github.com/nanoframework/Home/blob/main/CONTRIBUTING.md) [![Discord](https://img.shields.io/discord/478725473862549535.svg?logo=discord&logoColor=white&label=Discord&color=7289DA)](https://discord.gg/gCyBu8T)
+﻿﻿[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_nanoFramework.MessagePack&metric=alert_status)](https://sonarcloud.io/dashboard?id=nanoframework_nanoFramework.MessagePack) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_nanoFramework.MessagePack&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=nanoframework_nanoFramework.MessagePack) [![NuGet](https://img.shields.io/nuget/dt/nanoFramework.MessagePack.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.MessagePack/) [![#yourfirstpr](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](https://github.com/nanoframework/Home/blob/main/CONTRIBUTING.md) [![Discord](https://img.shields.io/discord/478725473862549535.svg?logo=discord&logoColor=white&label=Discord&color=7289DA)](https://discord.gg/gCyBu8T)
 
 ![nanoFramework logo](https://raw.githubusercontent.com/nanoframework/Home/main/resources/logo/nanoFramework-repo-logo.png)
 
@@ -151,7 +151,7 @@ After completing these steps, the serialization/deserialization of the object fo
                 {
                     WordDictionary = new ArrayList
                     {
-                        "MessagePak",
+                        "MessagePack",
                         "Hello",
                         "at",
                         "nanoFramework!",
@@ -178,30 +178,33 @@ After completing these steps, the serialization/deserialization of the object fo
                 {
                     StringBuilder sb = new();
                     var length = reader.ReadArrayLength();
-        
-                    for(int i = 0; i < length; i++)
+                    var intConverter = ConverterContext.GetConverter(typeof(int));
+
+                    for (int i = 0; i < length; i++)
                     {
-                        sb.Append(SharedWordDictionary.WordDictionary[i]);
+                        int wordIndex = (int)intConverter.Read(reader)!;
+                        sb.Append(SharedWordDictionary.WordDictionary[wordIndex]);
                         sb.Append(' ');
                     }
                     if (sb.Length > 0)
                         sb.Remove(sb.Length - 1, 1);
-        
+
                     return new SecureMessage(sb.ToString());
                 }
-        
+
                 public void Write(SecureMessage value, [NotNull] IMessagePackWriter writer)
                 {
                     var messageWords = value.Message.Split(' ');
-        
-                    uint length = BitConverter.ToUInt32(BitConverter.GetBytes(messageWords.Length), 0);
+
+                    uint length = (uint)messageWords.Length;
                     writer.WriteArrayHeader(length);
-        
+
                     var intConverter = ConverterContext.GetConverter(typeof(int));
-        
+
                     foreach (var word in messageWords)
                     {
-                        intConverter.Write(SharedWordDictionary.WordDictionary.IndexOf(word), writer);
+                        int wordIndex = SharedWordDictionary.WordDictionary.IndexOf(word);
+                        intConverter.Write(wordIndex, writer);
                     }
                 }
         
@@ -244,6 +247,43 @@ After completing these steps, the serialization/deserialization of the object fo
             }
         }
    ```
+
+## Benchmarks
+
+The measurements were carried out on the developer's local computer in a virtual nanoDevice:
+
+ ```text
+===============================================================
+==========         Comparative benchmarks data       ==========
+==========                                           ==========
+========== Json string size:           3957 bytes    ==========
+========== BinaryFormatter array size: 1079 bytes    ==========
+========== MessagePack array size:     2444 bytes    ==========
+==========                                           ==========
+===============================================================
+
+Console export: ComparativeDeserializationBenchmark benchmark class.
+
+| ------------------------------------------------------------------------------ |
+| MethodName                          | IterationCount | Mean    | Min   | Max   |
+| ------------------------------------------------------------------------------ |
+| JsonDeserializationBenchmark        | 10             | 27.5 ms | 22 ms | 37 ms |
+| BinaryDeserializationBenchmark      | 10             | 0.1 ms  | 0 ms  | 1 ms  |
+| MessagePackDeserializationBenchmark | 10             | 23.7 ms | 19 ms | 34 ms |
+| ------------------------------------------------------------------------------ |
+
+Console export: ComparativeSerializationBenchmark benchmark class.
+
+
+| ---------------------------------------------------------------------------- |
+| MethodName                        | IterationCount | Mean    | Min   | Max   |
+| ---------------------------------------------------------------------------- |
+| JsonSerializationBenchmark        | 10             | 18.9 ms | 16 ms | 25 ms |
+| BinarySerializationBenchmark      | 10             | 0.1 ms  | 0 ms  | 1 ms  |
+| MessagePackSerializationBenchmark | 10             | 9.8 ms  | 9 ms  | 14 ms |
+| ---------------------------------------------------------------------------- |
+```
+As it can be seen from the benchmark results above, in what concerns speed and compaction, `MessagePack` performs better than the Json serializer. Comming at no surprise, Binary serialization is the most performant one.
 
 ## Acknowledgements
 
