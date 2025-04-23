@@ -145,13 +145,13 @@ namespace nanoFramework.MessagePack
             foreach (var memberMapping in memberMappings)
             {
 #if NANOFRAMEWORK_1_0
-                if(!memberMapping.OriginalName!.StartsWith(MemberMapping.SET_))
+                if (!memberMapping.OriginalName!.StartsWith(MemberMapping.SET_))
                 {
 #endif
-                if (memberMapping.TryGetValue(value, out var memberValue) && memberValue != null)
-                {
-                    result.Add(memberMapping.Name!, memberValue);
-                }
+                    if (memberMapping.TryGetValue(value, out var memberValue) && memberValue != null)
+                    {
+                        result.Add(memberMapping.Name!, memberValue);
+                    }
 #if NANOFRAMEWORK_1_0
                 }
 #endif
@@ -166,34 +166,34 @@ namespace nanoFramework.MessagePack
             foreach (var memberMapping in memberMappings)
             {
 #if NANOFRAMEWORK_1_0
-                if(!memberMapping.OriginalName!.StartsWith(MemberMapping.GET_))
+                if (!memberMapping.OriginalName!.StartsWith(MemberMapping.GET_))
                 {
 #endif
-                if (objectValuesMap.Contains(memberMapping.Name!))
-                {
-                    var memberMpToken = (ArraySegment)objectValuesMap[memberMapping.Name!]!;
-                    if (memberMpToken != null)
+                    if (objectValuesMap.Contains(memberMapping.Name!))
                     {
-                        var memberValueMapType = memberMapping.GetMemberType();
-                        var converter = GetConverter(memberValueMapType!);
-                        if (converter != null)
+                        var memberMpToken = (ArraySegment)objectValuesMap[memberMapping.Name!]!;
+                        if (memberMpToken != null)
                         {
-                            memberMapping.SetValue(targetObject, converter.Read(memberMpToken)!);
-                        }
-                        else
-                        {
-                            if (memberValueMapType!.IsArray)
+                            var memberValueMapType = memberMapping.GetMemberType();
+                            var converter = GetConverter(memberValueMapType!);
+                            if (converter != null)
                             {
-                                memberMapping.SetValue(targetObject, ArrayConverter.Read(memberMpToken, memberValueMapType)!);
+                                memberMapping.SetValue(targetObject, converter.Read(memberMpToken)!);
                             }
                             else
                             {
+                                if (memberValueMapType!.IsArray)
+                                {
+                                    memberMapping.SetValue(targetObject, ArrayConverter.Read(memberMpToken, memberValueMapType)!);
+                                }
+                                else
+                                {
 
-                                memberMapping.SetValue(targetObject, DeserializeObject(memberValueMapType!, memberMpToken)!);
+                                    memberMapping.SetValue(targetObject, DeserializeObject(memberValueMapType!, memberMpToken)!);
+                                }
                             }
                         }
                     }
-                }
 #if NANOFRAMEWORK_1_0
                 }
 #endif
@@ -318,14 +318,14 @@ namespace nanoFramework.MessagePack
         {
             if (!hashtable.Contains(key))
             {
-                lock(s_mappingDictionary)
+                lock (s_mappingDictionary)
                 {
                     try
                     {
-                         if (!hashtable.Contains(key))
-                         {
+                        if (!hashtable.Contains(key))
+                        {
                             hashtable.Add(key, value);
-                         }
+                        }
                     }
                     catch (Exception ex)
                     {

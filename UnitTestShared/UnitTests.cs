@@ -2,13 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 
-using System;
 using System.Collections;
 using System.Diagnostics;
 using nanoFramework.MessagePack;
 using UnitTestShared.Helpers;
 using UnitTestShared.TestData;
-using System.IO;
 #if NANOFRAMEWORK_1_0
 using nanoFramework.TestFramework;
 #endif
@@ -296,7 +294,7 @@ namespace NFUnitTest
             arrayBytes = MessagePackSerializer.Serialize(testHashtable);
             var hashtableValue = (Hashtable)MessagePackSerializer.Deserialize(typeof(Hashtable), arrayBytes)!;
             Assert.AreEqual(testHashtable.Count, hashtableValue.Count);
-            foreach(DictionaryEntry entry in testHashtable)
+            foreach (DictionaryEntry entry in testHashtable)
             {
                 Assert.AreEqual(entry.Value, hashtableValue[entry.Key]);
             }

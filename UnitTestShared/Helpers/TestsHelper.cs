@@ -1,7 +1,6 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System;
 using System.Collections;
 using System.Text;
 using UnitTestShared.TestData;
@@ -170,7 +169,7 @@ namespace UnitTestShared.Helpers
                 errorMessage = $"Source array length {source.Length} not equal destination array length {destination.Length}";
                 return false;
             }
-            for(int y = 0; y < source.Length; y++)
+            for (int y = 0; y < source.Length; y++)
             {
                 if (source[y].Length != destination[y].Length)
                 {
@@ -179,7 +178,7 @@ namespace UnitTestShared.Helpers
                 }
                 else
                 {
-                    if(!source[y].ArrayEqual(destination[y]))
+                    if (!source[y].ArrayEqual(destination[y]))
                     {
                         errorMessage = $"Source array item index {y} not equal destination array item index {y}\nSource array items:\n{source[y].JoinToString(", ")}\nDestination array items:\n{destination[y].JoinToString(", ")}";
                         return false;
