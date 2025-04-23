@@ -16,7 +16,7 @@ This repository contains the MessagePack library for the .NET **nanoFramework**.
 
 # nanoFramework.MessagePack
 
-MessagePack is a simple, lightweight serialization library, inspired by [MsgPack.Light](https://github.com/progaudi/MsgPack.Light), that can be used in .NET[nanoFramework](https://github.com/nanoframework) solutions.
+MessagePack is a simple, lightweight serialization library, inspired by [MsgPack.Light](https://github.com/progaudi/MsgPack.Light), that can be used in .NET **nanoFramework** projects.
 
 ## Usage
 
