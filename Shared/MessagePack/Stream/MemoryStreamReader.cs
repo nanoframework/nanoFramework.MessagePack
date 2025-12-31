@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 #if NANOFRAMEWORK_1_0
@@ -61,28 +61,28 @@ namespace nanoFramework.MessagePack.Stream
 #nullable enable
         protected override ArraySegment? StopTokenGathering()
         {
-            if (_stream.Position <= _stream.Length)
+            if (_stream.Position <= _stream.Length && _gatheringStartPosition >= 0)
             {
                 long currentPosition = _stream.Position;
                 long bytesGathered = currentPosition - _gatheringStartPosition;
-                
-                byte[] result = new byte[bytesGathered];
-                
-                _stream.Position = _gatheringStartPosition;
-                _stream.Read(result, 0, result.Length);
-                _stream.Position = currentPosition;
 
-                return new ArraySegment(result, 0, result.Length);
+                if (bytesGathered > 0)
+                {
+                    _stream.Position = _gatheringStartPosition;
+                    byte[] result = ReadBytesInternal((uint)bytesGathered);
+                    _stream.Position = currentPosition;
+
+                    return new ArraySegment(result, 0, result.Length);
+                }
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
+            
         }
 
         protected override void StartTokenGathering()
         {
-            _gatheringStartPosition = _stream.Position;
+            _gatheringStartPosition = _stream.Position; 
         }
     }
 }
