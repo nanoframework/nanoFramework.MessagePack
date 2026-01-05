@@ -1,11 +1,10 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 #if NANOFRAMEWORK_1_0
 using System;
 using System.IO;
 #endif
-using System.Collections;
 using nanoFramework.MessagePack.Dto;
 using nanoFramework.MessagePack.Utility;
 
@@ -14,15 +13,11 @@ namespace nanoFramework.MessagePack.Stream
     internal sealed class MemoryStreamReader : BaseReader, IDisposable
     {
         private readonly MemoryStream _stream;
-        private readonly ArrayList _bytesGatheringBuffer;
-
-        private long _bytesGatheringBufferLength = 0;
-        private bool _bytesGatheringInProgress;
+        private long _gatheringStartPosition;
 
         public MemoryStreamReader(MemoryStream stream)
         {
             _stream = stream;
-            _bytesGatheringBuffer = new ArrayList();
         }
 
         public override byte ReadByte()
@@ -33,42 +28,18 @@ namespace nanoFramework.MessagePack.Stream
                 throw ExceptionUtility.NotEnoughBytes(0, 1);
             }
 
-            var result = (byte)temp;
-            if (_bytesGatheringInProgress)
-            {
-                _bytesGatheringBuffer.Add(new byte[] { result });
-                _bytesGatheringBufferLength++;
-            }
-
-            return result;
+            return (byte)temp;
         }
 
         public override ArraySegment ReadBytes(uint length)
         {
             var buffer = ReadBytesInternal(length);
-
-            if (_bytesGatheringInProgress)
-            {
-                _bytesGatheringBuffer.Add(buffer);
-                _bytesGatheringBufferLength += buffer.Length;
-            }
-
             return buffer;
         }
 
         public override void Seek(long offset, SeekOrigin origin)
         {
-            if (_bytesGatheringInProgress)
-            {
-                var buffer = ReadBytesInternal((uint)offset);
-
-                _bytesGatheringBuffer.Add(buffer);
-                _bytesGatheringBufferLength += buffer.Length;
-            }
-            else
-            {
-                _stream.Seek(offset, origin);
-            }
+            _stream.Seek(offset, origin);
         }
 
         public void Dispose()
@@ -90,32 +61,28 @@ namespace nanoFramework.MessagePack.Stream
 #nullable enable
         protected override ArraySegment? StopTokenGathering()
         {
-            if (_stream.Position <= _stream.Length)
+            if (_stream.Position <= _stream.Length && _gatheringStartPosition >= 0)
             {
-                _bytesGatheringInProgress = false;
+                long currentPosition = _stream.Position;
+                long bytesGathered = currentPosition - _gatheringStartPosition;
 
-                byte[] result = new byte[_bytesGatheringBufferLength];
-
-                int destinationOffset = 0;
-                foreach (byte[] part in _bytesGatheringBuffer)
+                if (bytesGathered > 0)
                 {
-                    Array.Copy(part, 0, result, destinationOffset, part.Length);
-                    destinationOffset += part.Length;
-                }
+                    _stream.Position = _gatheringStartPosition;
+                    byte[] result = ReadBytesInternal((uint)bytesGathered);
+                    _stream.Position = currentPosition;
 
-                return new ArraySegment(result, 0, result.Length);
+                    return new ArraySegment(result, 0, result.Length);
+                }
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
+            
         }
 
         protected override void StartTokenGathering()
         {
-            _bytesGatheringInProgress = true;
-            _bytesGatheringBuffer.Clear();
-            _bytesGatheringBufferLength = 0;
+            _gatheringStartPosition = _stream.Position; 
         }
     }
 }
