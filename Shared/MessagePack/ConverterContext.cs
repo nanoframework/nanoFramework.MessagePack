@@ -264,7 +264,7 @@ namespace nanoFramework.MessagePack
                 return ArrayConverter.Read(reader, type);
             }
 
-            var objectMap = reader.GetMassagePackObjectTokens();
+            var objectMap = reader.GetMessagePackObjectTokens();
             if (objectMap != null && objectMap is Hashtable targetObjectMap)
             {
                 var targetObject = CreateInstance(type);

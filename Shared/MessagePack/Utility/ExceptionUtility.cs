@@ -21,7 +21,7 @@ namespace nanoFramework.MessagePack.Utility
 
         public static Exception NotEnoughBytes(int actual, int expected)
         {
-            return new SerializationException($"Expected {expected} bytes, got {actual} bytes.");
+            return  NotEnoughBytes((long)actual, (long)expected);
         }
 
         public static Exception NotEnoughBytes(long actual, long expected)
@@ -41,7 +41,7 @@ namespace nanoFramework.MessagePack.Utility
 
         public static Exception IntSerializationFailure(long value)
         {
-            return new SerializationException($"Can't serialize {value}");
+            return IntSerializationFailure((ulong) value);
         }
 
         public static Exception IntSerializationFailure(ulong value)

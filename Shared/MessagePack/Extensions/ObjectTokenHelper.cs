@@ -3,6 +3,9 @@
 
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using nanoFramework.MessagePack.Converters;
+using nanoFramework.MessagePack.Dto;
+using nanoFramework.MessagePack.Exceptions;
 using nanoFramework.MessagePack.Stream;
 
 namespace nanoFramework.MessagePack.Extensions
@@ -10,23 +13,23 @@ namespace nanoFramework.MessagePack.Extensions
     internal static class ObjectTokenHelper
     {
 #nullable enable
-        internal static Hashtable? GetMassagePackObjectTokens([NotNull] this IMessagePackReader reader)
+        internal static Hashtable? GetMessagePackObjectTokens([NotNull] this IMessagePackReader reader)
         {
-            var length = reader.ReadMapLength();
+            int length = (int)reader.ReadMapLength();
             return length > 0 ? reader.ReadMap(length) : null;
         }
 
-        private static Hashtable ReadMap(this IMessagePackReader reader, uint length)
+        private static Hashtable ReadMap(this IMessagePackReader reader, int length)
         {
-            var map = new Hashtable();
+            var map = new Hashtable(length);
 
-            var stringConverter = ConverterContext.GetConverter(typeof(string));
-            for (var i = 0; i < length; i++)
+            IConverter stringConverter = ConverterContext.GetConverter(typeof(string));
+            while (length-- > 0)
             {
-                var key = stringConverter.Read(reader);
-                var value = reader.ReadToken();
+                string key = (stringConverter.Read(reader) as string) ?? throw new SerializationException("Map key must be a string.");
+                ArraySegment? value = reader.ReadToken();
 
-                map[key!] = value;
+                map[key] = value;
             }
 
             return map;
