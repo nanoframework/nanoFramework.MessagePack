@@ -145,7 +145,7 @@ namespace nanoFramework.MessagePack.Dto
         {
             var data = new byte[_length];
 
-            System.Array.Copy(_buffer, (int)_offset, data, 0, (int)_length);
+            Array.Copy(_buffer, (int)_offset, data, 0, (int)_length);
             return data;
         }
 

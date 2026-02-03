@@ -3,10 +3,9 @@
 
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
-using nanoFramework.MessagePack.Converters;
 using nanoFramework.MessagePack.Dto;
-using nanoFramework.MessagePack.Exceptions;
 using nanoFramework.MessagePack.Stream;
+using nanoFramework.MessagePack.Utility;
 
 namespace nanoFramework.MessagePack.Extensions
 {
@@ -23,13 +22,18 @@ namespace nanoFramework.MessagePack.Extensions
         {
             var map = new Hashtable(length);
 
-            IConverter stringConverter = ConverterContext.GetConverter(typeof(string));
             while (length-- > 0)
             {
-                string key = (stringConverter.Read(reader) as string) ?? throw new SerializationException("Map key must be a string.");
-                ArraySegment? value = reader.ReadToken();
+                if (ConverterContext.StringConverter.Read(reader) is string key && key != null)
+                {
+                    ArraySegment? value = reader.ReadToken();
 
-                map[key] = value;
+                    map[key] = value;
+                }
+                else
+                {
+                    throw ExceptionUtility.BadTypeException(DataTypes.Null, DataTypes.FixStr);
+                }
             }
 
             return map;

@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 #if NANOFRAMEWORK_1_0
@@ -13,11 +13,13 @@ namespace nanoFramework.MessagePack.Stream
     internal sealed class MemoryStreamReader : BaseReader, IDisposable
     {
         private readonly MemoryStream _stream;
+        private readonly bool _leaveOpen;
         private long _gatheringStartPosition;
 
-        public MemoryStreamReader(MemoryStream stream)
+        public MemoryStreamReader(MemoryStream stream, bool leaveOpen)
         {
             _stream = stream;
+            _leaveOpen = leaveOpen;
         }
 
         public override byte ReadByte()
@@ -44,7 +46,10 @@ namespace nanoFramework.MessagePack.Stream
 
         public void Dispose()
         {
-            _stream.Dispose();
+            if (!_leaveOpen)
+            {
+                _stream.Dispose();
+            }
         }
 
         private byte[] ReadBytesInternal(uint length)
@@ -77,7 +82,6 @@ namespace nanoFramework.MessagePack.Stream
             }
 
             return null;
-            
         }
 
         protected override void StartTokenGathering()
