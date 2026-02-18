@@ -246,7 +246,7 @@ namespace nanoFramework.MessagePack
 
                 s_mappingDictionary[targetType] = memberMappings;
                 return memberMappings;
-            } 
+            }
         }
 
         internal static void SerializeObject(Type type, object value, IMessagePackWriter writer)
