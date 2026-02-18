@@ -41,7 +41,7 @@ namespace nanoFramework.MessagePack.Converters
         /// Read array from MessagePack stream.
         /// </summary>
         /// <param name="reader">MessagePack stream for reading.</param>
-        /// <returns>Readied array.</returns>
+        /// <returns>Read array.</returns>
         public Array? Read(IMessagePackReader reader)
         {
             var length = (int)reader.ReadArrayLength();
