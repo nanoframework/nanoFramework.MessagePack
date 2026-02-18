@@ -20,7 +20,7 @@ namespace nanoFramework.MessagePack.Benchmark
 
 
         /// <summary>
-        /// Type FillName hash comparer benchmark.
+        /// Type FullName hash comparer benchmark.
         /// </summary>
         [Benchmark]
         public void TestTypeCompareByNameBenchmark()
