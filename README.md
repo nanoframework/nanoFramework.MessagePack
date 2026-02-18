@@ -391,7 +391,7 @@ Measurements taken on the XIAO-ESP32-C6 device:
 ********** Completed benchmarks **********
 ```
 
-As it can be seen from the benchmark results above, in what concerns speed and compaction, `MessagePack` performs better than the Json serializer. Comming at no surprise, Binary serialization is the most performant one.
+As it can be seen from the benchmark results above, in what concerns speed and compaction, `MessagePack` performs better than the Json serializer. Coming at no surprise, Binary serialization is the most performant one.
 
 ## Acknowledgements
 
