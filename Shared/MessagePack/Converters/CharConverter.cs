@@ -23,6 +23,7 @@ namespace nanoFramework.MessagePack.Converters
                 throw new ArgumentNullException(nameof(value));
 #endif
             }
+            
             if (value is char charValue)
             {
                 ConverterContext.UshortConverter.Write(BitConverter.ToUInt16(BitConverter.GetBytes(charValue), 0), writer);
