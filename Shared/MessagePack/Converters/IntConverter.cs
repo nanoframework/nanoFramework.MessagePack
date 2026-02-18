@@ -24,6 +24,7 @@ namespace nanoFramework.MessagePack.Converters
                 throw new ArgumentNullException(nameof(value));
 #endif
             }
+            
             if (value is int intValue)
             {
                 NumberConverterHelper.WriteInteger(intValue, writer);
