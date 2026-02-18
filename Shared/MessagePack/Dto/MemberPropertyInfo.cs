@@ -47,7 +47,7 @@ namespace nanoFramework.MessagePack.Dto
             _setMethodInfo = setMethod;
 
             DeclaringType = mi.DeclaringType;
-            if(mi.Name.Length > 4)
+            if (mi.Name.Length > 4)
             {
                 Name = mi.Name.Substring(4);
             }
