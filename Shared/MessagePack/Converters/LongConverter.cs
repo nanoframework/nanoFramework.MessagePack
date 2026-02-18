@@ -23,7 +23,6 @@ namespace nanoFramework.MessagePack.Converters
 #else
                 throw new ArgumentNullException(nameof(value));
 #endif
-
             }
 
             if (value is long longValue)
