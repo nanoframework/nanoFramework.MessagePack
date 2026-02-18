@@ -20,7 +20,6 @@ namespace nanoFramework.MessagePack.Benchmark
         private const int BannerPadWidth = 10;
         private const int SubBannerWidth = 43;
         
-
         /// <summary>
         /// Enter point for run all benchmarks
         /// </summary>
