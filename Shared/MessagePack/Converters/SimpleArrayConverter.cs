@@ -19,7 +19,7 @@ namespace nanoFramework.MessagePack.Converters
         private readonly Type _elementType;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleArrayConverter" /> class.
+        /// Initializes a new instance of the SimpleArrayConverter class.
         /// </summary>
         /// <param name="elementType">Type of array element.</param>
         public SimpleArrayConverter(Type elementType)
