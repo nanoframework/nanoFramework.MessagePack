@@ -16,7 +16,7 @@ namespace nanoFramework.MessagePack.Converters
 #nullable enable
         public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            if(value == null)
+            if (value == null)
             {
 #if NANOFRAMEWORK_1_0
                 throw new ArgumentNullException();
