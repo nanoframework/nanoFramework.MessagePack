@@ -12,7 +12,6 @@ namespace nanoFramework.MessagePack.Dto
     {
 #nullable enable
         private readonly FieldInfo? _field;
-
         private readonly PropertyInfo? _property;
         
         public MemberMapping(PropertyInfo property)
