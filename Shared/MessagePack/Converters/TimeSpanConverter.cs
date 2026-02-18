@@ -23,6 +23,7 @@ namespace nanoFramework.MessagePack.Converters
                 throw new ArgumentNullException(nameof(value));
 #endif
             }
+            
             if (value is TimeSpan timeSpanValue)
             {
                 ConverterContext.LongConverter.Write(timeSpanValue.Ticks, writer);
