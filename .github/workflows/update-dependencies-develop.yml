@@ -20,3 +20,4 @@ jobs:
     with:
       solutionsToCheck: 'nanoFramework.MessagePack.sln'
       usePreviewBuild: true
+      branchToPr: 'develop'
