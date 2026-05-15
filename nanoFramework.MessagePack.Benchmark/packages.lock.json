@@ -4,63 +4,63 @@
     ".NETnanoFramework,Version=v1.0": {
       "nanoFramework.Benchmark": {
         "type": "Direct",
-        "requested": "[1.0.113, 1.0.113]",
-        "resolved": "1.0.113",
-        "contentHash": "RzyI2ZhBrnHHfTclGRv0zl92ueEEVqCgsfAEZ1WHElJdAfHCfJIHOQiHQha5IBJ0ttsLIEiy51fyBeDZpgLJCw=="
+        "requested": "[2.0.0-preview.49, 2.0.0-preview.49]",
+        "resolved": "2.0.0-preview.49",
+        "contentHash": "Preview49"
       },
       "nanoFramework.CoreLibrary": {
         "type": "Direct",
-        "requested": "[1.17.11, 1.17.11]",
-        "resolved": "1.17.11",
-        "contentHash": "HezzAc0o2XrSGf85xSeD/6xsO6ohF9hX6/iMQ1IZS6Zw6umr4WfAN2Jv0BrPxkaYwzEegJxxZujkHoUIAqtOMw=="
+        "requested": "[2.0.0-preview.49, 2.0.0-preview.49]",
+        "resolved": "2.0.0-preview.49",
+        "contentHash": "Preview49"
       },
       "nanoFramework.Json": {
         "type": "Direct",
-        "requested": "[2.2.210, 2.2.210]",
-        "resolved": "2.2.210",
-        "contentHash": "pu7+1ia/oZ2t7TN/30UV022w7YBEysdn8+ECIK1gSGLrW0YWO0TChD5dkR55EAuTCCqQTf+6qoZt28D8rvtDDw=="
+        "requested": "[2.0.0-preview.49, 2.0.0-preview.49]",
+        "resolved": "2.0.0-preview.49",
+        "contentHash": "Preview49"
       },
       "nanoFramework.Logging": {
         "type": "Direct",
-        "requested": "[1.1.161, 1.1.161]",
-        "resolved": "1.1.161",
-        "contentHash": "ASEnCqp/WL+0EPyTYAUUdBSX6g1GkqewPOrTCLq9iZicf9+DFDzd+fpzrfinWd3YqSQ+eb16QzReARm1V0EfNw=="
+        "requested": "[2.0.0-preview.49, 2.0.0-preview.49]",
+        "resolved": "2.0.0-preview.49",
+        "contentHash": "Preview49"
       },
       "nanoFramework.Runtime.Native": {
         "type": "Direct",
-        "requested": "[1.7.11, 1.7.11]",
-        "resolved": "1.7.11",
-        "contentHash": "XPSTltZ9KeBruogVmjQpCphi1nLoJH49mpyp2eGBs8BTjKuL5TkMO20MoI8r73F/PW5AppTq49HvIZZavU5nPQ=="
+        "requested": "[2.0.0-preview.49, 2.0.0-preview.49]",
+        "resolved": "2.0.0-preview.49",
+        "contentHash": "Preview49"
       },
       "nanoFramework.System.Collections": {
         "type": "Direct",
-        "requested": "[1.5.67, 1.5.67]",
-        "resolved": "1.5.67",
-        "contentHash": "MjSipUB70vrxjqTm1KfKTUqqjd0wbweiNyYFXONi0XClrH6HXsuX2lhDqXM8NWuYnWyYOqx8y20sXbvsH+4brg=="
+        "requested": "[2.0.0-preview.49, 2.0.0-preview.49]",
+        "resolved": "2.0.0-preview.49",
+        "contentHash": "Preview49"
       },
       "nanoFramework.System.Diagnostics.Stopwatch": {
         "type": "Direct",
-        "requested": "[1.2.862, 1.2.862]",
-        "resolved": "1.2.862",
-        "contentHash": "auNXXoJYOJ7mAxPvMPhbxFbDCtfKF/wSdsoBEQiRd8NaQWmLg12JL6YbNiKiNs+fBlxAL6duUorBdhSyPCdayg=="
+        "requested": "[2.0.0-preview.49, 2.0.0-preview.49]",
+        "resolved": "2.0.0-preview.49",
+        "contentHash": "Preview49"
       },
       "nanoFramework.System.IO.Streams": {
         "type": "Direct",
-        "requested": "[1.1.96, 1.1.96]",
-        "resolved": "1.1.96",
-        "contentHash": "kJSy4EJwChO4Vq3vGWP9gNRPFDnTsDU5HxzeI7NDO+RjbDsx7B8EhKymoeTPLJCxQq8y/0P1KG2XCxGpggW+fw=="
+        "requested": "[2.0.0-preview.49, 2.0.0-preview.49]",
+        "resolved": "2.0.0-preview.49",
+        "contentHash": "Preview49"
       },
       "nanoFramework.System.Runtime.Serialization": {
         "type": "Direct",
-        "requested": "[1.0.57, 1.0.57]",
-        "resolved": "1.0.57",
-        "contentHash": "pSZ1L6UES3GX+Z7Drq8zzmEwvNugRQUo8801iyS6HiFWAV5miKv0zubf6j/eIbJvTsFDiqbfwKtndpqlVDuTZQ=="
+        "requested": "[2.0.0-preview.49, 2.0.0-preview.49]",
+        "resolved": "2.0.0-preview.49",
+        "contentHash": "Preview49"
       },
       "nanoFramework.System.Text": {
         "type": "Direct",
-        "requested": "[1.3.42, 1.3.42]",
-        "resolved": "1.3.42",
-        "contentHash": "68HPjhersNpssbmEMUHdMw3073MHfGTfrkbRk9eILKbNPFfPFck7m4y9BlAi6DaguUJaeKxgyIojXF3SQrF8/A=="
+        "requested": "[2.0.0-preview.49, 2.0.0-preview.49]",
+        "resolved": "2.0.0-preview.49",
+        "contentHash": "Preview49"
       },
       "StyleCop.MSBuild": {
         "type": "Direct",

@@ -68,6 +68,7 @@ stages:
           sonarCloudProject: 'nanoframework_nanoFramework.MessagePack'
           runUnitTests: true
           unitTestRunsettings: '$(System.DefaultWorkingDirectory)\NFUnitTest\nano.runsettings'
+          usePreviewBuild: true
 
       # step from template @ nf-tools repo
       # report error
