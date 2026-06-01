@@ -19,5 +19,5 @@ jobs:
     secrets: inherit
     with:
       solutionsToCheck: 'nanoFramework.MessagePack.sln'
-      usePreviewBuild: true
+      previewPackages: true
       branchToPr: 'develop'
