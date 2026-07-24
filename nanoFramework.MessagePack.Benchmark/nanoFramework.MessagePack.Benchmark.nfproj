@@ -69,8 +69,8 @@
     <Reference Include="System.IO.Streams">
       <HintPath>..\packages\nanoFramework.System.IO.Streams.2.0.0-preview.22\lib\netnano1.0\System.IO.Streams.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.Serialization">
-      <HintPath>..\packages\nanoFramework.System.Runtime.Serialization.2.0.0-preview.10\lib\netnano1.0\System.Runtime.Serialization.dll</HintPath>
+    <Reference Include="System.Runtime.Serialization, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.System.Runtime.Serialization.2.0.0-preview.12\lib\netnano1.0\System.Runtime.Serialization.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />

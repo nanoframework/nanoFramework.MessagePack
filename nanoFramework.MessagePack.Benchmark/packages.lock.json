@@ -52,9 +52,9 @@
       },
       "nanoFramework.System.Runtime.Serialization": {
         "type": "Direct",
-        "requested": "[2.0.0-preview.10, 2.0.0-preview.10]",
-        "resolved": "2.0.0-preview.10",
-        "contentHash": "eb51tcG/fLNf4bZclO1xfQQVk6GCFbHB6odjYmZg9Zrg7uKfPh6vqHABPc8BY/J4eDqTkl6Z5Y2jkZ6x8jzl4w=="
+        "requested": "[2.0.0-preview.12, 2.0.0-preview.12]",
+        "resolved": "2.0.0-preview.12",
+        "contentHash": "MM5uQrLw++g+Ssfqraa8vpCTMOb4r3NetEvr5cQNpZcZykBJ7h9f55fkkDXrwZVRiYDftJiCU69qv23IWHkwIw=="
       },
       "nanoFramework.System.Text": {
         "type": "Direct",
