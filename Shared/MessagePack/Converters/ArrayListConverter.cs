@@ -37,15 +37,15 @@ namespace nanoFramework.MessagePack.Converters
 
         private static ArrayList? Read(IMessagePackReader reader)
         {
-            var length = reader.ReadArrayLength();
-            return ((long)length) > -1 ? ReadArrayList(reader, length) : null;
+            int length = (int)reader.ReadArrayLength();
+            return length > -1 ? ReadArrayList(reader, length) : null;
         }
 
-        internal static ArrayList ReadArrayList(IMessagePackReader reader, uint length)
+        internal static ArrayList ReadArrayList(IMessagePackReader reader, int length)
         {
             var array = new ArrayList();
 
-            for (var i = 0; i < length; i++)
+            while (length-- > 0)
             {
                 array.Add(ConverterContext.GetObjectByDataType(reader));
             }
@@ -55,7 +55,7 @@ namespace nanoFramework.MessagePack.Converters
 
         public void Write(object? value, [NotNull] IMessagePackWriter writer)
         {
-            Write((ArrayList)value!, writer);
+            Write((ArrayList?)value, writer);
         }
 
         object? IConverter.Read([NotNull] IMessagePackReader reader)
