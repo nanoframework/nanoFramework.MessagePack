@@ -42,7 +42,7 @@ namespace nanoFramework.MessagePack.Stream
         {
             if (length <= 15)
             {
-                NumberConverterHelper.WriteByteValue((byte)((byte)DataTypes.FixArray + length), this);
+                Write((byte)((byte)DataTypes.FixArray + length));
                 return;
             }
 
@@ -62,7 +62,7 @@ namespace nanoFramework.MessagePack.Stream
         {
             if (length <= 15)
             {
-                NumberConverterHelper.WriteByteValue((byte)((byte)DataTypes.FixMap + length), this);
+                Write((byte)((byte)DataTypes.FixMap + length));
                 return;
             }
 

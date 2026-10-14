@@ -61,10 +61,11 @@ namespace nanoFramework.MessagePack
         /// </summary>
         /// <param name="type">Target object type.</param>
         /// <param name="stream">MessagePack data stream.</param>
+        /// <param name="leaveOpen">If <see langword="true"/>, the stream will not be disposed after deserialization, default value is <see langword="false"/>.</param>
         /// <returns>An instance of an target object after deserialization or <see langword="null"/>.</returns>
-        public static object? Deserialize(Type type, MemoryStream stream)
+        public static object? Deserialize(Type type, MemoryStream stream, bool leaveOpen = false)
         {
-            using (var reader = new MemoryStreamReader(stream))
+            using (var reader = new MemoryStreamReader(stream, leaveOpen))
             {
                 return Deserialize(type, reader);
             }

@@ -144,7 +144,7 @@ namespace nanoFramework.MessagePack.Stream
                     SkipMapItems(NumberConverterHelper.ReadUInt32(this));
                     return;
                 case DataTypes.Str8:
-                    SkipBytes(NumberConverterHelper.ReadUInt8(this));
+                    SkipBytes(ReadByte());
                     return;
                 case DataTypes.Str16:
                     SkipBytes(NumberConverterHelper.ReadUInt16(this));
@@ -153,7 +153,7 @@ namespace nanoFramework.MessagePack.Stream
                     SkipBytes(NumberConverterHelper.ReadUInt32(this));
                     return;
                 case DataTypes.Bin8:
-                    SkipBytes(NumberConverterHelper.ReadUInt8(this));
+                    SkipBytes(ReadByte());
                     return;
                 case DataTypes.Bin16:
                     SkipBytes(NumberConverterHelper.ReadUInt16(this));
@@ -199,8 +199,7 @@ namespace nanoFramework.MessagePack.Stream
         {
             StartTokenGathering();
             SkipToken();
-            var gatheredBytes = StopTokenGathering();
-            return gatheredBytes;
+            return StopTokenGathering();
         }
 
         private static bool TryGetLengthFromFixStr(DataTypes type, out uint length)
